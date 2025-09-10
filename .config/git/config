@@ -1,0 +1,8 @@
+[user]
+  name = Ari
+  email = software@randomwalks.xyz
+[core]
+  editor = nvim
+[init]
+  defaultBranch = main 
+
