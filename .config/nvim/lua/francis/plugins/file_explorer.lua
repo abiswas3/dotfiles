@@ -31,13 +31,13 @@ return {
                         modified = '',
                         hidden = '󱙝',
                         git = {
-                            unstaged = '×',
-                            staged = '',
-                            unmerged = '󰧾',
-                            untracked = '',
-                            renamed = '',
-                            deleted = '',
-                            ignored = '∅',
+                            unstaged = '❓', -- question mark for unstaged changes
+                            staged = '✅', -- green check for staged
+                            unmerged = '⚠️', -- warning for conflicts
+                            untracked = '🆕', -- new file
+                            renamed = '🔀', -- renamed / moved
+                            deleted = '🗑️', -- deleted
+                            ignored = '🙈', -- subtle, doesn’t distract
                         },
                     },
                 },

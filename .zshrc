@@ -14,7 +14,6 @@ source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 alias ls="eza --icons=always"
 
 # ---- Zoxide (better cd) ----
-eval "$(zoxide init zsh)"
-alias cd="z"
-
+# eval "$(zoxide init zsh)"
+# alias cd="z"
 alias vi="nvim"

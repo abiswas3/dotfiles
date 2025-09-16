@@ -1,88 +1,71 @@
 -- TODO: Rewatch Joeans videp, he has a very nice way to commit files within
 -- the code base.
 return {
-    -- {
-    --     'akinsho/git-conflict.nvim',
-    --     version = '*',
-    --     lazy = false,
-    --     config = function()
-    --         require('git-conflict').setup()
-    --
-    --         -- Customize highlights
-    --         vim.api.nvim_set_hl(0, 'GitConflictCurrent', { bg = '#3b4252' }) -- soft grey
-    --         vim.api.nvim_set_hl(0, 'GitConflictIncoming', { bg = '#434c5e' }) -- darker grey-blue
-    --         vim.api.nvim_set_hl(0, 'GitConflictAncestor', { bg = '#4c566a' }) -- even darker
-    --         vim.api.nvim_set_hl(0, 'GitConflictCommon', { bg = '#5e81ac' }) -- bright blue (for =====)
-    --     end,
-    -- },
-    -- {
-    --     'sindrets/diffview.nvim',
-    --     dependencies = 'nvim-lua/plenary.nvim',
-    --     config = true,
-    -- },
-    -- {
-    --     'tpope/vim-fugitive',
-    --     lazy = false,
-    -- },
-    'lewis6991/gitsigns.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
-    opts = {
-        signs = {
-            add = { text = '┃' },
-            change = { text = '┃' },
-            delete = { text = '_' },
-            topdelete = { text = '‾' },
-            changedelete = { text = '~' },
-            untracked = { text = '┆' },
+    {
+        'tpope/vim-fugitive',
+        lazy = false,
+    },
+    {
+        'lewis6991/gitsigns.nvim',
+        event = { 'BufReadPre', 'BufNewFile' },
+        opts = {
+            signs = {
+                add = { text = '┃' },
+                change = { text = '┃' },
+                delete = { text = '_' },
+                topdelete = { text = '‾' },
+                changedelete = { text = '~' },
+                untracked = { text = '┆' },
+            },
+            signs_staged = {
+                add = { text = '┃' },
+                change = { text = '┃' },
+                delete = { text = '_' },
+                topdelete = { text = '‾' },
+                changedelete = { text = '~' },
+                untracked = { text = '┆' },
+            },
+            on_attach = function(bufnr)
+                local gs = package.loaded.gitsigns
+
+                local function map(mode, l, r, desc)
+                    vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
+                end
+
+                -- Navigation
+                map('n', ']h', gs.next_hunk, 'Next Hunk')
+                map('n', '[h', gs.prev_hunk, 'Prev Hunk')
+
+                -- Actions
+                map('n', '<leader>hs', gs.stage_hunk, 'Stage hunk')
+                map('n', '<leader>hr', gs.reset_hunk, 'Reset hunk')
+                map('v', '<leader>hs', function()
+                    gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+                end, 'Stage hunk')
+                map('v', '<leader>hr', function()
+                    gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+                end, 'Reset hunk')
+
+                map('n', '<leader>hS', gs.stage_buffer, 'Stage buffer')
+                map('n', '<leader>hR', gs.reset_buffer, 'Reset buffer')
+
+                map('n', '<leader>hu', gs.undo_stage_hunk, 'Undo stage hunk')
+
+                map('n', '<leader>hp', gs.preview_hunk, 'Preview hunk')
+
+                map('n', '<leader>hb', function()
+                    gs.blame_line { full = true }
+                end, 'Blame line')
+                map('n', '<leader>hB', gs.toggle_current_line_blame, 'Toggle line blame')
+
+                map('n', '<leader>hd', gs.diffthis, 'Diff this')
+                map('n', '<leader>hD', function()
+                    gs.diffthis '~'
+                end, 'Diff this ~')
+
+                -- Text object
+                map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', 'Gitsigns select hunk')
+            end,
         },
-        signs_staged = {
-            add = { text = '┃' },
-            change = { text = '┃' },
-            delete = { text = '_' },
-            topdelete = { text = '‾' },
-            changedelete = { text = '~' },
-            untracked = { text = '┆' },
-        },
-        on_attach = function(bufnr)
-            local gs = package.loaded.gitsigns
-
-            local function map(mode, l, r, desc)
-                vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
-            end
-
-            -- Navigation
-            map('n', ']h', gs.next_hunk, 'Next Hunk')
-            map('n', '[h', gs.prev_hunk, 'Prev Hunk')
-
-            -- Actions
-            map('n', '<leader>hs', gs.stage_hunk, 'Stage hunk')
-            map('n', '<leader>hr', gs.reset_hunk, 'Reset hunk')
-            map('v', '<leader>hs', function()
-                gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-            end, 'Stage hunk')
-            map('v', '<leader>hr', function()
-                gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-            end, 'Reset hunk')
-
-            map('n', '<leader>hS', gs.stage_buffer, 'Stage buffer')
-            map('n', '<leader>hR', gs.reset_buffer, 'Reset buffer')
-
-            map('n', '<leader>hu', gs.undo_stage_hunk, 'Undo stage hunk')
-
-            map('n', '<leader>hp', gs.preview_hunk, 'Preview hunk')
-
-            map('n', '<leader>hb', function()
-                gs.blame_line { full = true }
-            end, 'Blame line')
-            map('n', '<leader>hB', gs.toggle_current_line_blame, 'Toggle line blame')
-
-            map('n', '<leader>hd', gs.diffthis, 'Diff this')
-            map('n', '<leader>hD', function()
-                gs.diffthis '~'
-            end, 'Diff this ~')
-
-            -- Text object
-            map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', 'Gitsigns select hunk')
-        end,
     },
 }
