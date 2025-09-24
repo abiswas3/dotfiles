@@ -17,3 +17,6 @@ alias ls="eza --icons=always"
 # eval "$(zoxide init zsh)"
 # alias cd="z"
 alias vi="nvim"
+export EDITOR="nvim"
+export VISUAL="nvim"
+
