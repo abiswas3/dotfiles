@@ -59,8 +59,10 @@ keymap.set('n', '<leader>gp', ':diffput //2<CR>', { desc = 'Diffput to left (OUR
 keymap.set('n', '<leader>gP', ':diffput //3<CR>', { desc = 'Diffput to right (THEIRS)' })
 
 -- TODO: Make code navigation easier, I want to use [, ] for forward and backward
-
--- Custom Autocompletes
+local bufnr = vim.api.nvim_get_current_buf()
+keymap.set('n', '<leader>xh', function()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(), { bufnr })
+end, { desc = 'Toggle hints' })
 -- vim.api.nvim_create_user_command('Contacts', function()
 --     require('francis.custom.contacts').contacts_picker()
 -- end, {})
