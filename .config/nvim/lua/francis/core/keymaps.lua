@@ -35,6 +35,17 @@ keymap.set('n', '<leader>ci', function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
 end, { desc = 'Toggle LSP inlay hints' })
 
+-- Writing
+-- Enter ZenMode + Pencil
+keymap.set('n', '<leader>pp', function()
+    vim.cmd 'ZenMode | Pencil'
+end, { desc = 'ZenMode + Pencil ON' })
+
+-- Exit ZenMode + Pencil
+keymap.set('n', '<leader>pc', function()
+    vim.cmd 'close | PencilOff'
+end, { desc = 'ZenMode + Pencil OFF' })
+
 -- Git Fugitive bindings
 -- Open vertical Git diff split
 keymap.set('n', '<leader>gd', ':vertical Gdiffsplit!<CR>', { desc = 'Open vertical Git diff split' })
@@ -48,3 +59,13 @@ keymap.set('n', '<leader>gp', ':diffput //2<CR>', { desc = 'Diffput to left (OUR
 keymap.set('n', '<leader>gP', ':diffput //3<CR>', { desc = 'Diffput to right (THEIRS)' })
 
 -- TODO: Make code navigation easier, I want to use [, ] for forward and backward
+
+-- Custom Autocompletes
+-- vim.api.nvim_create_user_command('Contacts', function()
+--     require('francis.custom.contacts').contacts_picker()
+-- end, {})
+--
+-- -- In lua/francis/core/keymaps.lua or maps.lua
+-- vim.keymap.set('n', '<leader>m', function()
+--     require('francis.custom.meeting').create_meeting()
+-- end, { desc = 'Create a new meeting' })
