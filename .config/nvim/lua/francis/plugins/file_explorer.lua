@@ -45,8 +45,13 @@ return {
             diagnostics = {
                 enable = true,
                 show_on_dirs = true,
+                icons = {
+                    hint = 'Hint',
+                    info = 'Info',
+                    warning = 'Warn',
+                    error = 'Err',
+                },
             },
-
             -- disable window_picker for
             -- explorer to work well with
             -- window splits
