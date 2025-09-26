@@ -68,7 +68,6 @@ return {
                                 command = 'clippy',
                                 extraArgs = { '--all-features' },
                             },
-                            -- checkOnSave = { command = 'clippy', allFeatures = true },
                             inlayHints = {
                                 lifetimeElisionHints = { enable = true, useParameterNames = true },
                             },
