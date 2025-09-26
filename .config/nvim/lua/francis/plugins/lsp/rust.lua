@@ -1,7 +1,7 @@
 return {
     {
         'mrcjkb/rustaceanvim',
-        version = '^5',
+        version = '^6',
         lazy = false,
         ft = 'rust',
         config = function()
@@ -30,11 +30,6 @@ return {
 
             local cfg = require 'rustaceanvim.config'
 
-            -- vim.g.rustaceanvim = {
-            --     dap = {
-            --         adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
-            --     },
-            -- }
             vim.g.rustaceanvim = {
                 dap = {
                     adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
@@ -61,14 +56,13 @@ return {
                         ['rust-analyzer'] = {
                             assist = {
                                 importEnforceGranularity = true,
-                                importPrefix = 'create',
+                                importPrefix = 'crate',
                             },
                             cargo = { allFeatures = true },
-                            checkOnSave = {
+                            check = {
                                 command = 'clippy',
                                 extraArgs = { '--all-features' },
                             },
-                            -- checkOnSave = { command = 'clippy', allFeatures = true },
                             inlayHints = {
                                 lifetimeElisionHints = { enable = true, useParameterNames = true },
                             },
