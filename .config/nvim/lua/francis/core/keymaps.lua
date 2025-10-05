@@ -71,3 +71,220 @@ end, { desc = 'Toggle hints' })
 -- vim.keymap.set('n', '<leader>m', function()
 --     require('francis.custom.meeting').create_meeting()
 -- end, { desc = 'Create a new meeting' })
+
+local cycle_keywords = { 'TODO', 'NEXT', 'INPROGRESS', 'DONE' }
+
+local function toggle_todo_right()
+    local line = vim.api.nvim_get_current_line()
+    local found = false
+
+    -- Remove existing keyword from anywhere in the line
+    for i, kw in ipairs(cycle_keywords) do
+        if line:match(kw) then
+            -- determine next keyword in cycle
+            local next_kw = cycle_keywords[(i % #cycle_keywords) + 1]
+            -- remove the old keyword
+            line = line:gsub(kw .. '[:]?%s*', '')
+            -- append new keyword at the end
+            line = line .. ' ' .. next_kw .. ':'
+            vim.api.nvim_set_current_line(line)
+            found = true
+            break
+        end
+    end
+
+    -- If no keyword found, append TODO: by default
+    if not found then
+        line = line .. ' TODO:'
+        vim.api.nvim_set_current_line(line)
+    end
+end
+-- Keymap: <leader>tt
+vim.keymap.set('n', '<leader>tt', toggle_todo_right, { desc = 'Toggle TODO/INPROGRESS/DONE at end' })
+
+local function mark_task_done_with_timestamp()
+    local line = vim.api.nvim_get_current_line()
+    local timestamp = os.date '%Y-%m-%d %H:%M'
+
+    if line:match '^%s*%- %[ %]' then
+        line = line:gsub('%- %[ %]', '- [x]')
+
+        for _, kw in ipairs { 'TODO', 'NEXT', 'INPROGRESS' } do
+            if line:match(kw .. ':') then
+                line = line:gsub(kw .. ':', 'DONE:')
+                break
+            end
+        end
+
+        -- append done timestamp
+        line = line .. ' | done: ' .. timestamp
+        vim.api.nvim_set_current_line(line)
+    end
+end
+
+vim.keymap.set('n', '<leader>td', mark_task_done_with_timestamp, { desc = 'Mark task DONE with timestamp' })
+--
+-- local function mark_task_done()
+--     local line = vim.api.nvim_get_current_line()
+--     local timestamp = os.date '%Y-%m-%d %H:%M'
+--
+--     -- Match a checkbox line
+--     if line:match '^%s*%- %[ %]' then
+--         -- replace [ ] with [x]
+--         line = line:gsub('%- %[ %]', '- [x]')
+--
+--         -- if it has TODO: (or NEXT/INPROGRESS), replace with DONE:
+--         for _, kw in ipairs { 'TODO', 'NEXT', 'INPROGRESS' } do
+--             if line:match(kw .. ':') then
+--                 line = line:gsub(kw .. ':', 'DONE: ' .. timestamp .. ':')
+--                 break
+--             end
+--         end
+--     elseif line:match '^%s*%- %[x%] DONE:' then
+--         -- already marked DONE — do nothing (no toggle back)
+--         vim.notify('Task already DONE', vim.log.levels.INFO)
+--         return
+--     else
+--         vim.notify('Not a task line (- [ ] ...)', vim.log.levels.WARN)
+--         return
+--     end
+--
+--     vim.api.nvim_set_current_line(line)
+-- end
+--
+-- -- Keymap: <leader>td = mark as done
+-- vim.keymap.set('n', '<leader>td', mark_task_done, { desc = 'Mark task DONE with timestamp' })
+--
+local function move_done_to_bottom()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    local new_lines = {}
+    local done_lines = {}
+
+    for _, line in ipairs(lines) do
+        if line:match '^%s*%- %[x%] DONE:' then
+            table.insert(done_lines, line) -- collect DONE lines
+        else
+            table.insert(new_lines, line) -- keep other lines in place
+        end
+    end
+
+    -- add 3 empty lines before DONEs
+    if #done_lines > 0 then
+        table.insert(new_lines, '') -- line 1
+        table.insert(new_lines, '') -- line 2
+        table.insert(new_lines, '') -- line 3
+    end
+    -- append DONE lines at the end
+    for _, line in ipairs(done_lines) do
+        table.insert(new_lines, line)
+    end
+
+    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, new_lines)
+end
+
+-- Keymap: <leader>db to move all DONEs to bottom
+vim.keymap.set('n', '<leader>db', move_done_to_bottom, { desc = 'Move DONE tasks to bottom' })
+
+local function parse_due(line)
+    -- look for "| due: YYYY-MM-DD"
+    local due = line:match '|%s*due:%s*(%d%d%d%d%-%d%d%-%d%d)'
+    if due then
+        return due
+    else
+        return nil
+    end
+end
+
+vim.keymap.set('n', '<leader>cp', function()
+    local input_file = vim.fn.expand '%:p'
+    -- local output_dir = vim.fn.expand '%:p:h'
+    local output_dir = vim.env.HOME .. '/GraphsAndPolynomials/publish'
+    local output_file = output_dir .. '/' .. vim.fn.expand '%:t:r' .. '.html'
+
+    local cmd = string.format(
+        [[pandoc "%s/GraphsAndPolynomials/templates/shared-macros.tex" "%s" \
+        --to html5 \
+        --lua-filter="%s/GraphsAndPolynomials/custom_code_block.lua" \
+        --citeproc \
+        --mathjax \
+        --template "%s/GraphsAndPolynomials/templates/blog.html" \
+        --csl="%s/GraphsAndPolynomials/templates/harvard.csl" \
+        --metadata link-citations=true \
+        --bibliography="%s/GraphsAndPolynomials/refs.bib" \
+        --strip-comments \
+        --from markdown+smart \
+        --section-divs \
+        --toc \
+        --toc-depth=3 \
+        --metadata build_date="%s" \
+        --output "%s"]],
+        vim.env.HOME,
+        input_file,
+        vim.env.HOME,
+        vim.env.HOME,
+        vim.env.HOME,
+        vim.env.HOME,
+        os.date '%Y-%m-%d %H:%M:%S %z',
+        output_file
+    )
+
+    vim.fn.jobstart(cmd, {
+        on_exit = function(_, exit_code)
+            if exit_code == 0 then
+                vim.notify('Compiled: ' .. output_file, vim.log.levels.INFO)
+            else
+                vim.notify('Pandoc compilation failed', vim.log.levels.ERROR)
+            end
+        end,
+        on_stderr = function(_, data)
+            if data and #data > 0 then
+                vim.notify(table.concat(data, '\n'), vim.log.levels.ERROR)
+            end
+        end,
+    })
+end, { desc = 'Compile to HTML with Pandoc' })
+
+vim.keymap.set('n', '<leader>cP', function()
+    local input_file = vim.fn.expand '%:p'
+    local output_dir = vim.fn.expand '%:p:h'
+    local output_file = output_dir .. '/' .. vim.fn.expand '%:t:r' .. '.html'
+
+    local cmd = string.format(
+        [[pandoc "%s/GraphsAndPolynomials/templates/shared-macros.tex" "%s" \
+        --to html5 \
+        --lua-filter="%s/GraphsAndPolynomials/custom_code_block.lua" \
+        --citeproc \
+        --mathjax \
+        --template "%s/GraphsAndPolynomials/templates/blog.html" \
+        --csl="%s/GraphsAndPolynomials/templates/harvard.csl" \
+        --metadata link-citations=true \
+        --bibliography="%s/GraphsAndPolynomials/refs.bib" \
+        --strip-comments \
+        --from markdown+smart \
+        --section-divs \
+        --toc \
+        --toc-depth=3 \
+        --metadata build_date="%s" \
+        --output "%s"]],
+        vim.env.HOME,
+        input_file,
+        vim.env.HOME,
+        vim.env.HOME,
+        vim.env.HOME,
+        vim.env.HOME,
+        os.date '%Y-%m-%d %H:%M:%S %z',
+        output_file
+    )
+
+    vim.fn.jobstart(cmd, {
+        on_exit = function(_, exit_code)
+            if exit_code == 0 then
+                vim.fn.jobstart('open ' .. vim.fn.shellescape(output_file))
+                vim.notify('Compiled and opened in browser', vim.log.levels.INFO)
+            else
+                vim.notify('Pandoc compilation failed', vim.log.levels.ERROR)
+            end
+        end,
+    })
+end, { desc = 'Compile and preview in browser' })

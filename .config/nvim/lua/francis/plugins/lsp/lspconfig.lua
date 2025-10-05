@@ -91,5 +91,25 @@ return {
                 },
             },
         })
+
+        -- Add texlab for LaTeX support in Markdown
+        vim.lsp.config('texlab', {
+            filetypes = { 'tex', 'plaintex', 'bib', 'markdown' },
+            settings = {
+                texlab = {
+                    auxDirectory = '.',
+                    bibtexFormatter = 'texlab',
+                    build = {
+                        executable = 'latexmk',
+                        args = { '-pdf', '-interaction=nonstopmode', '-synctex=1', '%f' },
+                        onSave = false,
+                    },
+                    chktex = {
+                        onEdit = false,
+                        onOpenAndSave = false,
+                    },
+                },
+            },
+        })
     end,
 }
