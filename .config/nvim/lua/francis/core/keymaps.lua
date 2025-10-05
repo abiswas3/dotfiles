@@ -288,3 +288,12 @@ vim.keymap.set('n', '<leader>cP', function()
         end,
     })
 end, { desc = 'Compile and preview in browser' })
+
+-- Keymap to display full file path
+-- this shows full path and copies it clipboard
+vim.keymap.set('n', '<leader>fp', function()
+    local full_path = vim.fn.expand '%:p'
+    print(full_path)
+    vim.fn.setreg('+', full_path) -- Also copy to clipboard
+    vim.notify('Copied: ' .. full_path, vim.log.levels.INFO)
+end, { desc = 'Show and copy full file path' })

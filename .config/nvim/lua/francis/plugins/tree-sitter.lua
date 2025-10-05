@@ -14,6 +14,7 @@ return {
                     'html',
                     'css',
                     'markdown',
+                    'latex',
                     'markdown_inline',
                     'lua',
                     'vim',
