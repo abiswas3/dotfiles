@@ -49,7 +49,9 @@ if wezterm.config_builder then
 end
 
 -- For example, changing the color scheme:
-config.color_scheme = "Chalkboard"
+-- config.color_scheme = "Terminix Dark (Gogh)"
+config.color_scheme = "Tinacious Design (Dark)"
+-- config.color_scheme = "thwump (terminal.sexy)"
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
 config.font_size = 14
 
