@@ -21,3 +21,21 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 
 eval "$(rbenv init -)"
+
+diff_branch_file() {
+    if [ $# -ne 3 ]; then
+        echo "Usage: diff_branch_file <branch1> <branch2> <full/path/to/file>"
+        return 1
+    fi
+
+    local branch1=$1
+    local branch2=$2
+    local file=$3
+
+    local tmp2="/tmp/$(basename $file)_$branch2"
+
+    git show "$branch2:$file" > "$tmp2"
+
+    nvim -d "$file" "$tmp2"
+}
+

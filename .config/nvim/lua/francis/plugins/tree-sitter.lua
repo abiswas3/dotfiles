@@ -14,6 +14,7 @@ return {
                     'html',
                     'css',
                     'markdown',
+                    'latex',
                     'markdown_inline',
                     'lua',
                     'vim',
@@ -57,7 +58,8 @@ return {
                         enable = true,
                         lookahead = true,
                         keymaps = {
-                            ['af'] = '@function.outer',
+                            -- ['af'] = '@function.outer',
+                            ['af'] = '@block.outer',
                             ['if'] = '@function.inner',
                             ['ac'] = '@class.outer',
                             ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
