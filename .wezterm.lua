@@ -52,7 +52,7 @@ end
 -- config.color_scheme = "Terminix Dark (Gogh)"
 config.color_scheme = "Tinacious Design (Dark)"
 -- config.color_scheme = "thwump (terminal.sexy)"
-config.font = wezterm.font("MesloLGS Nerd Font Mono")
+config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
 config.font_size = 14
 
 -- config.window_decorations = "RESIZE"
@@ -68,7 +68,7 @@ config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2000 }
 config.keys = {
 	{
 		key = "v",
-		mods = "CMD",
+		mods = "OPT",
 		action = wezterm.action.PasteFrom("Clipboard"),
 	},
 	{
@@ -93,7 +93,7 @@ config.keys = {
 	},
 	{
 		mods = "LEADER",
-		key = "|",
+		key = "=",
 		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 	{
