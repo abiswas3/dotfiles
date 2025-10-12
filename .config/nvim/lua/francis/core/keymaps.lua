@@ -117,7 +117,7 @@ local function mark_task_done_with_timestamp()
         end
 
         -- append done timestamp
-        line = line .. ' | done: ' .. timestamp
+        line = line .. ' | DONE: ' .. timestamp
         vim.api.nvim_set_current_line(line)
     end
 end
@@ -297,3 +297,7 @@ vim.keymap.set('n', '<leader>fp', function()
     vim.fn.setreg('+', full_path) -- Also copy to clipboard
     vim.notify('Copied: ' .. full_path, vim.log.levels.INFO)
 end, { desc = 'Show and copy full file path' })
+
+-- This did not work perfectly fix, later.
+-- vim.keymap.set('v', '<leader>rc', ':s/^/> /<CR>gv:s/\\%V> /> [!note] /<CR>:noh<CR>', 
+--   { desc = "Obsidian styled callout", silent = true })
