@@ -52,8 +52,8 @@ end
 -- config.color_scheme = "Terminix Dark (Gogh)"
 config.color_scheme = "Tinacious Design (Dark)"
 -- config.color_scheme = "thwump (terminal.sexy)"
--- config.font = wezterm.font("MesloLGS Nerd Font Mono")
-config.font_size = 12
+-- config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
+config.font_size = 14
 
 -- config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.92 -- lower opacity to see the red better
@@ -83,17 +83,17 @@ config.keys = {
 	},
 	{
 		mods = "LEADER",
-		key = "b",
+		key = "LeftArrow",
 		action = wezterm.action.ActivateTabRelative(-1),
 	},
 	{
 		mods = "LEADER",
-		key = "n",
+		key = "RightArrow",
 		action = wezterm.action.ActivateTabRelative(1),
 	},
 	{
 		mods = "LEADER",
-		key = "|",
+		key = "=",
 		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 	{
