@@ -14,7 +14,7 @@ return {
         end,
         keys = {
             {
-                '<Leader>gd',
+                '<Leader>gs',
                 function()
                     require('neogen').generate()
                 end,
