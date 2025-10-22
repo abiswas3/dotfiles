@@ -3,8 +3,13 @@
   email = software@randomwalks.xyz
 [core]
   editor = nvim
+  pager = delta
 [init]
   defaultBranch = main 
-
 [credential]
 	helper = store
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    side-by-side = true
