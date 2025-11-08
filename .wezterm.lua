@@ -53,7 +53,7 @@ end
 config.color_scheme = "Tinacious Design (Dark)"
 -- config.color_scheme = "thwump (terminal.sexy)"
 -- config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
-config.font_size = 10
+config.font_size = 15
 config.initial_cols = 120
 config.initial_rows = 40
 config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
