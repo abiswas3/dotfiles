@@ -6,6 +6,8 @@
   pager = delta
 [init]
   defaultBranch = main 
+[credential]
+	helper = store
 [interactive]
     diffFilter = delta --color-only
 [delta]
