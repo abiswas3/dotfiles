@@ -2,7 +2,7 @@ return {
     -- other plugins
     {
         'preservim/vim-pencil',
-        ft = { 'markdown', 'text', 'tex' }, -- only load for these filetypes
+        ft = { 'markdown', 'text', 'tex', 'typ' }, -- only load for these filetypes
         init = function()
             -- optional: customize settings
             vim.g['pencil#wrapModeDefault'] = 'soft'

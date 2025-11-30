@@ -1,4 +1,5 @@
 vim.cmd 'let g:netrw_liststyle = 3'
+vim.g.vimtex_quickfix_mode = 0
 
 local opt = vim.opt
 
