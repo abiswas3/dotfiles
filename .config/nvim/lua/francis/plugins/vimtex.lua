@@ -12,6 +12,7 @@ return {
         -- PDF viewer configuration for macOS
         -- Skim supports forward search (jump from code to PDF) and backward search
         vim.g.vimtex_view_method = 'skim'
+        vim.g.vimtex_compiler_progname = 'nvr'
 
         -- Enable forward search: jump to PDF location from Neovim
         vim.g.vimtex_view_skim_sync = 1

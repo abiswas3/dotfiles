@@ -42,3 +42,5 @@ compinit
 alias suspend="systemctl suspend"
 export LANG="en_GB.UTF-8"
 export LC_ALL="en_GB.UTF-8"
+. "/Users/francis/.deno/env"
+. "$HOME/.local/bin/env"

@@ -1,0 +1,36 @@
+# ~/.config/starship.toml
+
+# Use custom format
+format = '''
+[┌───────────────────>](bold green)
+[│](bold green)$directory$rust$package
+[└─>](bold green) '''
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+# Set 'foo' as custom color palette
+palette = 'foo'
+
+# Define custom colors
+[palettes.foo]
+# Overwrite existing color
+blue = '21'
+# Define new color
+mustard = '#af8700'
+
+
+[battery]
+full_symbol = '🔋 '
+charging_symbol = '⚡️ '
+discharging_symbol = '💀 '
+
+[cmd_duration]
+min_time = 4
+show_milliseconds = false
+disabled = false
+format = " 🕙 $duration($style) "
+style = "bold italic #87A752"
