@@ -1,3 +1,7 @@
+-- One of my favourite plugins.
+-- It's where I get todos from -- but i wish it did agenda as well :-( 
+-- For now it goes via obsidian (but i can likely write some code for this later
+-- Good excuse to learn lua
 return {
     {
         'folke/todo-comments.nvim',

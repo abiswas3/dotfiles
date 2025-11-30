@@ -298,6 +298,19 @@ vim.keymap.set('n', '<leader>fp', function()
     vim.notify('Copied: ' .. full_path, vim.log.levels.INFO)
 end, { desc = 'Show and copy full file path' })
 
+vim.keymap.set('i', '<C-l>', function()
+  local line = vim.api.nvim_get_current_line()
+  local indent = line:match("^%s*") or ""
+  return indent .. "* [ ] "
+end, { expr = true, desc = "Insert checklist item" })
+
+vim.keymap.set('n', '<C-l>', function()
+  local line = vim.api.nvim_get_current_line()
+  local indent = line:match("^%s*") or ""
+  vim.api.nvim_put({indent .. "* [ ] "}, 'l', true, true)
+  vim.cmd('startinsert!')
+end, { desc = "Insert checklist item" })
+
 -- This did not work perfectly fix, later.
 -- vim.keymap.set('v', '<leader>rc', ':s/^/> /<CR>gv:s/\\%V> /> [!note] /<CR>:noh<CR>', 
 --   { desc = "Obsidian styled callout", silent = true })
