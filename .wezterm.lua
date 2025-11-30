@@ -41,7 +41,7 @@ local wezterm = require("wezterm")
 
 -- This table will hold the configuration.
 local config = {}
-config.default_prog = { '/opt/homebrew/bin/fish' }
+config.default_prog = { "/opt/homebrew/bin/fish" }
 
 -- In newer versions of wezterm, use the config_builder which will
 -- help provide clearer error messages
@@ -54,10 +54,10 @@ end
 config.color_scheme = "Tinacious Design (Dark)"
 -- config.color_scheme = "thwump (terminal.sexy)"
 -- config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
-config.font_size = 15
+config.font_size = 12
 config.initial_cols = 120
 config.initial_rows = 40
-config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
+config.font = wezterm.font_with_fallback({ "MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji" })
 config.window_background_opacity = 0.90 -- lower opacity to see the red better
 config.macos_window_background_blur = 80
 -- Add gradient here
