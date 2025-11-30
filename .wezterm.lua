@@ -58,8 +58,8 @@ config.font_size = 12
 config.initial_cols = 120
 config.initial_rows = 40
 config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
-config.window_background_opacity = 0.95 -- lower opacity to see the red better
-config.macos_window_background_blur = 88
+config.window_background_opacity = 0.90 -- lower opacity to see the red better
+config.macos_window_background_blur = 80
 -- Add gradient here
 config.window_background_gradient = {
 	colors = { "#0e1419", "#1a1f29", "#232936" }, -- dark to slightly lighter
