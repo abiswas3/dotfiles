@@ -1,6 +1,24 @@
 return {
-  'chomosuke/typst-preview.nvim',
-  lazy = false, -- or ft = 'typst'
-  version = '1.*',
-  opts = {}, -- lazy.nvim will implicitly calls `setup {}`
+    {
+        'chomosuke/typst-preview.nvim',
+        ft = 'typst',
+        version = '1.*',
+        build = function()
+            require('typst-preview').update()
+        end,
+        config = function()
+            require('typst-preview').setup {}
+        end,
+    },
+    {
+        'kaarmu/typst.vim',
+        ft = 'typst',
+        lazy = false,
+    },
+    {
+        'al-kot/typst-preview.nvim',
+        opts = {
+            -- your config here
+        },
+    },
 }

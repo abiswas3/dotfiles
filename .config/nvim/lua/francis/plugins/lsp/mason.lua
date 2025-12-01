@@ -3,6 +3,15 @@ return {
     dependencies = {
         'williamboman/mason-lspconfig.nvim',
         'WhoIsSethDaniel/mason-tool-installer.nvim',
+        'neovim/nvim-lspconfig',
+        {
+            'chomosuke/typst-preview.nvim',
+            ft = 'typst',
+            version = '1.*',
+            build = function()
+                require('typst-preview').update()
+            end,
+        },
     },
     config = function()
         -- import mason
@@ -33,6 +42,7 @@ return {
                 -- "svelte",
                 'lua_ls',
                 'rust_analyzer',
+                'tinymist',
                 -- "graphql",
                 -- "emmet_ls",
                 -- "prismals",
