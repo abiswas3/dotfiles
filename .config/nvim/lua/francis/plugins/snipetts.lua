@@ -13,6 +13,7 @@ return {
 
         -- Then extend markdown to include tex snippets
         ls.filetype_extend('markdown', { 'tex' })
+
         -- Keybindings
         vim.keymap.set('i', '<C-s>', function()
             if ls.expandable() then
@@ -47,80 +48,50 @@ return {
             end
         end, { desc = 'Jump to previous snippet field' })
 
-        -- Load auto-generated ones
-        local auto_latex = require 'snippets.latex-auto'
-        ls.add_snippets('markdown', auto_latex)
-        ls.add_snippets('tex', auto_latex)
+        -- Load auto-generated ones: These were generated via scripts
+        -- local auto_latex = require 'snippets.latex-auto'
+        -- ls.add_snippets('markdown', auto_latex)
+        -- ls.add_snippets('tex', auto_latex)
+
         -- Custom markdown snippets
         ls.add_snippets('markdown', {
             -- Blog post template
-            s('blog', {
-                t { '---', '' },
-                t 'title: "',
-                i(1, 'Title'),
-                t { '"', '' },
-                t 'authors: "Your Name"',
+            s('post', {
+                t '+++',
                 t { '', '' },
-                t 'date: ',
+                t 'title = "param"',
+                t { '', '' },
+                t 'date = ',
                 f(function()
                     return os.date '%Y-%m-%d'
                 end),
                 t { '', '' },
-                t 'categories: "',
-                i(2, 'category'),
-                t { '"', '' },
-                t 'description: "',
-                i(3, 'Description'),
-                t { '"', '' },
-                t { 'bibliography: ../refs.bib', '' },
-                t { '---', '', '' },
-                t '# ',
-                i(1),
+                t 'updated = ',
+                f(function()
+                    return os.date '%Y-%m-%d'
+                end),
+                t { '', '' },
+                t 'draft = true',
                 t { '', '', '' },
-                i(0),
-            }),
 
-            -- Project template
-            s('project', {
-                t { '---', '' },
-                t 'title: "',
-                i(1, 'Project Name'),
-                t { '"', '' },
-                t 'status: "',
-                i(2, 'in-progress'),
-                t { '"', '' },
-                t 'tags: [',
-                i(3, 'tags'),
-                t { ']', '' },
-                t 'created: ',
-                f(function()
-                    return os.date '%Y-%m-%d'
-                end),
+                t '[taxonomies]',
                 t { '', '' },
-                t { '---', '', '' },
-                t '## Overview',
+                t 'categories = ["param"]',
+                t { '', '' },
+                t 'tags = ["one", "two"]',
                 t { '', '', '' },
-                i(0),
-            }),
 
-            -- Simple note template
-            s('note', {
-                t { '---', '' },
-                t 'title: "',
-                i(1, 'Note Title'),
-                t { '"', '' },
-                t 'date: ',
-                f(function()
-                    return os.date '%Y-%m-%d'
-                end),
+                t '[extra]',
                 t { '', '' },
-                t 'tags: [',
-                i(2),
-                t { ']', '' },
-                t { '---', '', '', '' },
-                i(0),
+                t 'toc = true',
+                t { '', '' },
+                t 'math = true',
+                t { '', '' },
+                t 'hidden = true',
+                t { '', '' },
+                t '+++',
+                t { '', '' },
             }),
-
             -- Meeting notes
             s('meeting', {
                 t { '---', '' },
@@ -151,44 +122,45 @@ return {
                 i(0),
             }),
 
-            -- Callout blocks (blockquote style)
+            -- Terra theorem-style blocks
+
             s('def', {
-                t '> [!def] ',
-                i(1, 'Title'),
-                t { '', '>', '' },
-                t '> ',
+                t '{% theorem(type="definition") %}',
+                t { '', '' },
+                i(1),
+                t { '', '{% end %}' },
                 i(0),
             }),
 
             s('thm', {
-                t '> [!thm] ',
-                i(1, 'Title'),
-                t { '', '>', '' },
-                t '> ',
+                t '{% theorem(type="theorem") %}',
+                t { '', '' },
+                i(1),
+                t { '', '{% end %}' },
                 i(0),
             }),
 
             s('lemma', {
-                t '> [!lemma] ',
-                i(1, 'Title'),
-                t { '', '>', '' },
-                t '> ',
+                t '{% theorem(type="lemma") %}',
+                t { '', '' },
+                i(1),
+                t { '', '{% end %}' },
                 i(0),
             }),
 
             s('remark', {
-                t '> [!remark] ',
-                i(1, 'Title'),
-                t { '', '>', '' },
-                t '> ',
+                t '{% theorem(type="remark") %}',
+                t { '', '' },
+                i(1),
+                t { '', '{% end %}' },
                 i(0),
             }),
 
             s('cor', {
-                t '> [!cor] ',
-                i(1, 'Title'),
-                t { '', '>', '' },
-                t '> ',
+                t '{% theorem(type="corollary") %}',
+                t { '', '' },
+                i(1),
+                t { '', '{% end %}' },
                 i(0),
             }),
         })

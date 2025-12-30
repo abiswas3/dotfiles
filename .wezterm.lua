@@ -54,11 +54,11 @@ end
 config.color_scheme = "Tinacious Design (Dark)"
 -- config.color_scheme = "thwump (terminal.sexy)"
 -- config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
-config.font_size = 12
+config.font_size = 13
 config.initial_cols = 120
 config.initial_rows = 40
 config.font = wezterm.font_with_fallback({ "MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji" })
-config.window_background_opacity = 0.80 -- lower opacity to see the red better
+config.window_background_opacity = 0.95 -- lower opacity to see the red better
 config.macos_window_background_blur = 60
 -- Add gradient here
 config.window_background_gradient = {
