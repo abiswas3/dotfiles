@@ -50,21 +50,21 @@ if wezterm.config_builder then
 end
 
 -- For example, changing the color scheme:
--- config.color_scheme = "Terminix Dark (Gogh)"
-config.color_scheme = "Tinacious Design (Dark)"
+config.color_scheme = "Afterglow"
+-- config.color_scheme = "Gruvbox Dark (Gogh)"
 -- config.color_scheme = "thwump (terminal.sexy)"
 -- config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
-config.font_size = 13
+config.font_size = 12
 config.initial_cols = 120
 config.initial_rows = 40
 config.font = wezterm.font_with_fallback({ "MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji" })
 config.window_background_opacity = 0.95 -- lower opacity to see the red better
 config.macos_window_background_blur = 60
 -- Add gradient here
-config.window_background_gradient = {
-	colors = { "#0e1419", "#1a1f29", "#232936" }, -- dark to slightly lighter
-	orientation = "Horizontal", -- left to right
-}
+-- config.window_background_gradient = {
+-- 	colors = { "#0e1419", "#1a1f29", "#232936" }, -- dark to slightly lighter
+-- 	orientation = "Horizontal", -- left to right
+-- }
 -- tmux
 config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2000 }
 config.keys = {

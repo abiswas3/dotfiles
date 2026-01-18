@@ -12,7 +12,7 @@ return {
         require('luasnip.loaders.from_vscode').lazy_load()
 
         -- Then extend markdown to include tex snippets
-        ls.filetype_extend('markdown', { 'tex' })
+        -- ls.filetype_extend('markdown', { 'tex' })
 
         -- Keybindings
         vim.keymap.set('i', '<C-s>', function()

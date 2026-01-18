@@ -299,18 +299,39 @@ vim.keymap.set('n', '<leader>fp', function()
 end, { desc = 'Show and copy full file path' })
 
 vim.keymap.set('i', '<C-l>', function()
-  local line = vim.api.nvim_get_current_line()
-  local indent = line:match("^%s*") or ""
-  return indent .. "* [ ] "
-end, { expr = true, desc = "Insert checklist item" })
+    local line = vim.api.nvim_get_current_line()
+    local indent = line:match '^%s*' or ''
+    return indent .. '* [ ] '
+end, { expr = true, desc = 'Insert checklist item' })
 
 vim.keymap.set('n', '<C-l>', function()
-  local line = vim.api.nvim_get_current_line()
-  local indent = line:match("^%s*") or ""
-  vim.api.nvim_put({indent .. "* [ ] "}, 'l', true, true)
-  vim.cmd('startinsert!')
-end, { desc = "Insert checklist item" })
+    local line = vim.api.nvim_get_current_line()
+    local indent = line:match '^%s*' or ''
+    vim.api.nvim_put({ indent .. '* [ ] ' }, 'l', true, true)
+    vim.cmd 'startinsert!'
+end, { desc = 'Insert checklist item' })
 
 -- This did not work perfectly fix, later.
--- vim.keymap.set('v', '<leader>rc', ':s/^/> /<CR>gv:s/\\%V> /> [!note] /<CR>:noh<CR>', 
+-- vim.keymap.set('v', '<leader>rc', ':s/^/> /<CR>gv:s/\\%V> /> [!note] /<CR>:noh<CR>',
 --   { desc = "Obsidian styled callout", silent = true })
+
+vim.keymap.set('v', '<leader>tb', function()
+    -- Save register and selection
+    local saved_reg = vim.fn.getreg '"'
+    vim.cmd 'normal! "xy'
+
+    local text = vim.fn.getreg 'x'
+
+    local wrapped = table.concat({
+        '{% theorem(type="box") %}',
+        '',
+        text,
+        '',
+        '{% end %}',
+    }, '\n')
+
+    vim.fn.setreg('x', wrapped)
+    vim.cmd 'normal! gv"xp'
+
+    vim.fn.setreg('"', saved_reg)
+end, { desc = 'Wrap selection in theorem box' })
