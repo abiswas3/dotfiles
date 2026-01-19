@@ -1,6 +1,6 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-      echo (whoami)@(hostname) (date '+%Y-%m-%d %H:%M:%S') (pwd)
+      # echo (whoami)@(hostname) (date '+%Y-%m-%d %H:%M:%S') (pwd)
 
 end
 starship init fish | source
