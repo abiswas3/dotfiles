@@ -81,9 +81,9 @@ return {
         keymap.set('n', '<leader>fr', '<cmd>Telescope oldfiles<cr>', { desc = 'Fuzzy find recent files' })
         keymap.set('n', '<leader>fs', '<cmd>Telescope live_grep<cr>', { desc = 'Find string in cwd' })
         keymap.set('n', '<leader>fc', '<cmd>Telescope grep_string<cr>', { desc = 'Find string under cursor in cwd' })
-        keymap.set('n', '<leader>ft', '<cmd>TodoTelescope keywords=TODO<cr>', { desc = 'Find todos' })
+        keymap.set('n', '<leader>ft', '<cmd>TodoTelescope keywords=TODO,#TODO<cr>', { desc = 'Find todos' })
         keymap.set('n', '<leader>fx', '<cmd>TodoTelescope keywords=FIXME,HACK,TODO,NOTE,INPROGRESS,NEXT,WARN<cr>', { desc = 'Find fixme groups§' })
-        keymap.set('n', '<leader>fk', '<cmd>Telescope keymaps<cr>', { desc = 'Find todos' })
+        keymap.set('n', '<leader>fk', '<cmd>Telescope keymaps<cr>', { desc = 'Show Telescope keymaps' })
         keymap.set('n', '<leader>mt', insert_template, { desc = 'Insert markdown template' })
         keymap.set('n', '<leader>fm', 'gg/^---$<CR>j', { desc = 'Jump to frontmatter' })
     end,
