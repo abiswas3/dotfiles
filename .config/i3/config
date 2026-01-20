@@ -196,6 +196,12 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# remove borders from panes/windows  
+default_border none
+# outer is the margin from the screen
+# inner is margins between windwos/panes
+gaps inner 10
+gaps outer 5
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 # bar {
