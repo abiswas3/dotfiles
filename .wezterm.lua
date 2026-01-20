@@ -1,42 +1,4 @@
--- WezTerm Keybindings Do~cumentation by dragonlobster
--- ===================================================
--- Leader Key:
--- The leader key is set to ALT + q, with a timeout of 2000 milliseconds (2 seconds).
--- To execute any keybinding, press the leader key (ALT + q) first, then the corresponding key.
-
--- Keybindings:
--- 1. Tab Management:
---    - LEADER + c: Create a new tab in the current pane's domain.
---    - LEADER + x: Close the current pane (with confirmation).
---    - LEADER + b: Switch to the previous tab.
---    - LEADER + n: Switch to the next tab.
---    - LEADER + <number>: Switch to a specific tab (0–9).
-
--- 2. Pane Splitting:
---    - LEADER + |: Split the current pane horizontally into two panes.
---    - LEADER + -: Split the current pane vertically into two panes.
-
--- 3. Pane Navigation:
---    - LEADER + h: Move to the pane on the left.
---    - LEADER + j: Move to the pane below.
---    - LEADER + k: Move to the pane above.
---    - LEADER + l: Move to the pane on the right.
-
--- 4. Pane Resizing:
---    - LEADER + LeftArrow: Increase the pane size to the left by 5 units.
---    - LEADER + RightArrow: Increase the pane size to the right by 5 units.
---    - LEADER + DownArrow: Increase the pane size downward by 5 units.
---    - LEADER + UpArrow: Increase the pane size upward by 5 units.
-
--- 5. Status Line:
---    - The status line indicates when the leader key is active, displaying an ocean wave emoji (🌊).
-
--- Miscellaneous Configurations:
--- - Tabs are shown even if there's only one tab.
--- - The tab bar is located at the bottom of the terminal window.
--- - Tab and split indices are zero-based.
-
--- Pull in the wezterm API
+-- - Pull in the wezterm API
 local wezterm = require("wezterm")
 
 -- This table will hold the configuration.
@@ -51,15 +13,14 @@ end
 
 -- For example, changing the color scheme:
 config.color_scheme = "Afterglow"
--- config.color_scheme = "Gruvbox Dark (Gogh)"
--- config.color_scheme = "thwump (terminal.sexy)"
--- config.font = wezterm.font_with_fallback{"MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji"}
+config.font = wezterm.font_with_fallback({ "MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji" })
 config.font_size = 12
 config.initial_cols = 120
 config.initial_rows = 40
 config.font = wezterm.font_with_fallback({ "MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji" })
 config.window_background_opacity = 0.80 -- lower opacity to see the red better
 config.macos_window_background_blur = 60
+
 -- config.window_background_gradient = {
 -- 	colors = { "#0e1419", "#1a1f29", "#232936" }, -- dark to slightly lighter
 -- 	orientation = "Horizontal", -- left to right
@@ -70,7 +31,7 @@ config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2000 }
 config.keys = {
 	{
 		key = "v",
-		mods = "CMD",
+		mods = "CTRL",
 		action = wezterm.action.PasteFrom("Clipboard"),
 	},
 	{
@@ -154,7 +115,7 @@ for i = 0, 9 do
 	})
 end
 
-config.line_height = 1.8
+config.line_height = 2
 
 -- Disable default keybindings (this will prevent Ctrl-S from being used for flow control)
 config.disable_default_key_bindings = true
