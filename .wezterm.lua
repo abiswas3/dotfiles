@@ -12,12 +12,12 @@ if wezterm.config_builder then
 end
 
 -- For example, changing the color scheme:
-config.color_scheme = "Afterglow"
+config.color_scheme = "Adventure"
 config.font_size = 12
 config.initial_cols = 120
 config.initial_rows = 40
-config.window_background_opacity = 0.90 -- lower opacity to see the red better
-config.macos_window_background_blur = 90
+-- config.window_background_opacity = 0.85 -- lower opacity to see the red better
+-- config.macos_window_background_blur = 90
 
 -- config.window_background_gradient = {
 -- 	colors = { "#0e1419", "#1a1f29", "#232936" }, -- dark to slightly lighter
