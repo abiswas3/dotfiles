@@ -12,5 +12,18 @@ alias zl="zellij"
 alias lg="lazygit"
 alias ls="eza --icons=always"
 
+function grep-dir
+    # Run ripgrep on all files, pipe to fzf TUI with exact match
+    rg --no-heading --line-number --column --hidden . | \
+    fzf --layout=reverse --ansi --exact \
+        --preview 'IFS=: read -r file line col rest <<< "{}"; bat --style=numbers --color=always "$file" --highlight-line "$line"' \
+        | while read -l line
+            # Split RG output line into filename and line number
+            set file (string split ":" $line)[1]
+            set line_no (string split ":" $line)[2]
+            # Open selected file at the correct line in nvim
+            nvim +"$line_no" "$file"
+        end
+end
 # opencode
 fish_add_path /Users/francis/.opencode/bin
