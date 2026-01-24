@@ -16,7 +16,7 @@ config.color_scheme = "Adventure"
 config.font_size = 12
 config.initial_cols = 120
 config.initial_rows = 40
-config.window_background_opacity = 0.85 -- lower opacity to see the red better
+config.window_background_opacity = 0.80
 config.macos_window_background_blur = 90
 
 -- config.window_background_gradient = {
