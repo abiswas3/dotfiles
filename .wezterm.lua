@@ -12,13 +12,14 @@ if wezterm.config_builder then
 end
 
 -- For example, changing the color scheme:
-config.color_scheme = "Afterglow"
-config.font = wezterm.font_with_fallback({ "MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji" })
+-- config.color_scheme = "Afterglow"
+config.color_scheme = "Chalk (dark) (terminal.sexy)"
+-- config.color_scheme = "Catppuccin Mocha"
 config.font_size = 12
 config.initial_cols = 120
 config.initial_rows = 40
 config.font = wezterm.font_with_fallback({ "MesloLGS Nerd Font Mono", "Symbols Nerd Font", "Noto Color Emoji" })
-config.window_background_opacity = 0.80 -- lower opacity to see the red better
+config.window_background_opacity = 0.70 -- lower opacity to see the red better
 config.macos_window_background_blur = 60
 
 -- config.window_background_gradient = {
