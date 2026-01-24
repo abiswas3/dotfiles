@@ -11,3 +11,6 @@ alias vi='nvim'
 alias zl="zellij"
 alias lg="lazygit"
 alias ls="eza --icons=always"
+
+# opencode
+fish_add_path /Users/francis/.opencode/bin
