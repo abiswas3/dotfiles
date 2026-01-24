@@ -22,7 +22,7 @@ font pango:monospace 8
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
-exec_always --no-startup-id feh --bg-scale ~/Downloads/wallpaper-autumn.jpeg
+exec_always --no-startup-id feh --bg-fill ~/Downloads/slovenia3
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 exec_always killall polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
@@ -196,6 +196,15 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# remove borders from panes/windows  
+# outer is the margin from the screen
+# inner is margins between windwos/panes
+gaps inner 15
+gaps outer 5
+
+default_border pixel 5
+client.focused          #FF7F50 #F88379 #000000
+client.unfocused        #333333 #222222 #888888
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 # bar {
