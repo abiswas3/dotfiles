@@ -1,5 +1,5 @@
 [user]
-  name = Ari
+	name = Cat
   email = software@randomwalks.xyz
 [core]
   editor = nvim
@@ -13,20 +13,4 @@
 [delta]
     navigate = true
     side-by-side = true
-[diff]
-	tool = Kaleidoscope
-[difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[difftool]
-	prompt = false
-	trustExitCode = true
-[merge]
-	tool = vimdiff
-[mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustExitCode = true
-[mergetool]
-	prompt = false
-[mergetool "kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
-	trustExitCode = true
+
