@@ -4,7 +4,8 @@ if status is-interactive
 
 end
 starship init fish | source
-
+# Rust cargo
+set -x PATH $HOME/.cargo/bin $PATH
 alias ll='ls -lah'
 alias g='git'
 alias vi='nvim'
@@ -12,6 +13,9 @@ alias zl="zellij"
 alias lg="lazygit"
 alias ls="eza --icons=always"
 
+function mem
+ ps -eo pmem,pcpu,vsize,pid,cmd | sort -k 1 -nr | head -5
+ end 
 function grep-dir
     # Run ripgrep on all files, pipe to fzf TUI with exact match
     rg --no-heading --line-number --column --hidden . | \

@@ -1,3 +1,7 @@
+/*******************************************************
+ * ROFI configs i3 Apps menu for EndeavourOS
+ * Maintainer: joekamprad <joekamprad@endeavouros.com>
+ *******************************************************/
 
 configuration {
     font:				"Cascadia Code 12";

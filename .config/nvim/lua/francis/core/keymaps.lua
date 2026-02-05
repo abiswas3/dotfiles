@@ -335,3 +335,7 @@ vim.keymap.set('v', '<leader>tb', function()
 
     vim.fn.setreg('"', saved_reg)
 end, { desc = 'Wrap selection in theorem box' })
+
+vim.keymap.set('n', '<leader>rd', function()
+    require('neogen').generate { type = 'func' }
+end, { desc = 'Rust docstring (placeholders)' })
