@@ -1,4 +1,7 @@
--- lua/plugins/snippets.lua
+-- LuaSnip: Snippet engine with custom markdown snippets.
+-- Includes blog post frontmatter, meeting notes, and Zola theorem shortcodes
+-- (definition, theorem, lemma, remark, corollary).
+-- C-s expands, C-k/C-j jump forward/backward through snippet fields.
 return {
     'L3MON4D3/LuaSnip',
     dependencies = { 'rafamadriz/friendly-snippets' },
@@ -8,13 +11,11 @@ return {
         local t = ls.text_node
         local i = ls.insert_node
         local f = ls.function_node
-        -- Load friendly-snippets FIRST
+
+        -- Load community VS Code-style snippets
         require('luasnip.loaders.from_vscode').lazy_load()
 
-        -- Then extend markdown to include tex snippets
-        -- ls.filetype_extend('markdown', { 'tex' })
-
-        -- Keybindings
+        -- Snippet navigation keybinds
         vim.keymap.set('i', '<C-s>', function()
             if ls.expandable() then
                 ls.expand()
@@ -25,15 +26,14 @@ return {
             if ls.jumpable(1) then
                 ls.jump(1)
             end
-        end, { desc = 'Jump to next field' })
+        end, { desc = 'Jump to next snippet field' })
 
         vim.keymap.set({ 'i', 's' }, '<C-j>', function()
             if ls.jumpable(-1) then
                 ls.jump(-1)
             end
-        end, { desc = 'Jump to previous field' })
+        end, { desc = 'Jump to previous snippet field' })
 
-        -- Add these AFTER your existing Ctrl-k/Ctrl-j keymaps:
         vim.keymap.set({ 'i', 's' }, '<Tab>', function()
             if ls.expand_or_jumpable() then
                 ls.expand_or_jump()
@@ -48,14 +48,9 @@ return {
             end
         end, { desc = 'Jump to previous snippet field' })
 
-        -- Load auto-generated ones: These were generated via scripts
-        -- local auto_latex = require 'snippets.latex-auto'
-        -- ls.add_snippets('markdown', auto_latex)
-        -- ls.add_snippets('tex', auto_latex)
-
         -- Custom markdown snippets
         ls.add_snippets('markdown', {
-            -- Blog post template
+            -- Blog post frontmatter (Zola)
             s('post', {
                 t '+++',
                 t { '', '' },
@@ -73,14 +68,12 @@ return {
                 t { '', '' },
                 t 'draft = true',
                 t { '', '', '' },
-
                 t '[taxonomies]',
                 t { '', '' },
                 t 'categories = ["param"]',
                 t { '', '' },
                 t 'tags = ["one", "two"]',
                 t { '', '', '' },
-
                 t '[extra]',
                 t { '', '' },
                 t 'toc = true',
@@ -92,7 +85,8 @@ return {
                 t '+++',
                 t { '', '' },
             }),
-            -- Meeting notes
+
+            -- Meeting notes template
             s('meeting', {
                 t { '---', '' },
                 t 'title: "',
@@ -122,8 +116,7 @@ return {
                 i(0),
             }),
 
-            -- Terra theorem-style blocks
-
+            -- Zola theorem shortcodes
             s('def', {
                 t '{% theorem(type="definition") %}',
                 t { '', '' },
@@ -131,7 +124,6 @@ return {
                 t { '', '{% end %}' },
                 i(0),
             }),
-
             s('thm', {
                 t '{% theorem(type="theorem") %}',
                 t { '', '' },
@@ -139,7 +131,6 @@ return {
                 t { '', '{% end %}' },
                 i(0),
             }),
-
             s('lemma', {
                 t '{% theorem(type="lemma") %}',
                 t { '', '' },
@@ -147,7 +138,6 @@ return {
                 t { '', '{% end %}' },
                 i(0),
             }),
-
             s('remark', {
                 t '{% theorem(type="remark") %}',
                 t { '', '' },
@@ -155,7 +145,6 @@ return {
                 t { '', '{% end %}' },
                 i(0),
             }),
-
             s('cor', {
                 t '{% theorem(type="corollary") %}',
                 t { '', '' },

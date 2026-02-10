@@ -1,12 +1,10 @@
--- Lua
+-- Zen Mode: Distraction-free writing mode that centers the buffer and dims surroundings.
+-- Pairs with Pencil for a full writing environment via <leader>pp.
 return {
     'folke/zen-mode.nvim',
     opts = {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-    },
-    plugins = {
-        twilight = { enabled = true }, -- enable to start Twilight when zen mode opens
+        plugins = {
+            twilight = { enabled = true }, -- dim inactive code with Twilight
+        },
     },
 }

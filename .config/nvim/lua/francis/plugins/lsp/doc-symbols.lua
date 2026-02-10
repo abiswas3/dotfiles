@@ -1,5 +1,6 @@
-return -- Add to your plugins
-{
+-- Aerial: Document symbol outline sidebar (functions, classes, methods, etc.)
+-- <leader>so toggles the symbol outline panel.
+return {
     'stevearc/aerial.nvim',
     opts = {},
     dependencies = {

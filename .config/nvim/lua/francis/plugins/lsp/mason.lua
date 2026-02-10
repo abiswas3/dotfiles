@@ -38,7 +38,7 @@ return {
         'html',
         -- "tailwindcss",
         -- "svelte",
-        'rust_analyzer',
+        -- rust_analyzer is managed by rustaceanvim, not mason
         'tinymist',
         -- "graphql",
         -- "emmet_ls",

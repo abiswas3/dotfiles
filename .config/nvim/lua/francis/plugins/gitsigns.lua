@@ -1,5 +1,7 @@
--- TODO: Rewatch Joeans videp, he has a very nice way to commit files within
--- the code base.
+-- Git integration: Fugitive for commands, Gitsigns for gutter indicators.
+-- Fugitive: :G for git status, :Gdiffsplit for diffs, :Gblame etc.
+-- Gitsigns: Shows add/change/delete marks in the sign column,
+--   ]h/[h to navigate hunks, <leader>hs to stage, <leader>hp to preview.
 return {
     {
         'tpope/vim-fugitive',
@@ -48,9 +50,7 @@ return {
 
                 map('n', '<leader>hS', gs.stage_buffer, 'Stage buffer')
                 map('n', '<leader>hR', gs.reset_buffer, 'Reset buffer')
-
                 map('n', '<leader>hu', gs.undo_stage_hunk, 'Undo stage hunk')
-
                 map('n', '<leader>hp', gs.preview_hunk, 'Preview hunk')
 
                 map('n', '<leader>hb', function()
@@ -63,7 +63,7 @@ return {
                     gs.diffthis '~'
                 end, 'Diff this ~')
 
-                -- Text object
+                -- Text object: "ih" selects the current hunk
                 map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', 'Gitsigns select hunk')
             end,
         },
