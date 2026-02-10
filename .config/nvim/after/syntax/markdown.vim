@@ -38,3 +38,10 @@ highlight link QuestionDivOpen QuestionDiv
 highlight link ProblemDivOpen QuestionDiv
 highlight link GoalDivOpen GoalDiv
 highlight link FencedDivClose FencedDivEnd
+
+" Zola shortcode regions — whole block gets a subtle background
+highlight ZolaBlockBody guibg=#1e1e2e ctermfg=NONE ctermbg=234
+highlight ZolaBlockDelim guifg=#585b70 guibg=#1e1e2e gui=bold ctermfg=240 ctermbg=234
+
+syntax region ZolaBlock matchgroup=ZolaBlockDelim start=/^{%\s*theorem(.\{-})\s*%}$/ end=/^{%\s*end\s*%}$/ contains=@Spell,@markdownInline keepend
+highlight link ZolaBlock ZolaBlockBody
