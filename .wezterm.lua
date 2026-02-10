@@ -13,7 +13,7 @@ end
 
 -- For example, changing the color scheme:
 config.color_scheme = "Adventure"
-config.font_size = 14
+config.font_size = 10
 config.initial_cols = 120
 config.initial_rows = 40
 config.window_background_opacity = 0.90
