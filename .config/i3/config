@@ -199,10 +199,10 @@ bindsym $mod+r mode "resize"
 # remove borders from panes/windows  
 # outer is the margin from the screen
 # inner is margins between windwos/panes
-gaps inner 15
-gaps outer 5
+gaps inner 4
+gaps outer 1
 
-default_border pixel 5
+default_border pixel 3
 client.focused          #FF7F50 #F88379 #000000
 client.unfocused        #333333 #222222 #888888
 # Start i3bar to display a workspace bar (plus the system information i3status

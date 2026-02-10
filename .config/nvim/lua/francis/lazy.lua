@@ -1,16 +1,18 @@
+-- Bootstrap lazy.nvim plugin manager (auto-installs on first run)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    "--branch=stable",
     lazypath,
   })
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- All .lua files in francis/plugins/ and francis/plugins/lsp/ are auto-loaded
 require("lazy").setup({ { import = "francis.plugins" }, { import = "francis.plugins.lsp" } }, {
   checker = {
     enabled = true,

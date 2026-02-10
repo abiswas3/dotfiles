@@ -1,12 +1,13 @@
+-- Vim Pencil: Soft line wrapping for prose/writing modes.
+-- Loads for markdown, text, tex, typst. Wraps at 70 chars.
+-- Used together with ZenMode via <leader>pp.
 return {
-    -- other plugins
     {
         'preservim/vim-pencil',
-        ft = { 'markdown', 'text', 'tex', 'typst' }, -- only load for these filetypes
+        ft = { 'markdown', 'text', 'tex', 'typst' },
         init = function()
-            -- optional: customize settings
             vim.g['pencil#wrapModeDefault'] = 'soft'
-            vim.g['pencil#textwidth'] = 70 -- set line width
+            vim.g['pencil#textwidth'] = 70
             vim.g['pencil#joinspaces'] = 1
         end,
     },

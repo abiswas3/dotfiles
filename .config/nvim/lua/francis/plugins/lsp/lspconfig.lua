@@ -47,10 +47,14 @@ return {
                 keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts) -- show diagnostics for line
 
                 opts.desc = 'Go to previous diagnostic'
-                keymap.set('n', '[d', vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+                keymap.set('n', '[d', function()
+                    vim.diagnostic.jump({ count = -1, float = true })
+                end, opts)
 
                 opts.desc = 'Go to next diagnostic'
-                keymap.set('n', ']d', vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+                keymap.set('n', ']d', function()
+                    vim.diagnostic.jump({ count = 1, float = true })
+                end, opts)
 
                 opts.desc = 'Show documentation for what is under cursor'
                 keymap.set('n', 'K', vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
@@ -60,8 +64,9 @@ return {
             end,
         })
 
-        -- used to enable autocompletion (assign to every lsp server config)
         local capabilities = cmp_nvim_lsp.default_capabilities()
+        capabilities.general = capabilities.general or {}
+        capabilities.general.positionEncodings = { 'utf-16' }
 
         vim.diagnostic.config {
             signs = {
@@ -77,6 +82,9 @@ return {
         vim.lsp.config('*', {
             capabilities = capabilities,
         })
+
+        -- Disable native rust_analyzer — rustaceanvim manages it
+        vim.lsp.enable('rust_analyzer', false)
 
         -- Add texlab for LaTeX support in Markdown
         vim.lsp.config('texlab', {

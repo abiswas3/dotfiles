@@ -1,10 +1,9 @@
+-- render-markdown: Renders markdown with nice formatting in normal mode.
+-- Headings, lists, code blocks, etc. get visual treatment while editing.
 return {
     'MeanderingProgrammer/render-markdown.nvim',
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },
     opts = {
-render_modes = { 'n', 'c', 't' }
-  },
+        render_modes = { 'n', 'c', 't' },
+    },
 }
-
