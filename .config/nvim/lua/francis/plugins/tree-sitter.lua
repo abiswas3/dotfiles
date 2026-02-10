@@ -7,18 +7,21 @@ return {
         lazy = false,
         build = ':TSUpdate',
         config = function()
-            -- Install parsers for all languages used in this config
-            require('nvim-treesitter').install {
-                'json', 'yaml', 'html', 'css',
-                'markdown', 'markdown_inline',
-                'lua', 'vim', 'vimdoc', 'query',
-                'dockerfile', 'gitignore',
-                'c', 'rust', 'go',
-                'python', 'bash',
-                'javascript', 'typescript', 'tsx',
-                'toml',
-                'latex', 'bibtex',
-                'typst',
+            require('nvim-treesitter.configs').setup {
+                ensure_installed = {
+                    'json', 'yaml', 'html', 'css',
+                    'markdown', 'markdown_inline',
+                    'lua', 'vim', 'vimdoc', 'query',
+                    'dockerfile', 'gitignore',
+                    'c', 'rust', 'go',
+                    'python', 'bash',
+                    'javascript', 'typescript', 'tsx',
+                    'toml',
+                    'latex', 'bibtex',
+                    'typst',
+                },
+                highlight = { enable = true },
+                indent = { enable = true },
             }
 
             -- Use bash parser for zsh files
