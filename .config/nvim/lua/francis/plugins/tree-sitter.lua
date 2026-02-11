@@ -7,22 +7,29 @@ return {
         lazy = false,
         build = ':TSUpdate',
         config = function()
-            require('nvim-treesitter.configs').setup {
-                ensure_installed = {
-                    'json', 'yaml', 'html', 'css',
-                    'markdown', 'markdown_inline',
-                    'lua', 'vim', 'vimdoc', 'query',
-                    'dockerfile', 'gitignore',
-                    'c', 'rust', 'go',
-                    'python', 'bash',
-                    'javascript', 'typescript', 'tsx',
-                    'toml',
-                    'latex', 'bibtex',
-                    'typst',
-                },
-                highlight = { enable = true },
-                indent = { enable = true },
+            local parsers = {
+                'json', 'yaml', 'html', 'css',
+                'markdown', 'markdown_inline',
+                'lua', 'vim', 'vimdoc', 'query',
+                'dockerfile', 'gitignore',
+                'c', 'rust', 'go',
+                'python', 'bash',
+                'javascript', 'typescript', 'tsx',
+                'toml',
+                'latex', 'bibtex',
+                'typst',
             }
+
+            -- New API (nvim-treesitter main branch rewrite, Neovim 0.11+)
+            local ok = pcall(function() require('nvim-treesitter').install(parsers) end)
+            if not ok then
+                -- Old API fallback
+                require('nvim-treesitter.configs').setup {
+                    ensure_installed = parsers,
+                    highlight = { enable = true },
+                    indent = { enable = true },
+                }
+            end
 
             -- Use bash parser for zsh files
             vim.treesitter.language.register('bash', 'zsh')
