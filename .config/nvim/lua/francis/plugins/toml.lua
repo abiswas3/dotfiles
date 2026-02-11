@@ -1,2 +1,2 @@
--- ~/.config/nvim/lua/plugins/init.lua or wherever your Lazy list is
+-- Placeholder for TOML-related plugins (currently unused).
 return {}

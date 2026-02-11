@@ -1,7 +1,5 @@
--- This does not require a whole lot of configs
--- first we get plenary: lua plugin that others depend on 
--- and vim tmux plugins + splits in nvim.
+-- Base dependencies that many plugins rely on.
+-- plenary.nvim provides common Lua utility functions (async, paths, testing, etc.)
 return {
-  "nvim-lua/plenary.nvim", -- lua functions that many plugins use
-  -- "christoomey/vim-tmux-navigator", -- tmux & split window navigation
+    "nvim-lua/plenary.nvim",
 }

@@ -1,11 +1,12 @@
--- this is the file exlorer configuration
+-- nvim-tree: File explorer sidebar with git status icons and diagnostics.
+-- <leader>ee toggles, <leader>ef finds current file, <leader>ec collapses all.
 return {
     'nvim-tree/nvim-tree.lua',
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
         local nvimtree = require 'nvim-tree'
 
-        -- recommended settings from nvim-tree documentation
+        -- Disable netrw (vim's built-in file explorer) to avoid conflicts
         vim.g.loaded_netrw = 1
         vim.g.loaded_netrwPlugin = 1
 
@@ -14,30 +15,27 @@ return {
                 width = 50,
                 relativenumber = true,
             },
-            -- change folder arrow icons
             renderer = {
-                indent_markers = {
-                    enable = true,
-                },
+                indent_markers = { enable = true },
                 icons = {
                     glyphs = {
                         folder = {
-                            arrow_closed = '', -- arrow when folder is closed
-                            arrow_open = '', -- arrow when folder is open
+                            arrow_closed = '',
+                            arrow_open = '',
                         },
                         default = '󱓻',
                         symlink = '󱓻',
-                        bookmark = '',
-                        modified = '',
+                        bookmark = '',
+                        modified = '',
                         hidden = '󱙝',
                         git = {
-                            unstaged = '❓', -- question mark for unstaged changes
-                            staged = '✅', -- green check for staged
-                            unmerged = '⚠️', -- warning for conflicts
-                            untracked = '🆕', -- new file
-                            renamed = '🔀', -- renamed / moved
-                            deleted = '🗑️', -- deleted
-                            ignored = '🙈', -- subtle, doesn’t distract
+                            unstaged = '❓',
+                            staged = '✅',
+                            unmerged = '⚠️',
+                            untracked = '🆕',
+                            renamed = '🔀',
+                            deleted = '🗑️',
+                            ignored = '🙈',
                         },
                     },
                 },
@@ -52,14 +50,10 @@ return {
                     error = 'Err',
                 },
             },
-            -- disable window_picker for
-            -- explorer to work well with
-            -- window splits
+            -- Disable window_picker so files open in the expected split
             actions = {
                 open_file = {
-                    window_picker = {
-                        enable = false,
-                    },
+                    window_picker = { enable = false },
                 },
             },
             filters = {
@@ -70,12 +64,10 @@ return {
             },
         }
 
-        -- set keymaps
-        local keymap = vim.keymap -- for conciseness
-
-        keymap.set('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', { desc = 'Toggle file explorer' }) -- toggle file explorer
-        keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { desc = 'Toggle file explorer on current file' }) -- toggle file explorer on current file
-        keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { desc = 'Collapse file explorer' }) -- collapse file explorer
-        keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { desc = 'Refresh file explorer' }) -- refresh file explorer
+        local keymap = vim.keymap
+        keymap.set('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', { desc = 'Toggle file explorer' })
+        keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { desc = 'Toggle file explorer on current file' })
+        keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { desc = 'Collapse file explorer' })
+        keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { desc = 'Refresh file explorer' })
     end,
 }

@@ -1,20 +1,23 @@
--- lua/plugins/snippets.lua
+-- LuaSnip: Snippet engine.
+-- Community snippets from friendly-snippets, custom snippets from snippets/ dir.
+-- C-s expands, C-k/C-j jump forward/backward through snippet fields.
 return {
     'L3MON4D3/LuaSnip',
     dependencies = { 'rafamadriz/friendly-snippets' },
     config = function()
         local ls = require 'luasnip'
-        local s = ls.snippet
-        local t = ls.text_node
-        local i = ls.insert_node
-        local f = ls.function_node
-        -- Load friendly-snippets FIRST
+
+        -- Load community VS Code-style snippets
         require('luasnip.loaders.from_vscode').lazy_load()
 
-        -- Then extend markdown to include tex snippets
-        -- ls.filetype_extend('markdown', { 'tex' })
+        -- Load custom snippets from ~/.config/nvim/snippets/
+        -- To add snippets: edit the JSON files in that directory.
+        -- To add a new language: create <lang>.json and register it in package.json.
+        require('luasnip.loaders.from_vscode').lazy_load {
+            paths = { vim.fn.stdpath 'config' .. '/snippets' },
+        }
 
-        -- Keybindings
+        -- Snippet navigation keybinds
         vim.keymap.set('i', '<C-s>', function()
             if ls.expandable() then
                 ls.expand()
@@ -25,15 +28,14 @@ return {
             if ls.jumpable(1) then
                 ls.jump(1)
             end
-        end, { desc = 'Jump to next field' })
+        end, { desc = 'Jump to next snippet field' })
 
         vim.keymap.set({ 'i', 's' }, '<C-j>', function()
             if ls.jumpable(-1) then
                 ls.jump(-1)
             end
-        end, { desc = 'Jump to previous field' })
+        end, { desc = 'Jump to previous snippet field' })
 
-        -- Add these AFTER your existing Ctrl-k/Ctrl-j keymaps:
         vim.keymap.set({ 'i', 's' }, '<Tab>', function()
             if ls.expand_or_jumpable() then
                 ls.expand_or_jump()
@@ -47,122 +49,5 @@ return {
                 ls.jump(-1)
             end
         end, { desc = 'Jump to previous snippet field' })
-
-        -- Load auto-generated ones: These were generated via scripts
-        -- local auto_latex = require 'snippets.latex-auto'
-        -- ls.add_snippets('markdown', auto_latex)
-        -- ls.add_snippets('tex', auto_latex)
-
-        -- Custom markdown snippets
-        ls.add_snippets('markdown', {
-            -- Blog post template
-            s('post', {
-                t '+++',
-                t { '', '' },
-                t 'title = "param"',
-                t { '', '' },
-                t 'date = ',
-                f(function()
-                    return os.date '%Y-%m-%d'
-                end),
-                t { '', '' },
-                t 'updated = ',
-                f(function()
-                    return os.date '%Y-%m-%d'
-                end),
-                t { '', '' },
-                t 'draft = true',
-                t { '', '', '' },
-
-                t '[taxonomies]',
-                t { '', '' },
-                t 'categories = ["param"]',
-                t { '', '' },
-                t 'tags = ["one", "two"]',
-                t { '', '', '' },
-
-                t '[extra]',
-                t { '', '' },
-                t 'toc = true',
-                t { '', '' },
-                t 'math = true',
-                t { '', '' },
-                t 'hidden = true',
-                t { '', '' },
-                t '+++',
-                t { '', '' },
-            }),
-            -- Meeting notes
-            s('meeting', {
-                t { '---', '' },
-                t 'title: "',
-                i(1, 'Meeting Title'),
-                t { '"', '' },
-                t 'date: ',
-                f(function()
-                    return os.date '%Y-%m-%d'
-                end),
-                t { '', '' },
-                t 'attendees: [',
-                i(2),
-                t { ']', '' },
-                t 'tags: [meeting]',
-                t { '', '' },
-                t { '---', '', '' },
-                t '## Agenda',
-                t { '', '', '' },
-                i(3),
-                t { '', '', '' },
-                t '## Notes',
-                t { '', '', '' },
-                i(4),
-                t { '', '', '' },
-                t '## Action Items',
-                t { '', '', '' },
-                i(0),
-            }),
-
-            -- Terra theorem-style blocks
-
-            s('def', {
-                t '{% theorem(type="definition") %}',
-                t { '', '' },
-                i(1),
-                t { '', '{% end %}' },
-                i(0),
-            }),
-
-            s('thm', {
-                t '{% theorem(type="theorem") %}',
-                t { '', '' },
-                i(1),
-                t { '', '{% end %}' },
-                i(0),
-            }),
-
-            s('lemma', {
-                t '{% theorem(type="lemma") %}',
-                t { '', '' },
-                i(1),
-                t { '', '{% end %}' },
-                i(0),
-            }),
-
-            s('remark', {
-                t '{% theorem(type="remark") %}',
-                t { '', '' },
-                i(1),
-                t { '', '{% end %}' },
-                i(0),
-            }),
-
-            s('cor', {
-                t '{% theorem(type="corollary") %}',
-                t { '', '' },
-                i(1),
-                t { '', '{% end %}' },
-                i(0),
-            }),
-        })
     end,
 }

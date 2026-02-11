@@ -1,11 +1,12 @@
--- THis will need to be changed later again
--- As i like seeing details
+-- Lualine: Custom statusline at the bottom of the editor.
+-- Shows mode, git branch, diff stats, diagnostics, filename (absolute path),
+-- lazy.nvim update count, encoding, filetype, and cursor position.
 return {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
         local lualine = require 'lualine'
-        local lazy_status = require 'lazy.status' -- to configure lazy pending updates count
+        local lazy_status = require 'lazy.status'
 
         local colors = {
             blue = '#65D1FF',
@@ -45,23 +46,15 @@ return {
                 c = { bg = colors.bg, fg = colors.fg },
             },
             inactive = {
-                a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = 'bold' },
-                b = { bg = colors.inactive_bg, fg = colors.semilightgray },
-                c = { bg = colors.inactive_bg, fg = colors.semilightgray },
+                a = { bg = colors.inactive_bg, fg = colors.fg, gui = 'bold' },
+                b = { bg = colors.inactive_bg, fg = colors.fg },
+                c = { bg = colors.inactive_bg, fg = colors.fg },
             },
         }
 
-        -- configure lualine with modified theme
         lualine.setup {
             options = {
                 theme = my_lualine_theme,
-            },
-            lualine_c = {
-                {
-                    'filename',
-                    path = 2, -- 0 = just filename, 1 = relative path, 2 = absolute path
-                    shorting_target = 40, -- Shorten path to leave 40 spaces for other components
-                },
             },
             sections = {
                 lualine_a = { 'mode' },
@@ -69,7 +62,7 @@ return {
                 lualine_c = {
                     {
                         'filename',
-                        path = 2, -- 0 = just filename, 1 = relative path, 2 = absolute path
+                        path = 2, -- absolute path
                         shorting_target = 40,
                     },
                 },

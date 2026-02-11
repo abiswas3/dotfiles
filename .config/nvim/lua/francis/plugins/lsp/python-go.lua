@@ -1,3 +1,7 @@
+-- Python & Go development support.
+-- Neogen: Docstring generation (numpydoc for Python, godoc for Go).
+--   <Leader>ld generate docstring, <Leader>gf function doc, <Leader>gc class doc.
+-- vim-go: Go tooling (auto-format with goimports on save).
 return {
     {
         'danymat/neogen',

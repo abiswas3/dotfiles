@@ -1,0 +1,78 @@
+{
+  "Zola post frontmatter": {
+    "prefix": "post",
+    "body": [
+      "+++",
+      "title = \"${1:Title}\"",
+      "date = ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "updated = ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "draft = true",
+      "",
+      "[taxonomies]",
+      "categories = [\"${2:category}\"]",
+      "tags = [\"${3:tag1}\", \"${4:tag2}\"]",
+      "",
+      "[extra]",
+      "toc = true",
+      "math = true",
+      "hidden = true",
+      "+++",
+      "$0"
+    ],
+    "description": "Zola blog post frontmatter"
+  },
+  "Meeting notes": {
+    "prefix": "meeting",
+    "body": [
+      "---",
+      "title: \"${1:Meeting Title}\"",
+      "date: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "attendees: [${2}]",
+      "tags: [meeting]",
+      "---",
+      "",
+      "## Agenda",
+      "",
+      "${3}",
+      "",
+      "## Notes",
+      "",
+      "${4}",
+      "",
+      "## Action Items",
+      "",
+      "$0"
+    ],
+    "description": "Meeting notes template"
+  },
+  "Theorem box": {
+    "prefix": "box",
+    "body": ["{% theorem(type=\"box\") %}", "${1}", "{% end %}", "$0"],
+    "description": "Zola boxed remark shortcode"
+  },
+  "Definition": {
+    "prefix": "def",
+    "body": ["{% theorem(type=\"definition\") %}", "${1}", "{% end %}", "$0"],
+    "description": "Zola definition shortcode"
+  },
+  "Theorem": {
+    "prefix": "thm",
+    "body": ["{% theorem(type=\"theorem\") %}", "${1}", "{% end %}", "$0"],
+    "description": "Zola theorem shortcode"
+  },
+  "Lemma": {
+    "prefix": "lemma",
+    "body": ["{% theorem(type=\"lemma\") %}", "${1}", "{% end %}", "$0"],
+    "description": "Zola lemma shortcode"
+  },
+  "Remark": {
+    "prefix": "remark",
+    "body": ["{% theorem(type=\"remark\") %}", "${1}", "{% end %}", "$0"],
+    "description": "Zola remark shortcode"
+  },
+  "Corollary": {
+    "prefix": "cor",
+    "body": ["{% theorem(type=\"corollary\") %}", "${1}", "{% end %}", "$0"],
+    "description": "Zola corollary shortcode"
+  }
+}
