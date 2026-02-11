@@ -8,15 +8,26 @@ return {
         build = ':TSUpdate',
         config = function()
             local parsers = {
-                'json', 'yaml', 'html', 'css',
-                'markdown', 'markdown_inline',
-                'lua', 'vim', 'vimdoc', 'query',
-                'dockerfile', 'gitignore',
-                'c', 'rust', 'go',
-                'python', 'bash',
-                'javascript', 'typescript', 'tsx',
+                'json',
+                'yaml',
+                'html',
+                'css',
+                'markdown',
+                'markdown_inline',
+                'lua',
+                'query',
+                'dockerfile',
+                'gitignore',
+                'rust',
+                'go',
+                'python',
+                'bash',
+                'javascript',
+                'typescript',
+                'tsx',
                 'toml',
-                'latex', 'bibtex',
+                'latex',
+                'bibtex',
                 'typst',
             }
 
@@ -108,7 +119,9 @@ return {
         config = function()
             -- New API has standalone modules; old API configures via nvim-treesitter.configs (handled above)
             local ok, select = pcall(require, 'nvim-treesitter-textobjects.select')
-            if not ok then return end
+            if not ok then
+                return
+            end
 
             local move = require 'nvim-treesitter-textobjects.move'
 

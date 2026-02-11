@@ -31,3 +31,4 @@ function grep-dir
 end
 # opencode
 fish_add_path /Users/francis/.opencode/bin
+export PATH="$HOME/.local/bin:$PATH"
