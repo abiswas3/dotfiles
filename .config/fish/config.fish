@@ -16,6 +16,19 @@ alias ls="eza --icons=always"
 function mem
  ps -eo pmem,pcpu,vsize,pid,cmd | sort -k 1 -nr | head -5
  end 
+function gk
+    set_color FCF392; echo "  git status symbols"
+    set_color 8B8B8B; echo "  ─────────────────"
+    set_color FF6E6E; echo "  ?  untracked"
+    set_color FF6E6E; echo "  !  modified"
+    set_color 7DF9AA; echo "  +  staged"
+    set_color FF6E6E; echo "  ✘  conflicted"
+    set_color FCF392; echo "  \$  stashed"
+    set_color 7DF9AA; echo "  ⇡  ahead"
+    set_color FF6E6E; echo "  ⇣  behind"
+    set_color normal
+end
+
 function grep-dir
     # Run ripgrep on all files, pipe to fzf TUI with exact match
     rg --no-heading --line-number --column --hidden . | \
