@@ -47,3 +47,12 @@ vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
 
 -- show full file path in statusline
 opt.statusline = '%F%m%r%h%w%=%l,%c %p%%'
+
+-- enable spell checking for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = "en_us"
+  end,
+})
