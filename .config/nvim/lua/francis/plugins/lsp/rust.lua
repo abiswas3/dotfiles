@@ -65,6 +65,7 @@ return {
                                 importPrefix = 'crate',
                             },
                             cargo = { allFeatures = true },
+                            procMacro = { enable = true },
                             check = {
                                 command = 'clippy',
                                 extraArgs = { '--all-features' },
@@ -100,45 +101,6 @@ return {
         end,
     },
 
-    {
-        'simrat39/symbols-outline.nvim',
-        config = function()
-            require('symbols-outline').setup {
-                symbols = {
-                    File = { icon = 'F', hl = 'TSURI' },
-                    Module = { icon = 'M', hl = 'TSNamespace' },
-                    Namespace = { icon = 'N', hl = 'TSNamespace' },
-                    Package = { icon = 'P', hl = 'TSNamespace' },
-                    Class = { icon = 'C', hl = 'TSType' },
-                    Method = { icon = 'm', hl = 'TSMethod' },
-                    Property = { icon = 'p', hl = 'TSProperty' },
-                    Field = { icon = 'f', hl = 'TSField' },
-                    Constructor = { icon = 'c', hl = 'TSConstructor' },
-                    Enum = { icon = 'E', hl = 'TSEnum' },
-                    Interface = { icon = 'I', hl = 'TSInterface' },
-                    Function = { icon = 'f', hl = 'TSFunction' },
-                    Variable = { icon = 'v', hl = 'TSVariable' },
-                    Constant = { icon = 'k', hl = 'TSConstant' },
-                    String = { icon = 's', hl = 'TSString' },
-                    Number = { icon = '#', hl = 'TSNumber' },
-                    Boolean = { icon = 'b', hl = 'TSBoolean' },
-                    Array = { icon = 'a', hl = 'TSConstant' },
-                    Object = { icon = 'o', hl = 'TSType' },
-                    Key = { icon = 'k', hl = 'TSType' },
-                    Null = { icon = '0', hl = 'TSType' },
-                    EnumMember = { icon = 'e', hl = 'TSField' },
-                    Struct = { icon = 'S', hl = 'TSType' },
-                    Event = { icon = 'E', hl = 'TSType' },
-                    Operator = { icon = '+', hl = 'TSOperator' },
-                    TypeParameter = { icon = 'T', hl = 'TSParameter' },
-                },
-                show_symbol_details = false,
-            }
-        end,
-        keys = {
-            { '<leader>so', '<cmd>SymbolsOutline<cr>', desc = 'Symbols Outline' },
-        },
-    },
     {
         'mfussenegger/nvim-dap',
         config = function()
