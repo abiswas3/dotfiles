@@ -129,5 +129,29 @@ return {
           },
         })
         vim.lsp.enable('harper_ls')
+
+        -- Go LSP
+        vim.lsp.config('gopls', {
+            settings = {
+                gopls = {
+                    analyses = {
+                        unusedparams = true,
+                        infertypeargs = false,
+                    },
+                    hints = {
+                        assignVariableTypes = false,
+                        compositeLiteralFields = false,
+                        compositeLiteralTypes = false,
+                        constantValues = false,
+                        functionTypeParameters = false,
+                        parameterNames = false,
+                        rangeVariableTypes = false,
+                    },
+                    staticcheck = true,
+                    gofumpt = true,
+                },
+            },
+        })
+        vim.lsp.enable('gopls')
     end,
 }

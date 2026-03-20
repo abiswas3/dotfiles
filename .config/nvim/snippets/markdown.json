@@ -6,20 +6,19 @@
       "title = \"${1:Title}\"",
       "date = ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
       "updated = ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
-      "draft = true",
       "",
       "[taxonomies]",
-      "categories = [\"${2:category}\"]",
+      "categories = [\"${2:Software}\"]",
       "tags = [\"${3:tag1}\", \"${4:tag2}\"]",
       "",
       "[extra]",
-      "toc = true",
-      "math = true",
-      "hidden = true",
+      "authors = [\"AB\"]",
+      "math = ${5|true,false|}",
+      "toc = \"button\"",
       "+++",
+      "",
       "$0"
-    ],
-    "description": "Zola blog post frontmatter"
+    ]
   },
   "Meeting notes": {
     "prefix": "meeting",

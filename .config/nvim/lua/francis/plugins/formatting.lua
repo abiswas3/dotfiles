@@ -22,6 +22,7 @@ return {
                 liquid = { 'prettier' },
                 lua = { 'stylua' },
                 python = { 'isort', 'black' },
+                go = { 'gofumpt', 'goimports' },
             },
             format_on_save = {
                 lsp_fallback = true,
