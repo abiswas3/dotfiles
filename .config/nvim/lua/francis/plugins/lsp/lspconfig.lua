@@ -83,7 +83,8 @@ return {
             capabilities = capabilities,
         })
 
-        -- Disable native rust_analyzer — rustaceanvim manages it
+        -- Disable native rust_analyzer — rustaceanvim manages it.
+        -- Must be called here (after lspconfig registers the config) to stick.
         vim.lsp.enable('rust_analyzer', false)
 
         -- Add texlab for LaTeX support in Markdown
@@ -105,39 +106,52 @@ return {
                 },
             },
         })
-        -- vim.lsp.config('harper_ls', {
-        --   settings = {
-        --     ["harper-ls"] = {
-        --       userDictPath = "",
-        --       workspaceDictPath = "",
-        --       fileDictPath = "",
-        --       linters = {
-        --         SpellCheck = true,
-        --         SpelledNumbers = false,
-        --         AnA = true,
-        --         SentenceCapitalization = true,
-        --         UnclosedQuotes = true,
-        --         WrongQuotes = false,
-        --         LongSentences = true,
-        --         RepeatedWords = true,
-        --         Spaces = true,
-        --         Matcher = true,
-        --         CorrectNumberSuffix = true
-        --       },
-        --       codeActions = {
-        --         ForceStable = false
-        --       },
-        --       markdown = {
-        --         IgnoreLinkTitle = false
-        --       },
-        --       diagnosticSeverity = "hint",
-        --       isolateEnglish = false,
-        --       dialect = "American",
-        --       maxFileLength = 120000,
-        --       ignoredLintsPath = "",
-        --       excludePatterns = {}
-        --     }
-        --   }
-        -- })
+        vim.lsp.config('harper_ls', {
+          filetypes = { 'markdown' },
+          settings = {
+            ["harper-ls"] = {
+              linters = {
+                SpellCheck = true,
+                SpelledNumbers = false,
+                AnA = true,
+                SentenceCapitalization = true,
+                UnclosedQuotes = true,
+                WrongQuotes = false,
+                LongSentences = true,
+                RepeatedWords = true,
+                Spaces = true,
+                Matcher = true,
+                CorrectNumberSuffix = true,
+              },
+              diagnosticSeverity = "hint",
+              dialect = "American",
+            },
+          },
+        })
+        vim.lsp.enable('harper_ls')
+
+        -- Go LSP
+        vim.lsp.config('gopls', {
+            settings = {
+                gopls = {
+                    analyses = {
+                        unusedparams = true,
+                        infertypeargs = false,
+                    },
+                    hints = {
+                        assignVariableTypes = false,
+                        compositeLiteralFields = false,
+                        compositeLiteralTypes = false,
+                        constantValues = false,
+                        functionTypeParameters = false,
+                        parameterNames = false,
+                        rangeVariableTypes = false,
+                    },
+                    staticcheck = true,
+                    gofumpt = true,
+                },
+            },
+        })
+        vim.lsp.enable('gopls')
     end,
 }

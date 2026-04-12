@@ -47,3 +47,23 @@ vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
 
 -- show full file path in statusline
 opt.statusline = '%F%m%r%h%w%=%l,%c %p%%'
+
+-- Go uses tabs (enforced by gofmt) — display them as 4 spaces wide
+-- Only applies to Go files; all other languages keep the global 2-space setting
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function()
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.expandtab = false
+  end,
+})
+
+-- enable spell checking for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = "en_us"
+  end,
+})

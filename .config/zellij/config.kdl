@@ -14,11 +14,7 @@ keybinds clear-defaults=true {
         bind "c" { SwitchToMode "renamepane"; PaneNameInput 0; }
         bind "d" { NewPane "down"; SwitchToMode "normal"; }
         bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
-        bind "h" { MoveFocus "left"; }
         bind "i" { TogglePanePinned; SwitchToMode "normal"; }
-        bind "j" { MoveFocus "down"; }
-        bind "k" { MoveFocus "up"; }
-        bind "l" { MoveFocus "right"; }
         bind "n" { NewPane; SwitchToMode "normal"; }
         bind "p" { SwitchFocus; }
         bind "Ctrl p" { SwitchToMode "normal"; }
@@ -77,11 +73,9 @@ keybinds clear-defaults=true {
         bind "down" { MovePane "down"; }
         bind "up" { MovePane "up"; }
         bind "right" { MovePane "right"; }
-        bind "h" { MovePane "left"; }
-        bind "Ctrl h" { SwitchToMode "normal"; }
+        bind "Ctrl m" { SwitchToMode "normal"; }
         bind "j" { MovePane "down"; }
         bind "k" { MovePane "up"; }
-        bind "l" { MovePane "right"; }
         bind "n" { MovePane; }
         bind "p" { MovePaneBackwards; }
         bind "tab" { MovePane; }
@@ -133,6 +127,8 @@ keybinds clear-defaults=true {
         bind "Ctrl down" { MoveFocus "down"; }
         bind "Ctrl up" { MoveFocus "up"; }
         bind "Ctrl right" { MoveFocusOrTab "right"; }
+        bind "Ctrl j" { MoveFocus "down"; }
+        bind "Ctrl k" { MoveFocus "up"; }
         bind "Ctrl +" { Resize "Increase"; }
         bind "Ctrl -" { Resize "Decrease"; }
         bind "Ctrl =" { Resize "Increase"; }
@@ -149,10 +145,10 @@ keybinds clear-defaults=true {
         bind "Alt o" { MoveTab "right"; }
         bind "Alt p" { TogglePaneInGroup; }
         bind "Alt Shift p" { ToggleGroupMarking; }
-        bind "Shift q" { Quit; }
+        bind "Alt q" { Quit; }
     }
     shared_except "locked" "move" {
-        bind "Ctrl h" { SwitchToMode "move"; }
+        bind "Ctrl m" { SwitchToMode "move"; }
     }
     shared_except "locked" "session" {
         bind "Ctrl u" { SwitchToMode "session"; }
@@ -374,6 +370,9 @@ copy_command "pbcopy"                        // osx
 // Default: true
 // 
 copy_on_select true
+
+// Allow applications (like nvim) to pass OSC 52 clipboard sequences through to the terminal
+copy_on_select_osc52 true
  
 // Path to the default editor to use to edit pane scrollbuffer
 // Default: $EDITOR or $VISUAL

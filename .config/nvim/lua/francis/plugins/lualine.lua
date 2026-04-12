@@ -68,6 +68,21 @@ return {
                 },
                 lualine_x = {
                     {
+                        function()
+                            local path = vim.fn.expand '%:p'
+                            if path == '' then return '' end
+                            local parts = vim.split(path, '/', { trimempty = true })
+                            if #parts <= 4 then return path end
+                            local tail = table.concat(vim.list_slice(parts, #parts - 3), '/')
+                            local avail = vim.o.columns - 80
+                            if #tail > avail then
+                                return parts[#parts]
+                            end
+                            return '.../' .. tail
+                        end,
+                        color = { fg = '#65D1FF' },
+                    },
+                    {
                         lazy_status.updates,
                         cond = lazy_status.has_updates,
                         color = { fg = '#ff9e64' },

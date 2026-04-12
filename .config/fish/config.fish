@@ -6,16 +6,36 @@ end
 starship init fish | source
 # Rust cargo
 set -x PATH $HOME/.cargo/bin $PATH
+
+# Go binaries (go install puts binaries here)
+fish_add_path $HOME/go/bin
+
+# Tangent task manager — data directory
+set -gx TANGENT_DATA_DIR $HOME/Projects/my-org-data
 alias ll='ls -lah'
 alias g='git'
 alias vi='nvim'
 alias zl="zellij"
 alias lg="lazygit"
 alias ls="eza --icons=always"
+alias syncer="ssh -i ~/.ssh/digocean root@64.23.233.221"
 
 function mem
  ps -eo pmem,pcpu,vsize,pid,cmd | sort -k 1 -nr | head -5
  end 
+function gk
+    set_color FCF392; echo "  git status symbols"
+    set_color 8B8B8B; echo "  ─────────────────"
+    set_color FF6E6E; echo "  ?  untracked"
+    set_color FF6E6E; echo "  !  modified"
+    set_color 7DF9AA; echo "  +  staged"
+    set_color FF6E6E; echo "  ✘  conflicted"
+    set_color FCF392; echo "  \$  stashed"
+    set_color 7DF9AA; echo "  ⇡  ahead"
+    set_color FF6E6E; echo "  ⇣  behind"
+    set_color normal
+end
+
 function grep-dir
     # Run ripgrep on all files, pipe to fzf TUI with exact match
     rg --no-heading --line-number --column --hidden . | \
@@ -32,3 +52,12 @@ end
 # opencode
 fish_add_path /Users/francis/.opencode/bin
 export PATH="$HOME/.local/bin:$PATH"
+
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+test -r '/Users/francis/.opam/opam-init/init.fish' && source '/Users/francis/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
+# END opam configuration
