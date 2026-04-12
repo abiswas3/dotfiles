@@ -31,34 +31,18 @@ return {
                 'typst',
             }
 
-            require('nvim-treesitter.configs').setup {
-                ensure_installed = parsers,
-                highlight = { enable = true },
-                indent = { enable = true },
-                textobjects = {
-                    select = {
-                        enable = true,
-                        lookahead = true,
-                        keymaps = {
-                            ['af'] = '@function.outer',
-                            ['if'] = '@function.inner',
-                            ['ac'] = '@class.outer',
-                            ['ic'] = '@class.inner',
-                        },
-                    },
-                    move = {
-                        enable = true,
-                        set_jumps = true,
-                        goto_next_start = { [']f'] = '@function.outer' },
-                        goto_next_end = { [']F'] = '@function.outer' },
-                        goto_previous_start = { ['[f'] = '@function.outer' },
-                        goto_previous_end = { ['[F'] = '@function.outer' },
-                    },
-                },
-            }
+            require('nvim-treesitter').install(parsers)
 
             -- Use bash parser for zsh files
             vim.treesitter.language.register('bash', 'zsh')
+
+            -- Enable treesitter highlighting for common filetypes
+            vim.api.nvim_create_autocmd('FileType', {
+                pattern = { 'json', 'yaml', 'html', 'css', 'markdown', 'lua', 'rust', 'go', 'python', 'bash', 'javascript', 'typescript', 'tsx', 'toml', 'latex' },
+                callback = function()
+                    vim.treesitter.start()
+                end,
+            })
 
             -- Custom Pandoc fenced div highlighting for markdown (theorem environments)
             local function setup_theorem_highlights()
@@ -107,6 +91,7 @@ return {
     },
     {
         'nvim-treesitter/nvim-treesitter-textobjects',
+        branch = 'main',
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
         event = { 'BufReadPre', 'BufNewFile' },
     },
