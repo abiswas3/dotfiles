@@ -130,28 +130,24 @@ return {
         })
         vim.lsp.enable('harper_ls')
 
-        -- Go LSP
-        vim.lsp.config('gopls', {
-            settings = {
-                gopls = {
-                    analyses = {
-                        unusedparams = true,
-                        infertypeargs = false,
-                    },
-                    hints = {
-                        assignVariableTypes = false,
-                        compositeLiteralFields = false,
-                        compositeLiteralTypes = false,
-                        constantValues = false,
-                        functionTypeParameters = false,
-                        parameterNames = false,
-                        rangeVariableTypes = false,
-                    },
-                    staticcheck = true,
-                    gofumpt = true,
-                },
-            },
+        vim.lsp.config('tinymist', {
+            on_attach = function(client, bufnr)
+                vim.keymap.set('n', '<leader>tm', function()
+                    client:exec_cmd({
+                        title = 'pin',
+                        command = 'tinymist.pinMain',
+                        arguments = { vim.api.nvim_buf_get_name(0) },
+                    }, { bufnr = bufnr })
+                end, { buffer = bufnr, desc = 'Tinymist pin main file' })
+
+                vim.keymap.set('n', '<leader>tu', function()
+                    client:exec_cmd({
+                        title = 'unpin',
+                        command = 'tinymist.pinMain',
+                        arguments = { vim.v.null },
+                    }, { bufnr = bufnr })
+                end, { buffer = bufnr, desc = 'Tinymist unpin main file' })
+            end,
         })
-        vim.lsp.enable('gopls')
     end,
 }

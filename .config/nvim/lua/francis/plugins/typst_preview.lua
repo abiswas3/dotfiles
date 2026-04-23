@@ -14,34 +14,40 @@ return {
         config = function()
             require('typst-preview').setup {}
 
-            -- Typst preview keymaps
-            vim.keymap.set('n', '<leader>ts', function()
-                require('typst-preview').start()
-            end, { desc = 'Start Typst preview' })
+            -- Typst preview keymaps (buffer-local to typst files)
+            vim.api.nvim_create_autocmd('FileType', {
+                pattern = 'typst',
+                callback = function(ev)
+                    local buf = ev.buf
+                    vim.keymap.set('n', '<leader>ts', function()
+                        require('typst-preview').start()
+                    end, { buffer = buf, desc = 'Start Typst preview' })
 
-            vim.keymap.set('n', '<leader>tq', function()
-                require('typst-preview').stop()
-            end, { desc = 'Stop Typst preview' })
+                    vim.keymap.set('n', '<leader>tq', function()
+                        require('typst-preview').stop()
+                    end, { buffer = buf, desc = 'Stop Typst preview' })
 
-            vim.keymap.set('n', '<leader>tn', function()
-                require('typst-preview').next_page()
-            end, { desc = 'Next page' })
+                    vim.keymap.set('n', '<leader>tn', function()
+                        require('typst-preview').next_page()
+                    end, { buffer = buf, desc = 'Typst next page' })
 
-            vim.keymap.set('n', '<leader>tp', function()
-                require('typst-preview').prev_page()
-            end, { desc = 'Previous page' })
+                    vim.keymap.set('n', '<leader>tp', function()
+                        require('typst-preview').prev_page()
+                    end, { buffer = buf, desc = 'Typst previous page' })
 
-            vim.keymap.set('n', '<leader>tr', function()
-                require('typst-preview').refresh()
-            end, { desc = 'Refresh preview' })
+                    vim.keymap.set('n', '<leader>tr', function()
+                        require('typst-preview').refresh()
+                    end, { buffer = buf, desc = 'Refresh preview' })
 
-            vim.keymap.set('n', '<leader>tgg', function()
-                require('typst-preview').first_page()
-            end, { desc = 'First page' })
+                    vim.keymap.set('n', '<leader>tgg', function()
+                        require('typst-preview').first_page()
+                    end, { buffer = buf, desc = 'First page' })
 
-            vim.keymap.set('n', '<leader>tG', function()
-                require('typst-preview').last_page()
-            end, { desc = 'Last page' })
+                    vim.keymap.set('n', '<leader>tG', function()
+                        require('typst-preview').last_page()
+                    end, { buffer = buf, desc = 'Last page' })
+                end,
+            })
         end,
     },
     {

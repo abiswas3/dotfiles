@@ -13,7 +13,7 @@ end
 
 -- For example, changing the color scheme:
 config.color_scheme = "Adventure"
-config.font_size = 12
+config.font_size = 16
 config.initial_cols = 120
 config.initial_rows = 40
 config.window_background_opacity = 0.90
@@ -101,6 +101,26 @@ config.keys = {
 		mods = "LEADER",
 		key = "UpArrow",
 		action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
+	},
+	{
+		mods = "CTRL",
+		key = "=",
+		action = wezterm.action.IncreaseFontSize,
+	},
+	{
+		mods = "CTRL",
+		key = "+",
+		action = wezterm.action.IncreaseFontSize,
+	},
+	{
+		mods = "CTRL",
+		key = "-",
+		action = wezterm.action.DecreaseFontSize,
+	},
+	{
+		mods = "CTRL",
+		key = "0",
+		action = wezterm.action.ResetFontSize,
 	},
 }
 
