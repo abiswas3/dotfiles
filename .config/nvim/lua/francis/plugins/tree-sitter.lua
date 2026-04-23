@@ -31,18 +31,91 @@ return {
                 'typst',
             }
 
-            require('nvim-treesitter').install(parsers)
+            require('nvim-treesitter.configs').setup {
+                ensure_installed = parsers,
+                highlight = { enable = true },
+                indent = { enable = true },
+                textobjects = {
+                    select = {
+                        enable = true,
+                        lookahead = true,
+                        keymaps = {
+                            ['af'] = '@function.outer',
+                            ['if'] = '@function.inner',
+                            ['ac'] = '@class.outer',
+                            ['ic'] = '@class.inner',
+                        },
+                    },
+                    move = {
+                        enable = true,
+                        set_jumps = true,
+                        goto_next_start = { [']f'] = '@function.outer' },
+                        goto_next_end = { [']F'] = '@function.outer' },
+                        goto_previous_start = { ['[f'] = '@function.outer' },
+                        goto_previous_end = { ['[F'] = '@function.outer' },
+                    },
+                },
+            }
+
+            -- nvim-treesitter master is unmaintained; on nvim 0.12 the directive
+            -- signature changed so match[capture_id] is now TSNode[] instead of
+            -- TSNode. The plugin's handlers pass that list into get_node_text,
+            -- which crashes render-markdown.nvim. Re-register the three hit by
+            -- markdown/HTML injection queries with compat-correct handlers.
+            do
+                local q = vim.treesitter.query
+                local function first_node(match, id)
+                    local v = match[id]
+                    if type(v) == 'table' then return v[1] end
+                    return v
+                end
+
+                local html_script_type_languages = {
+                    importmap = 'json',
+                    module = 'javascript',
+                    ['application/ecmascript'] = 'javascript',
+                    ['text/ecmascript'] = 'javascript',
+                }
+                local injection_aliases = {
+                    ex = 'elixir', pl = 'perl', sh = 'bash', uxn = 'uxntal', ts = 'typescript',
+                }
+                local function lang_from_info_string(alias)
+                    local m = vim.filetype.match { filename = 'a.' .. alias }
+                    return m or injection_aliases[alias] or alias
+                end
+
+                q.add_directive('set-lang-from-info-string!', function(match, _, bufnr, pred, metadata)
+                    local node = first_node(match, pred[2])
+                    if not node then return end
+                    local alias = vim.treesitter.get_node_text(node, bufnr):lower()
+                    metadata['injection.language'] = lang_from_info_string(alias)
+                end, { force = true })
+
+                q.add_directive('set-lang-from-mimetype!', function(match, _, bufnr, pred, metadata)
+                    local node = first_node(match, pred[2])
+                    if not node then return end
+                    local value = vim.treesitter.get_node_text(node, bufnr)
+                    local configured = html_script_type_languages[value]
+                    if configured then
+                        metadata['injection.language'] = configured
+                    else
+                        local parts = vim.split(value, '/', {})
+                        metadata['injection.language'] = parts[#parts]
+                    end
+                end, { force = true })
+
+                q.add_directive('downcase!', function(match, _, bufnr, pred, metadata)
+                    local id = pred[2]
+                    local node = first_node(match, id)
+                    if not node then return end
+                    local text = vim.treesitter.get_node_text(node, bufnr, { metadata = metadata[id] }) or ''
+                    metadata[id] = metadata[id] or {}
+                    metadata[id].text = string.lower(text)
+                end, { force = true })
+            end
 
             -- Use bash parser for zsh files
             vim.treesitter.language.register('bash', 'zsh')
-
-            -- Enable treesitter highlighting for common filetypes
-            vim.api.nvim_create_autocmd('FileType', {
-                pattern = { 'json', 'yaml', 'html', 'css', 'markdown', 'lua', 'rust', 'go', 'python', 'bash', 'javascript', 'typescript', 'tsx', 'toml', 'latex' },
-                callback = function()
-                    vim.treesitter.start()
-                end,
-            })
 
             -- Custom Pandoc fenced div highlighting for markdown (theorem environments)
             local function setup_theorem_highlights()
@@ -91,7 +164,6 @@ return {
     },
     {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        branch = 'main',
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
         event = { 'BufReadPre', 'BufNewFile' },
     },
