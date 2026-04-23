@@ -9,3 +9,10 @@ agentic
 #gfhs
 sgfhs/!
 agentic
+ast
+RISCV
+cpu
+transpilation
+monadic
+monads
+bytecode

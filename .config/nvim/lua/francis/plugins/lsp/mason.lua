@@ -41,6 +41,7 @@ return {
                 -- rust_analyzer is managed by rustaceanvim, not mason
                 'tinymist',
                 'harper_ls',
+                'gopls',
                 -- "graphql",
                 -- "emmet_ls",
                 -- "prismals",
@@ -55,6 +56,8 @@ return {
                 'black', -- python formatter
                 'pylint',
                 'eslint_d',
+                'gofumpt', -- go formatter (stricter than gofmt)
+                'goimports', -- go import organizer
             },
         }
     end,

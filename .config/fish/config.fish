@@ -6,12 +6,19 @@ end
 starship init fish | source
 # Rust cargo
 set -x PATH $HOME/.cargo/bin $PATH
+
+# Go binaries (go install puts binaries here)
+fish_add_path $HOME/go/bin
+
+# Tangent task manager — data directory
+set -gx TANGENT_DATA_DIR $HOME/Projects/my-org-data
 alias ll='ls -lah'
 alias g='git'
 alias vi='nvim'
 alias zl="zellij"
 alias lg="lazygit"
 alias ls="eza --icons=always"
+alias syncer="ssh -i ~/.ssh/digocean root@64.23.233.221"
 
 function mem
  ps -eo pmem,pcpu,vsize,pid,cmd | sort -k 1 -nr | head -5
@@ -45,3 +52,12 @@ end
 # opencode
 fish_add_path /Users/francis/.opencode/bin
 export PATH="$HOME/.local/bin:$PATH"
+
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+test -r '/Users/francis/.opam/opam-init/init.fish' && source '/Users/francis/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
+# END opam configuration
