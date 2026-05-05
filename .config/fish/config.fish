@@ -8,7 +8,7 @@ starship init fish | source
 set -x PATH $HOME/.cargo/bin $PATH
 
 # Go binaries (go install puts binaries here)
-fish_add_path $HOME/go/bin
+fish_add_path -g $HOME/go/bin
 
 # Tangent task manager — data directory
 set -gx TANGENT_DATA_DIR $HOME/Projects/my-org-data
@@ -49,8 +49,8 @@ function grep-dir
             nvim +"$line_no" "$file"
         end
 end
-# opencode
-fish_add_path /Users/francis/.opencode/bin
+# opencode (HOME-relative so it works on Linux too)
+fish_add_path -g $HOME/.opencode/bin
 export PATH="$HOME/.local/bin:$PATH"
 
 

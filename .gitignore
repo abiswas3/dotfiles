@@ -1,4 +1,5 @@
 .DS_Store
 .config/fish/conf.d/omf.fish
+.config/fish/fish_variables
 .config/omf
 install
