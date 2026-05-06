@@ -4,3 +4,4 @@
 .config/omf
 install
 /.config/cagent/.cagent_first_run
+/.config/aerospace/aerospace.toml
