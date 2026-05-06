@@ -7,14 +7,13 @@ end
 # `starship init fish` prints fish glue that defines fish_prompt; `source` loads it.
 starship init fish | source
 
-# Rust cargo
-set -x PATH $HOME/.cargo/bin $PATH
-
-# Go binaries (go install puts binaries here)
-fish_add_path -g $HOME/go/bin
-# opencode (HOME-relative so it works on Linux too)
-fish_add_path -g $HOME/.opencode/bin
-export PATH="$HOME/.local/bin:$PATH"
+# PATH additions. `-g` keeps them in the global (per-shell) PATH instead of
+# the universal `fish_user_paths`, so this file stays the single source of
+# truth. `fish_add_path` skips entries that don't exist or are already there.
+fish_add_path -g $HOME/.cargo/bin       # cargo install
+fish_add_path -g $HOME/go/bin           # go install
+fish_add_path -g $HOME/.opencode/bin    # opencode
+fish_add_path -g $HOME/.local/bin       # user-installed binaries
 
 
 # Tangent task manager — data directory
