@@ -31,20 +31,9 @@ alias syncer="ssh -i ~/.ssh/digocean root@64.23.233.221"
 
 # Top 5 processes by memory. ps flags differ between GNU (Linux) and BSD (macOS).
 function mem
-    if test (uname) = Darwin
-        # top reads phys_footprint, which matches Activity Monitor's "Memory" column.
-        # ps rss double-counts shared libs and ignores compressed memory on macOS.
-        top -l 1 -o mem -n 5 -stats command,mem | awk '
-            /^COMMAND/ { found = 1; printf "  %-20s  %s\n", "PROCESS", "MEM"; next }
-            found && NF { mem = $NF; $NF = ""; sub(/ +$/, ""); printf "  %-20s  %s\n", $0, mem }'
-    else
-        printf "  %-20s  %s  %s\n" PROCESS MEM% RSS
-        ps -eo pmem,rss,comm | sort -k 1 -nr | head -5 | awk '{
-            mem = $1; rss_kb = $2; $1 = ""; $2 = ""; sub(/^ +/, "")
-            n = split($0, p, "/")
-            printf "  %-20s  %4.1f  %4d MB\n", p[n], mem, rss_kb / 1024
-        }'
-    end
+    echo "PID        PROCESS                  MEM (MB)"
+    echo "─────────────────────────────────────────────"
+    ps aux | sort -k 6 -nr | head -5 | awk '{printf "%-8s   %-24s %6d MB\n", $2, $11, $6/1024}'
 end
 
 function gk
