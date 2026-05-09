@@ -3,15 +3,23 @@ if status is-interactive
       # echo (whoami)@(hostname) (date '+%Y-%m-%d %H:%M:%S') (pwd)
 
 end
+# Starship prompt — binary installed via brew (mac) / pacman (arch), NOT cargo.
+# `starship init fish` prints fish glue that defines fish_prompt; `source` loads it.
 starship init fish | source
-# Rust cargo
-set -x PATH $HOME/.cargo/bin $PATH
 
-# Go binaries (go install puts binaries here)
-fish_add_path $HOME/go/bin
+# PATH additions. `-g` keeps them in the global (per-shell) PATH instead of
+# the universal `fish_user_paths`, so this file stays the single source of
+# truth. `fish_add_path` skips entries that don't exist or are already there.
+fish_add_path -g $HOME/.cargo/bin       # cargo install
+fish_add_path -g $HOME/go/bin           # go install
+fish_add_path -g $HOME/.opencode/bin    # opencode
+fish_add_path -g $HOME/.local/bin       # user-installed binaries
+
 
 # Tangent task manager — data directory
-set -gx TANGENT_DATA_DIR $HOME/Projects/my-org-data
+# set -gx TANGENT_DATA_DIR $HOME/Projects/my-org-data
+
+# Aliases 
 alias ll='ls -lah'
 alias g='git'
 alias vi='nvim'
@@ -20,9 +28,13 @@ alias lg="lazygit"
 alias ls="eza --icons=always"
 alias syncer="ssh -i ~/.ssh/digocean root@64.23.233.221"
 
+# Top 5 processes by memory. ps flags differ between GNU (Linux) and BSD (macOS).
 function mem
- ps -eo pmem,pcpu,vsize,pid,cmd | sort -k 1 -nr | head -5
- end 
+    echo "PID        PROCESS                  MEM (MB)"
+    echo "─────────────────────────────────────────────"
+    ps aux | sort -k 6 -nr | head -5 | awk '{printf "%-8s   %-24s %6d MB\n", $2, $11, $6/1024}'
+end
+
 function gk
     set_color FCF392; echo "  git status symbols"
     set_color 8B8B8B; echo "  ─────────────────"
@@ -49,9 +61,6 @@ function grep-dir
             nvim +"$line_no" "$file"
         end
 end
-# opencode
-fish_add_path /Users/francis/.opencode/bin
-export PATH="$HOME/.local/bin:$PATH"
 
 
 # BEGIN opam configuration
