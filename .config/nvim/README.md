@@ -38,14 +38,14 @@ init.lua
 │   │   ├── css-colours.lua       # Inline color previews
 │   │   ├── dressing.lua          # Better UI for inputs/selects + calendar
 │   │   ├── file_explorer.lua     # nvim-tree sidebar
-│   │   ├── formatting.lua        # Format-on-save (prettier, stylua, black)
+│   │   ├── formatting.lua        # Format-on-save (prettier, stylua, goimports)
 │   │   ├── gitsigns.lua          # Git gutter signs + vim-fugitive
 │   │   ├── indent.lua            # Indent guide lines
 │   │   ├── lualine.lua           # Statusline
 │   │   ├── markdown.lua          # Markdown rendering
 │   │   ├── neogen.lua            # Docstring generation
 │   │   ├── pencil.lua            # Soft-wrap for writing
-│   │   ├── snacks.lua            # Utility deps (nui, luatz, luarocks)
+│   │   ├── snacks.lua            # Utility deps (nui)
 │   │   ├── snipetts.lua          # LuaSnip custom snippets
 │   │   ├── split-maximise.lua    # Maximize/restore splits
 │   │   ├── substitute.lua        # Substitute-with-motion operator
@@ -69,9 +69,8 @@ init.lua
 │   │       └── lazy_git.lua      # LazyGit floating window
 │   │
 │   └── custom/                   # Custom Lua modules (not plugins)
-│       ├── meeting.lua           # Meeting creator with calendar + timezone
+│       ├── meeting.lua           # Meeting creator with calendar
 │       ├── calendar.lua          # Floating calendar picker
-│       ├── timepicker.lua        # Time input with timezone conversion
 │       └── contacts.lua          # Telescope-based contact picker
 │
 ├── after/syntax/

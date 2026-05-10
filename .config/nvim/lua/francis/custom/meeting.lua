@@ -1,7 +1,21 @@
 local contacts = require("francis.custom.contacts")
 local calendar = require("francis.custom.calendar")
-local timepicker = require("francis.custom.timepicker")
 local M = {}
+
+local function pick_time(callback)
+    vim.ui.input({ prompt = "Meeting Time (HH:MM 24h): ", default = "09:00" }, function(input)
+        if not input or input == "" then return end
+
+        local h, m = input:match("^(%d%d?):(%d%d)$")
+        h, m = tonumber(h), tonumber(m)
+        if not h or not m or h > 23 or m > 59 then
+            vim.notify("Invalid time format. Use HH:MM 24h", vim.log.levels.ERROR)
+            return pick_time(callback)
+        end
+
+        callback(string.format("%02d:%02d", h, m))
+    end)
+end
 
 local function save_meeting(meeting)
     local file_path = vim.fn.expand("~/.meetings.toml")
@@ -28,7 +42,7 @@ function M.create_meeting()
         meeting.title = title
 
         calendar.pick_date(function(date)
-            timepicker.pick_time(date, function(time)
+            pick_time(function(time)
                 meeting.start_time = date .. " " .. time
                 meeting.time_zone = "local"
 

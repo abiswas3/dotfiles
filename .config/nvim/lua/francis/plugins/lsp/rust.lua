@@ -17,23 +17,22 @@ return {
                 return
             end
 
-            if not codelldb:is_installed() then
-                vim.notify('codelldb is not installed. Run :Mason to install it.', vim.log.levels.ERROR)
-                return
+            local cfg = require 'rustaceanvim.config'
+            local dap_config
+
+            if codelldb:is_installed() then
+                local mason_path = vim.fn.stdpath 'data' .. '/mason/packages/codelldb'
+                local extension_path = mason_path .. '/extension/'
+                local codelldb_path = extension_path .. 'adapter/codelldb'
+                local liblldb_path = extension_path .. 'lldb/lib/liblldb.dylib'
+
+                dap_config = {
+                    adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
+                }
             end
 
-            local mason_path = vim.fn.stdpath 'data' .. '/mason/packages/codelldb'
-            local extension_path = mason_path .. '/extension/'
-            local codelldb_path = extension_path .. 'adapter/codelldb'
-            local liblldb_path = extension_path .. 'lldb/lib/liblldb.dylib'
-            -- For Linux, adjust liblldb_path as needed
-
-            local cfg = require 'rustaceanvim.config'
-
             vim.g.rustaceanvim = {
-                dap = {
-                    adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
-                },
+                dap = dap_config,
                 tools = {
                     autoSetHints = true,
                     inlay_hints = {
