@@ -4,14 +4,6 @@ return {
         'williamboman/mason-lspconfig.nvim',
         'WhoIsSethDaniel/mason-tool-installer.nvim',
         'neovim/nvim-lspconfig',
-        {
-            'chomosuke/typst-preview.nvim',
-            ft = 'typst',
-            version = '1.*',
-            build = function()
-                require('typst-preview').update()
-            end,
-        },
     },
     config = function()
         -- import mason
@@ -52,11 +44,7 @@ return {
             ensure_installed = {
                 'prettier', -- prettier formatter
                 'stylua', -- lua formatter
-                'isort', -- python formatter
-                'black', -- python formatter
-                'pylint',
                 'eslint_d',
-                'gofumpt', -- go formatter (stricter than gofmt)
                 'goimports', -- go import organizer
             },
         }

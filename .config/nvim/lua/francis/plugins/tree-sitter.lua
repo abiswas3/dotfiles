@@ -1,6 +1,15 @@
 -- Treesitter (main-branch API): syntax highlighting, indent, textobjects via AST parsing.
 -- Highlights and indent are wired per-buffer via vim.treesitter.start() in a FileType autocmd.
 -- Textobjects: af/if (function), ac/ic (class), ]f/[f/]F/[F (move by function).
+local parsers = {
+    'json', 'yaml', 'html', 'css',
+    'markdown', 'markdown_inline',
+    'lua', 'query',
+    'rust', 'go', 'python', 'bash',
+    'javascript', 'typescript', 'tsx',
+    'toml', 'latex', 'bibtex', 'typst',
+}
+
 return {
     {
         'nvim-treesitter/nvim-treesitter',
@@ -8,17 +17,9 @@ return {
         lazy = false,
         build = ':TSUpdate',
         config = function()
-            -- gitignore and dockerfile parsers are temporarily disabled: their upstream
-            -- repos renamed master->main and nvim-treesitter's metadata still expects
-            -- the master tarball, so install fails. Re-add once upstream is fixed.
-            require('nvim-treesitter').install {
-                'json', 'yaml', 'html', 'css',
-                'markdown', 'markdown_inline',
-                'lua', 'query',
-                'rust', 'go', 'python', 'bash',
-                'javascript', 'typescript', 'tsx',
-                'toml', 'latex', 'bibtex', 'typst',
-            }
+            vim.api.nvim_create_user_command('TSInstallConfigured', function()
+                require('nvim-treesitter').install(parsers):wait(300000)
+            end, {})
 
             -- Use the bash parser for zsh files.
             vim.treesitter.language.register('bash', 'zsh')
