@@ -48,22 +48,20 @@ vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
 -- show full file path in statusline
 opt.statusline = '%F%m%r%h%w%=%l,%c %p%%'
 
--- Go uses tabs (enforced by gofmt) — display them as 4 spaces wide
--- Only applies to Go files; all other languages keep the global 2-space setting
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "go",
-  callback = function()
-    vim.opt_local.tabstop = 4
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.expandtab = false
-  end,
-})
+-- Spell is window-local, not buffer-local: once it is on in a window it stays
+-- on across `:e` to a different file. Default OFF globally, then drive it on
+-- per filetype. Fires on both FileType and BufWinEnter to catch cases where
+-- the buffer is reused in a window that already had spell enabled.
+vim.opt.spell = false
 
--- enable spell checking for markdown files
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "markdown",
+vim.api.nvim_create_autocmd({"FileType", "BufWinEnter"}, {
   callback = function()
-    vim.opt_local.spell = true
-    vim.opt_local.spelllang = "en_us"
+    local ft = vim.bo.filetype
+    if ft == "markdown" then
+      vim.wo.spell = true
+      vim.wo.spelllang = "en_gb"
+    else
+      vim.wo.spell = false
+    end
   end,
 })

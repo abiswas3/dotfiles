@@ -5,7 +5,7 @@ local parsers = {
     'json', 'yaml', 'html', 'css',
     'markdown', 'markdown_inline',
     'lua', 'query',
-    'rust', 'go', 'python', 'bash',
+    'rust', 'bash',
     'javascript', 'typescript', 'tsx',
     'toml', 'latex', 'bibtex', 'typst',
 }
@@ -17,6 +17,12 @@ return {
         lazy = false,
         build = ':TSUpdate',
         config = function()
+            -- nvim-treesitter `main` branch ships highlight queries under
+            -- runtime/queries/ rather than queries/. Without this, nvim only
+            -- finds colorscheme-shipped queries (e.g. onedarkpro's after/)
+            -- and base groups like `pub`, enum variants etc render unstyled.
+            vim.opt.rtp:append(vim.fn.stdpath('data') .. '/lazy/nvim-treesitter/runtime')
+
             vim.api.nvim_create_user_command('TSInstallConfigured', function()
                 require('nvim-treesitter').install(parsers):wait(300000)
             end, {})

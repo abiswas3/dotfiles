@@ -1,5 +1,5 @@
 -- Neogen: Generates annotation/docstring templates for functions, classes, etc.
--- Supports multiple languages and doc conventions (numpydoc, godoc, etc.)
+-- Used by the Rust docstring helper in core keymaps.
 return {
     'danymat/neogen',
     config = true,

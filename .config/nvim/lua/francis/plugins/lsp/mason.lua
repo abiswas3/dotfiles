@@ -33,7 +33,6 @@ return {
                 -- rust_analyzer is managed by rustaceanvim, not mason
                 'tinymist',
                 'harper_ls',
-                'gopls',
                 -- "graphql",
                 -- "emmet_ls",
                 -- "prismals",
@@ -45,7 +44,6 @@ return {
                 'prettier', -- prettier formatter
                 'stylua', -- lua formatter
                 'eslint_d',
-                'goimports', -- go import organizer
             },
         }
     end,
