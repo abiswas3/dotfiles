@@ -12,7 +12,9 @@ return {
             require('typst-preview').update()
         end,
         config = function()
-            require('typst-preview').setup {}
+            require('typst-preview').setup {
+                invert_colors = 'auto',
+            }
 
             -- Typst preview keymaps (buffer-local to typst files)
             vim.api.nvim_create_autocmd('FileType', {
