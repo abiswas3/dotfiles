@@ -25,8 +25,30 @@ return {
                 opts.desc = 'Go to declaration'
                 keymap.set('n', 'gD', vim.lsp.buf.declaration, opts) -- go to declaration
 
-                opts.desc = 'Show LSP definitions'
-                keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts) -- show lsp definitions
+                opts.desc = 'Go to definition (first result)'
+                keymap.set('n', 'gd', function()
+                    -- Avoid the multi-result picker: dedupe locations and jump
+                    -- straight to the first definition. rust-analyzer often returns
+                    -- a (declaration, definition) pair for the same symbol.
+                    vim.lsp.buf.definition({
+                        on_list = function(o)
+                            local items = o.items or {}
+                            if #items == 0 then return end
+                            local seen, deduped = {}, {}
+                            for _, it in ipairs(items) do
+                                local k = (it.filename or '') .. ':' .. tostring(it.lnum) .. ':' .. tostring(it.col)
+                                if not seen[k] then
+                                    seen[k] = true
+                                    table.insert(deduped, it)
+                                end
+                            end
+                            vim.cmd.edit(deduped[1].filename)
+                            vim.api.nvim_win_set_cursor(0, { deduped[1].lnum, math.max(deduped[1].col - 1, 0) })
+                        end,
+                    })
+                end, opts)
+                opts.desc = 'Show all LSP definitions (picker)'
+                keymap.set('n', '<leader>gd', '<cmd>Telescope lsp_definitions<CR>', opts) -- picker on demand
 
                 opts.desc = 'Show LSP implementations'
                 keymap.set('n', 'gi', '<cmd>Telescope lsp_implementations<CR>', opts) -- show lsp implementations
@@ -124,7 +146,7 @@ return {
                 CorrectNumberSuffix = true,
               },
               diagnosticSeverity = "hint",
-              dialect = "American",
+              dialect = "British",
             },
           },
         })

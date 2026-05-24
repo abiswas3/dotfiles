@@ -2,7 +2,6 @@ return {
     {
         'mrcjkb/rustaceanvim',
         version = '^6',
-        lazy = false,
         ft = 'rust',
         config = function()
             local ok, mason_registry = pcall(require, 'mason-registry')
@@ -34,7 +33,6 @@ return {
             vim.g.rustaceanvim = {
                 dap = dap_config,
                 tools = {
-                    autoSetHints = true,
                     inlay_hints = {
                         show_parameter_hints = true,
                         parameter_hints_prefix = 'in: ',
@@ -49,6 +47,12 @@ return {
                         return caps
                     end)(),
                     on_attach = function(client, bufnr)
+                        -- Hand syntax highlighting back to tree-sitter:
+                        -- rust-analyzer's semantic tokens overwrite TS highlights
+                        -- with @lsp.type.* / @lsp.mod.* groups that most colorschemes
+                        -- (onedarkpro included) don't style, which looks "washed out".
+                        client.server_capabilities.semanticTokensProvider = nil
+
                         -- Default LSP mappings (user can extend)
                         local function buf_set_keymap(...)
                             vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -63,11 +67,14 @@ return {
                                 importEnforceGranularity = true,
                                 importPrefix = 'crate',
                             },
-                            cargo = { allFeatures = true },
+                            cargo = {
+                                allFeatures = false,
+                                -- Separate target dir so rust-analyzer doesn't invalidate `cargo build` cache.
+                                targetDir = true,
+                            },
                             procMacro = { enable = true },
                             check = {
                                 command = 'clippy',
-                                extraArgs = { '--all-features' },
                             },
                             inlayHints = {
                                 lifetimeElisionHints = { enable = true, useParameterNames = true },

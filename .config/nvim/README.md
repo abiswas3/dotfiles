@@ -38,7 +38,7 @@ init.lua
 │   │   ├── css-colours.lua       # Inline color previews
 │   │   ├── dressing.lua          # Better UI for inputs/selects + calendar
 │   │   ├── file_explorer.lua     # nvim-tree sidebar
-│   │   ├── formatting.lua        # Format-on-save (prettier, stylua, goimports)
+│   │   ├── formatting.lua        # Format-on-save (prettier, stylua)
 │   │   ├── gitsigns.lua          # Git gutter signs + vim-fugitive
 │   │   ├── indent.lua            # Indent guide lines
 │   │   ├── lualine.lua           # Statusline
@@ -63,7 +63,6 @@ init.lua
 │   │       ├── lspconfig.lua     # Core LSP keymaps + diagnostics
 │   │       ├── mason.lua         # LSP/tool installer
 │   │       ├── rust.lua          # Rust (rustaceanvim, DAP, crates)
-│   │       ├── python-go.lua     # Python (neogen/numpydoc) + Go (vim-go)
 │   │       ├── lean.lua          # Lean 4 theorem prover
 │   │       ├── doc-symbols.lua   # Aerial symbol outline
 │   │       └── lazy_git.lua      # LazyGit floating window
