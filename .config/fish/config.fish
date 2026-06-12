@@ -14,10 +14,21 @@ fish_add_path -g $HOME/.cargo/bin       # cargo install
 fish_add_path -g $HOME/go/bin           # go install
 fish_add_path -g $HOME/.opencode/bin    # opencode
 fish_add_path -g $HOME/.local/bin       # user-installed binaries
+fish_add_path -g $HOME/.elan/bin        # elan: lake / lean / leanc
 
 
 # Tangent task manager — data directory
 # set -gx TANGENT_DATA_DIR $HOME/Projects/my-org-data
+
+# Research manager — project root used by `scribe` (server) and `timbuktu` (TUI).
+# Per-machine override: `set -Ux RESEARCH_MANAGER_DIR /your/path` (universal var).
+# If unset, fall back to ~/Projects/research-manager when it exists. This keeps
+# the dotfile portable across mac/linux without hardcoding either layout.
+if not set -q RESEARCH_MANAGER_DIR
+    if test -d $HOME/Projects/research-manager
+        set -gx RESEARCH_MANAGER_DIR $HOME/Projects/research-manager
+    end
+end
 
 # Aliases 
 alias ll='ls -lah'

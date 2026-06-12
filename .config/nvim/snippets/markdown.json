@@ -20,6 +20,69 @@
       "$0"
     ]
   },
+  "Journal entry frontmatter": {
+    "prefix": "journal",
+    "body": [
+      "+++",
+      "title = \"${1:Title}\"",
+      "date = ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "description = \"${2:One-line summary}\"",
+      "+++",
+      "",
+      "## Shape of the Day",
+      "",
+      "${3}",
+      "",
+      "## Notes",
+      "",
+      "$0"
+    ],
+    "description": "Zola journal entry frontmatter"
+  },
+  "Time block": {
+    "prefix": "tb",
+    "body": [
+      "{% time_block(start=\"${1:HH:MM}\", end=\"${2:HH:MM}\", project=\"${3:Area: Project}\", title=\"${4:Title}\") %}",
+      "${5}",
+      "{% end %}",
+      "",
+      "$0"
+    ],
+    "description": "Zola time_block shortcode"
+  },
+  "Training time block": {
+    "prefix": "train",
+    "body": [
+      "{% time_block(start=\"${1:HH:MM}\", end=\"${2:HH:MM}\", project=\"Training:\", title=\"${3:Run}\") %}",
+      "${4}",
+      "{% end %}",
+      "",
+      "$0"
+    ],
+    "description": "Training area time_block"
+  },
+  "Sleep time block": {
+    "prefix": "sleep",
+    "body": [
+      "{% time_block(start=\"${1:HH:MM}\", end=\"${2:HH:MM}\", project=\"Sleep:\", title=\"${3:Zzzz}\") %}",
+      "${4}",
+      "{% end %}",
+      "",
+      "$0"
+    ],
+    "description": "Sleep area time_block"
+  },
+  "Recreation time block": {
+    "prefix": "rec",
+    "body": [
+      "{% time_block(start=\"${1:HH:MM}\", end=\"${2:HH:MM}\", project=\"Recreation:\", title=\"${3:Freddie}\") %}",
+      "${4}",
+      "{% end %}",
+      "",
+      "$0"
+    ],
+    "description": "Recreation area time_block"
+  },
   "Meeting notes": {
     "prefix": "meeting",
     "body": [

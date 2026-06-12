@@ -59,7 +59,7 @@ vim.api.nvim_create_autocmd({"FileType", "BufWinEnter"}, {
     local ft = vim.bo.filetype
     if ft == "markdown" then
       vim.wo.spell = true
-      vim.wo.spelllang = "en_gb"
+      vim.bo.spelllang = "en_gb"
     else
       vim.wo.spell = false
     end
