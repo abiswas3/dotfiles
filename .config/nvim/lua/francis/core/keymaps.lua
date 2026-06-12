@@ -229,6 +229,14 @@ keymap.set('n', '<leader>fp', function()
     vim.notify('Copied: ' .. full_path, vim.log.levels.INFO)
 end, { desc = 'Show and copy full file path' })
 
+-- Show and copy full file path with line number to clipboard
+keymap.set('n', '<leader>lp', function()
+    local full_path = vim.fn.expand('%:p') .. ':' .. vim.fn.line '.'
+    print(full_path)
+    vim.fn.setreg('+', full_path)
+    vim.notify('Copied: ' .. full_path, vim.log.levels.INFO)
+end, { desc = 'Show and copy full file path with line number' })
+
 -- Insert a markdown checklist item
 keymap.set('i', '<C-l>', function()
     local line = vim.api.nvim_get_current_line()
