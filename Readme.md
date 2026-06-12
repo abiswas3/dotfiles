@@ -1,5 +1,23 @@
 # Dotfiles
 
+## Typst
+
+Local Typst packages live under `~/.typst/`. To make the local
+`random-walks` package available to imports like `@local/random-walks:0.4.1`,
+symlink it into Typst's local package directory:
+
+```zsh
+mkdir -p ~/.local/share/typst/packages/local/random-walks
+ln -sfn ~/dotfiles/.typst/typst-theorion \
+  ~/.local/share/typst/packages/local/random-walks/0.4.1
+```
+
+Then compile papers from their entrypoint, for example:
+
+```zsh
+typst compile paper.typ
+```
+
 ## macOS Fresh Install
 
 Install Homebrew first, then run:

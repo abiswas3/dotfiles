@@ -28,8 +28,23 @@ config.macos_window_background_blur = 50
 config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2000 }
 config.keys = {
 	{
+		key = "c",
+		mods = "SUPER",
+		action = wezterm.action.CopyTo("Clipboard"),
+	},
+	{
+		key = "c",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action.CopyTo("Clipboard"),
+	},
+	{
 		key = "v",
-		mods = "CTRL",
+		mods = "SUPER",
+		action = wezterm.action.PasteFrom("Clipboard"),
+	},
+	{
+		key = "v",
+		mods = "CTRL|SHIFT",
 		action = wezterm.action.PasteFrom("Clipboard"),
 	},
 	{
