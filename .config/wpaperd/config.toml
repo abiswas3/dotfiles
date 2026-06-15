@@ -1,0 +1,7 @@
+# wpaperd config — https://github.com/danyspin97/wpaperd
+# [default] applies to every monitor. `path` is a directory, so wpaperd
+# cycles through the images in it (wall0 first, then wall1, ...).
+# Change wallpaper at runtime: Super+Shift+W then l (next) / h (prev).
+[default]
+path = "/home/ab/Pictures/wallpapers"
+sorting = "ascending"
