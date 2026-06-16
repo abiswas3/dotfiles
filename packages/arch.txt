@@ -1,21 +1,58 @@
-base-devel
-btop
-fd
+# Official-repo packages (pacman). One per line; '#' comments and blank lines
+# are ignored. Installed via `pacman -S --needed`, so already-current packages
+# are left alone, out-of-date ones are upgraded, and missing ones are installed.
+
+# --- Shell & prompt ---
 fish
-fzf
-git
-go
-htop
-lazygit
-neovim
-nodejs
-npm
-python
-ripgrep
-rust
 starship
-stow
-tree-sitter-cli
-typst
+
+# --- Terminals & multiplexer ---
+kitty
 wezterm
 zellij
+
+# --- Editor & build tooling ---
+neovim
+tree-sitter-cli
+base-devel
+make
+stow
+
+# --- CLI tools ---
+git
+lazygit
+fzf
+fd
+ripgrep
+bat
+eza
+btop
+htop
+
+# --- Languages / runtimes ---
+go
+rust
+python
+nodejs
+npm
+typst
+
+# --- Wayland desktop (Hyprland) ---
+hyprland
+xdg-desktop-portal-hyprland
+waybar
+wpaperd
+rofi-wayland
+nwg-look
+
+# --- GTK / Qt theming ---
+qt6ct
+gtk3
+gtk4
+
+# --- Apps & utilities ---
+nemo
+chromium
+pavucontrol
+playerctl
+bluetui

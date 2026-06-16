@@ -1,8 +1,20 @@
 .DS_Store
-.config/fish/conf.d/omf.fish
-.config/fish/fish_variables
-.config/omf
 install
-/.config/fish/fish_variables
-/.config/cagent/.cagent_first_run
-/.config/aerospace/aerospace.toml
+
+# Fish: machine-specific state — universal vars (PATH, per-machine overrides
+# like RESEARCH_MANAGER_DIR) live here, not in config.fish. Keep it out so the
+# tracked config stays portable across mac/linux.
+.config/fish/fish_variables
+.config/fish/conf.d/omf.fish
+.config/omf
+.config/cagent/.cagent_first_run
+.config/aerospace/aerospace.toml
+
+# Machine-specific app state / paths — never share these.
+.config/QtProject.conf
+.config/okularrc
+.config/okularpartrc
+
+# Editor / tool backups.
+*.bak
+*.bakk

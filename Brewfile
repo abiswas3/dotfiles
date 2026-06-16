@@ -10,6 +10,8 @@ brew "fd"
 brew "lazygit"
 brew "btop"
 brew "htop"
+brew "bat"
+brew "eza"
 
 # Neovim and native build tools used by plugins.
 brew "neovim"
@@ -23,5 +25,7 @@ brew "go"
 brew "rust"
 brew "typst"
 
-# Terminal app configured by .wezterm.lua.
+# Terminals. kitty is the current default (config in .config/kitty); wezterm
+# config is kept while migrating to kitty + zellij everywhere.
+cask "kitty"
 cask "wezterm"

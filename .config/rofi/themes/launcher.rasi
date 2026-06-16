@@ -1,0 +1,83 @@
+/* App launcher — same clean look as the window switcher, with icons */
+* {
+    font:        "JetBrains Mono 12";
+    bg:          #15151deb;
+    bg-alt:      #20202c;
+    fg:          #e6e6ee;
+    fg-dim:      #9a9ab0;
+    accent:      #7aa2f7;
+    sel-fg:      #14141b;
+    transparent: #00000000;
+}
+
+window {
+    transparency:     "real";
+    location:         center;
+    width:            640px;
+    border-radius:    18px;
+    background-color: @bg;
+    border:           1px;
+    border-color:     #ffffff1f;
+    padding:          14px;
+}
+
+mainbox {
+    background-color: @transparent;
+    spacing:          10px;
+    children:         [ inputbar, listview ];
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius:    12px;
+    padding:          10px 14px;
+    spacing:          10px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    background-color: @transparent;
+    text-color:       @accent;
+}
+
+entry {
+    background-color:  @transparent;
+    text-color:        @fg;
+    placeholder:       "Search apps";
+    placeholder-color: @fg-dim;
+    cursor:            text;
+}
+
+listview {
+    background-color: @transparent;
+    lines:            8;
+    columns:          1;
+    scrollbar:        false;
+    spacing:          4px;
+    dynamic:          true;
+}
+
+element {
+    background-color: @transparent;
+    text-color:       @fg;
+    padding:          9px 12px;
+    spacing:          12px;
+    border-radius:    10px;
+}
+
+element selected {
+    background-color: @accent;
+    text-color:       @sel-fg;
+}
+
+element-icon {
+    size:             26px;
+    background-color: @transparent;
+    vertical-align:   0.5;
+}
+
+element-text {
+    background-color: @transparent;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
