@@ -2,7 +2,7 @@
     "layer": "top",
     "modules-left": ["hyprland/workspaces", "group/media"],
     "modules-center": ["clock"],
-    "modules-right": ["hyprland/submap", "group/volume", "battery", "bluetooth", "network", "cpu", "memory"],
+    "modules-right": ["hyprland/submap", "group/volume", "battery", "bluetooth", "network", "cpu", "memory", "custom/power"],
     "hyprland/window": {
         "max-length": 50
     },
@@ -16,7 +16,7 @@
     },
     "bluetooth": {
       "format": "",
-      "format-disabled": "", // an empty format will hide the module
+      "format-disabled": "",
       "format-connected": " {num_connections}",
       "tooltip-format": "{controller_alias}\t{controller_address}",
       "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
@@ -39,7 +39,7 @@
         "format": "",
         "format-wifi": "",
         "format-ethernet": "",
-        "format-disconnected": "󰤭", //An empty format will hide the module.
+        "format-disconnected": "󰤭",
         "tooltip-format": "{ifname} via {gwaddr} 󰊗",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
         "tooltip-format-ethernet": "{ifname} ",
@@ -104,5 +104,11 @@
       "escape": true,
       "interval": 1,
       "tooltip": false,
+    },
+    "custom/power": {
+      "format": "⏻",
+      "tooltip": true,
+      "tooltip-format": "Power menu",
+      "on-click": "~/.config/waybar/custom_modules/power-menu.sh"
     }
 }

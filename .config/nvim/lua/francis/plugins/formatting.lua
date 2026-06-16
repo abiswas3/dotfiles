@@ -1,5 +1,5 @@
 -- Conform: Format-on-save using external formatters.
--- prettier (web), stylua (lua).
+-- prettier (web).
 -- <leader>mp to manually format file or visual selection.
 return {
     'stevearc/conform.nvim',
@@ -20,7 +20,6 @@ return {
                 yaml = { 'prettier' },
                 graphql = { 'prettier' },
                 liquid = { 'prettier' },
-                lua = { 'stylua' },
             },
             format_on_save = {
                 lsp_fallback = true,

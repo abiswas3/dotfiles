@@ -49,7 +49,7 @@ local browser = "chromium"
 local ai = browser .. " --app=https://chatgpt.com"
 
 -- rofi
-local launcher = "rofi -show drun -show-icons"
+local launcher = "rofi -show drun -show-icons -theme ~/.config/rofi/themes/launcher.rasi"
 local runner = "rofi -show run"
 local calculator = "rofi -show calc -modi calc -no-show-match -no-sort"
 local emojiSearch = "rofi -modi emoji -show emoji"
@@ -256,6 +256,7 @@ hl.config({
 		touchpad = {
 			natural_scroll = false,
 			scroll_factor = 0.7, -- make scrolling with touchpad slower
+			clickfinger_behavior = true, -- 2-finger physical click = right-click (Mac-like)
 		},
 	},
 })
@@ -277,11 +278,14 @@ hl.device({
 ---- KEYBINDINGS ----
 ---------------------
 
-local mainMod = "SUPER" -- Sets "Windows" key as main modifier
-local secondMod = "SUPER + SHIFT" -- Sets "Windows" + "SHIFT" key as second modifier
+local mainMod = "ALT" -- swapped with Super: Alt is now the main modifier
+local secondMod = "ALT + SHIFT" -- Alt + SHIFT as the second modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
+
+-- Reload Hyprland config (like i3's mod+shift+r)
+hl.bind(secondMod .. " + R", hl.dsp.exec_cmd("hyprctl reload"))
 
 -- rofi menus
 hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(launcher))
@@ -292,13 +296,16 @@ hl.bind(secondMod .. " + C", hl.dsp.exec_cmd(clipboardHistory))
 
 -- apps
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(fileManager))
 -- hl.bind(mainMod .. " + M", hl.dsp.exec_cmd(music))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(ai))
 
 -- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + v", hl.dsp.layout("togglesplit")) -- dwindle only
+
+-- Alt+Tab: rofi window switcher (clean self-contained theme)
+hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("/home/ab/.config/rofi/scripts/window-switcher.sh"))
 
 -- Move focus with mainMod + arrow keys
 -- hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
@@ -430,6 +437,23 @@ hl.define_submap("", function()
 	hl.bind("escape", hl.dsp.submap("reset"))
 end)
 
+-- resize submap: mainMod + R, then hjkl to resize the focused tile (hold to repeat), Esc/Return to exit
+hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
+
+hl.define_submap("resize", function()
+	local step = 40 -- pixels per press
+
+	-- l/h = wider/narrower, j/k = taller/shorter
+	hl.bind("l", hl.dsp.window.resize({ x = step, y = 0, relative = true }), { repeating = true })
+	hl.bind("h", hl.dsp.window.resize({ x = -step, y = 0, relative = true }), { repeating = true })
+	hl.bind("j", hl.dsp.window.resize({ x = 0, y = step, relative = true }), { repeating = true })
+	hl.bind("k", hl.dsp.window.resize({ x = 0, y = -step, relative = true }), { repeating = true })
+
+	-- Use `reset` to go back to the global submap
+	hl.bind("escape", hl.dsp.submap("reset"))
+	hl.bind("Return", hl.dsp.submap("reset"))
+end)
+
 -- Laptop multimedia keys for volume and LCD brightness
 hl.bind(
 	"XF86AudioRaiseVolume",
@@ -451,6 +475,19 @@ hl.bind(
 	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
 	{ locked = true, repeating = true }
 )
+
+-- Keyboard volume controls (no media keys on this board): mainMod (Alt) + = / - / m
+hl.bind(
+	mainMod .. " + equal",
+	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	mainMod .. " + minus",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+	{ locked = true, repeating = true }
+)
+hl.bind(mainMod .. " + m", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
 

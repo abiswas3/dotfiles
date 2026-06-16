@@ -36,11 +36,16 @@ window#waybar {
 #network,
 #cpu,
 #memory,
+#custom-power,
 #volume {
   border-radius: 8px;
   padding: 5px 8px;
   background: @dark-8;
   margin: 5px 10px 5px 0px;
+}
+
+#custom-power {
+  color: #e35149;
 }
 
 #submap,

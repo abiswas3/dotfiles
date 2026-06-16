@@ -1,0 +1,6 @@
+# AUR packages (installed via yay). One per line; '#' comments and blank lines
+# are ignored. Skipped automatically if no AUR helper is installed.
+
+nmrs        # NetworkManager TUI (ships .config/nmrs/style.css)
+neofetch    # system info (deprecated upstream; fastfetch is the modern swap)
+sioyek      # PDF reader for papers
