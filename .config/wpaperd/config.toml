@@ -2,4 +2,4 @@
 # [default] applies to every monitor. `path` is a single image file,
 # so wpaperd shows exactly this wallpaper (no cycling).
 [default]
-path = "/home/ab/Pictures/wallpapers/wall0.png"
+path = "~/Pictures/wallpapers/slovenia.jpg"
