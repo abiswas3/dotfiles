@@ -526,7 +526,7 @@ hl.bind(
 -- Workspace rules
 hl.workspace_rule({
 	workspace = "2",
-	layout = "scrolling",
+	layout = "dwindle",
 })
 
 -- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
