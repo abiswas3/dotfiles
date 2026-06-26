@@ -3,7 +3,7 @@ vim.g.vimtex_quickfix_mode = 0
 
 local opt = vim.opt
 
-opt.relativenumber = false
+opt.relativenumber = true
 opt.number = true
 opt.scrolloff = 10
 

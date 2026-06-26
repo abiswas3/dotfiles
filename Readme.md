@@ -1,81 +1,84 @@
-# Dotfiles
+# dotfiles
 
-## Typst
+Personal configuration for an Arch Linux + Hyprland (Wayland) setup. Configs live
+under `.config/` (mirrors `~/.config`), with a few in the repo root (e.g. `.wezterm.lua`).
 
-Local Typst packages live under `~/.typst/`. To make the local
-`random-walks` package available to imports like `@local/random-walks:0.4.1`,
-symlink it into Typst's local package directory:
+## Install packages
 
-```zsh
-mkdir -p ~/.local/share/typst/packages/local/random-walks
-ln -sfn ~/dotfiles/.typst/typst-theorion \
-  ~/.local/share/typst/packages/local/random-walks/0.4.1
-```
+### Arch — one shot
 
-Then compile papers from their entrypoint, for example:
-
-```zsh
-typst compile paper.typ
-```
-
-## macOS Fresh Install
-
-Install Homebrew first, then run:
-
-```zsh
-brew bundle --file ~/dotfiles/Brewfile
-cd ~/dotfiles
-stow -t ~ .
-nvim --headless '+Lazy! sync' '+TSInstallConfigured' '+qa'
-```
-
-`tree-sitter-cli` is required because this Neovim config uses the current
-main-branch `nvim-treesitter` installer, which compiles parsers locally.
-
-## Arch Fresh Install
-
-```zsh
+```bash
 cd ~/dotfiles
 bash install/arch.sh
 ```
 
-The Arch package list lives in `packages/arch.txt`. The script uses
-`pacman -S --needed`, so packages already present are left alone.
+Reads `packages/arch.txt` (official repos) and `packages/aur.txt` (AUR, via
+`yay`/`paru`). Uses `pacman -S --needed`, so already-current packages are left
+alone, out-of-date ones are upgraded, and missing ones are installed. Safe to
+re-run.
 
-## After pulling changes
+### Or by hand — official repos
 
-macOS:
-
-```zsh
-cd ~/dotfiles
-brew bundle --file Brewfile
-stow -t ~ .
-nvim --headless '+Lazy! sync' '+TSInstallConfigured' '+qa'
+```bash
+sudo pacman -S --needed \
+  hyprland waybar wpaperd rofi-wayland kitty zellij fish starship \
+  btop htop bat eza neovim nwg-look pavucontrol qt6ct gtk3 gtk4 nemo \
+  chromium playerctl bluetui git
 ```
 
-Arch:
+### AUR (via yay)
 
-```zsh
-cd ~/dotfiles
-bash install/arch.sh
+```bash
+yay -S --needed nmrs neofetch sioyek
 ```
 
-## Stow
+> `wezterm` is also in the repos (`sudo pacman -S wezterm`) — its config
+> (`.wezterm.lua`) is kept here, but the active terminal is `kitty`.
+> `rofi-wayland` is the Wayland build; use plain `rofi` on X11.
 
-To remove symlinks:
+### Optional tools (configs present)
 
-```zsh
-stow -D . 
+```bash
+sudo pacman -S --needed uv        # Python package manager (Astral)
+# moccasin — Vyper dev framework, install via: uv tool install moccasin
 ```
 
-To specify the home directory as the stow target:
+## What each config is for
 
-```zsh
-stow -t ~ . 
-```
+| Config (`.config/…`)        | Package        | Source | Notes |
+|-----------------------------|----------------|--------|-------|
+| `hypr/`                     | hyprland       | repo   | Wayland compositor (config in Lua) |
+| `waybar/`                   | waybar         | repo   | Status bar |
+| `wpaperd/`                  | wpaperd        | repo   | Wallpaper daemon |
+| `rofi/`                     | rofi-wayland   | repo   | App launcher / menus (+ wifi menu script) |
+| `zellij/`                   | zellij         | repo   | Terminal multiplexer (leader = `Ctrl+q`) |
+| `fish/`                     | fish           | repo   | Shell |
+| `starship.toml`             | starship       | repo   | Shell prompt |
+| `btop/`, `htop/`            | btop, htop     | repo   | System monitors |
+| `nvim/`                     | neovim         | repo   | Editor (symlinked) |
+| `kitty/`                    | kitty          | repo   | Terminal (cross-platform; current default) |
+| `nwg-look/`, `qt6ct/`, `gtk-3.0/`, `gtk-4.0/`, `xsettingsd/`, `kdeglobals` | nwg-look, qt6ct | repo | GTK/Qt/KDE theming |
+| `pavucontrol.ini`           | pavucontrol    | repo   | Audio mixer |
+| `nemo/`                     | nemo           | repo   | File manager |
+| `nmrs/`                     | nmrs           | AUR    | (TUI; ships `style.css`) |
+| `sioyek/`                   | sioyek         | AUR    | PDF reader (papers) |
+| `neofetch/`                 | neofetch       | AUR    | System info display |
+| `mimeapps.list`             | —              | —      | Default-application associations |
+| `.wezterm.lua` (root)       | wezterm        | repo   | Kept; migrating to kitty/zellij everywhere |
+| `git/`                      | git            | repo   | Git config |
+| `uv/`                       | uv             | repo   | Python tooling |
 
-From this repo, this also works because the default target is the parent directory:
+## Notes
 
-```zsh
-stow . 
-```
+- Some keybinds/scripts reference tools not currently installed (e.g.
+  `brightnessctl`, `xsettingsd`); install them if you use those bindings.
+- `kitty` is the terminal launched by Hyprland (`SUPER+T`); its config lives in
+  `kitty/kitty.conf`. `wezterm` config is kept for now but being phased out in
+  favour of kitty + zellij across machines.
+- Cross-platform configs (`fish`, `btop`, `kitty`, `starship`, `zellij`, …) are
+  written to work on both macOS and Linux. Machine-specific bits — `PATH`
+  entries and per-machine overrides — live in fish *universal* variables
+  (`fish_variables`, gitignored), not in the tracked `config.fish`.
+- Excluded from the repo on purpose (not portable / contain secrets / machine
+  state): browser profile (`chromium`), `pulse`, `dconf`, `go`, `yay` caches,
+  `okularrc`, `QtProject.conf`.
