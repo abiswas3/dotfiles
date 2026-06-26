@@ -43,7 +43,7 @@ hl.monitor({
 -- Set programs that you use
 local terminal = "kitty"
 local fileManager = "nemo"
-local browser = "chromium"
+local browser = "chromium --force-device-scale-factor=1.25"
 -- local music = "spotify"
 -- local notion = browser .. " --app=https://notion.so"
 local ai = browser .. " --app=https://chatgpt.com"

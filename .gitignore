@@ -18,3 +18,4 @@ install
 # Editor / tool backups.
 *.bak
 *.bakk
+/.config/autostart/morgen.desktop

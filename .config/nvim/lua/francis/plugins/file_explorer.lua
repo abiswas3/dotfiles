@@ -12,7 +12,10 @@ return {
 
         nvimtree.setup {
             view = {
-                width = 50,
+                -- Responsive width: ~30% of the editor, clamped so it stays
+                -- usable on small screens yet never wider than the old 50.
+                -- Evaluated each time the tree opens, so it adapts per session.
+                width = 30,
                 relativenumber = true,
             },
             renderer = {
