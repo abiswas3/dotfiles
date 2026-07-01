@@ -37,6 +37,9 @@ return {
                 -- "emmet_ls",
                 -- "prismals",
             },
+            automatic_enable = {
+                exclude = { 'rust_analyzer' },
+            },
         }
 
         mason_tool_installer.setup {

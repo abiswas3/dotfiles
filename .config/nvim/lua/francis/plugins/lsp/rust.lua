@@ -40,6 +40,7 @@ return {
                     },
                 },
                 server = {
+                    cmd = { vim.fn.expand '~/.cargo/bin/rust-analyzer' },
                     capabilities = (function()
                         local caps = require('cmp_nvim_lsp').default_capabilities()
                         caps.general = caps.general or {}
@@ -71,6 +72,9 @@ return {
                                 allFeatures = false,
                                 -- Separate target dir so rust-analyzer doesn't invalidate `cargo build` cache.
                                 targetDir = true,
+                            },
+                            files = {
+                                watcher = 'server',
                             },
                             procMacro = { enable = true },
                             check = {
@@ -109,8 +113,14 @@ return {
 
     {
         'mfussenegger/nvim-dap',
+    },
+    {
+        'rcarriga/nvim-dap-ui',
+        dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' },
         config = function()
-            local dap, dapui = require 'dap', require 'dapui'
+            local dap = require 'dap'
+            local dapui = require 'dapui'
+            dapui.setup()
             dap.listeners.before.attach.dapui_config = function()
                 dapui.open()
             end
@@ -123,13 +133,6 @@ return {
             dap.listeners.before.event_exited.dapui_config = function()
                 dapui.close()
             end
-        end,
-    },
-    {
-        'rcarriga/nvim-dap-ui',
-        dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' },
-        config = function()
-            require('dapui').setup()
         end,
     },
 }
