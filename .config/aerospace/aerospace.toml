@@ -1,0 +1,141 @@
+# AeroSpace config — kept tight to the i3 config.
+# Any i3 binding without a clean aerospace match was dropped, not approximated.
+
+after-startup-command = []
+start-at-login = false
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 0
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+automatically-unhide-macos-hidden-apps = false
+
+# Force every newly detected window to tile, so moving windows into a
+# workspace splits them instead of stacking as floating windows.
+# Add per-app float exceptions above this rule if some app should float, e.g.:
+#   [[on-window-detected]]
+#   if.app-id = 'com.apple.systempreferences'
+#   run = ['layout floating']
+[[on-window-detected]]
+run = ['layout tiling']
+
+[key-mapping]
+preset = 'qwerty'
+
+# Matches i3: gaps inner 4, gaps outer 1
+[gaps]
+inner.horizontal = 4
+inner.vertical = 4
+outer.left = 1
+outer.bottom = 1
+outer.top = 1
+outer.right = 1
+
+[mode.main.binding]
+
+# Terminal / btop / kill (i3: $mod+Return, $mod+Shift+b, $mod+Shift+q)
+alt-enter = 'exec-and-forget open -n -a WezTerm'
+alt-shift-b = 'exec-and-forget wezterm -e btop'
+alt-shift-q = 'close'
+
+# Focus — vim hjkl
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+alt-left = 'focus left'
+alt-down = 'focus down'
+alt-up = 'focus up'
+alt-right = 'focus right'
+
+# Move windows
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+alt-shift-left = 'move left'
+alt-shift-down = 'move down'
+alt-shift-up = 'move up'
+alt-shift-right = 'move right'
+
+# Move focused window between monitors
+alt-ctrl-shift-left = 'move-node-to-monitor --wrap-around --focus-follows-window prev'
+alt-ctrl-shift-right = 'move-node-to-monitor --wrap-around --focus-follows-window next'
+
+# Fullscreen (i3: $mod+f)
+alt-f = 'fullscreen'
+
+# Toggle split orientation (i3: $mod+e)
+alt-e = 'layout tiles horizontal vertical'
+
+# Toggle floating/tiling (i3: $mod+Shift+space)
+alt-shift-space = 'layout floating tiling'
+
+# Numbered workspaces 1–10 (i3: $mod+0-9)
+cmd-1 = 'workspace 1'
+cmd-2 = 'workspace 2'
+cmd-3 = 'workspace 3'
+cmd-4 = 'workspace 4'
+cmd-5 = 'workspace 5'
+cmd-6 = 'workspace 6'
+cmd-7 = 'workspace 7'
+cmd-8 = 'workspace 8'
+cmd-9 = 'workspace 9'
+cmd-0 = 'workspace 10'
+
+# Letter workspaces you actually use (chat / calendar / etc.)
+alt-b = 'workspace B'
+alt-m = 'workspace M'
+alt-n = 'workspace N'
+alt-v = 'workspace V'
+
+# Move to numbered workspaces (i3: $mod+Shift+0-9)
+alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+alt-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+alt-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 10'
+
+# Move to letter workspaces.
+# NOTE: no alt-shift-b — that chord is btop above.
+alt-shift-m = 'move-node-to-workspace M'
+alt-shift-n = 'move-node-to-workspace N'
+alt-shift-v = 'move-node-to-workspace V'
+
+# Workspace prev/next (i3: $mod+Ctrl+Left/Right)
+alt-ctrl-left = 'workspace prev'
+alt-ctrl-right = 'workspace next'
+
+# Reload config (i3: $mod+Shift+c reload, $mod+Shift+r restart)
+# aerospace has only reload-config; both i3 chords map to it.
+alt-shift-c = 'reload-config'
+alt-shift-r = 'reload-config'
+
+# Resize mode (i3: $mod+r)
+alt-r = 'mode resize'
+
+# Resize mode — vim hjkl
+[mode.resize.binding]
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+
+left = 'resize width -50'
+down = 'resize height +50'
+up = 'resize height -50'
+right = 'resize width +50'
+
+enter = 'mode main'
+esc = 'mode main'
