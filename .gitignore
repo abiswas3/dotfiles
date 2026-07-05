@@ -8,7 +8,7 @@ install
 .config/fish/conf.d/omf.fish
 .config/omf
 .config/cagent/.cagent_first_run
-.config/aerospace/aerospace.toml
+# .config/aerospace/aerospace.toml
 
 # Machine-specific app state / paths — never share these.
 .config/QtProject.conf
