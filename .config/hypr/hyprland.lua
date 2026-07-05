@@ -283,9 +283,21 @@ hl.device({
 
 local mainMod = "ALT" -- swapped with Super: Alt is now the main modifier
 local secondMod = "ALT + SHIFT" -- Alt + SHIFT as the second modifier
+local cmdMod = "SUPER"
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
+
+-- macOS-style app shortcuts
+hl.bind(cmdMod .. " + C", hl.dsp.send_shortcut({ mods = "CTRL", key = "C", window = "activewindow" }))
+hl.bind(cmdMod .. " + SHIFT + C", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "C", window = "activewindow" }))
+hl.bind(cmdMod .. " + V", hl.dsp.send_shortcut({ mods = "CTRL", key = "V", window = "activewindow" }))
+hl.bind(cmdMod .. " + X", hl.dsp.send_shortcut({ mods = "CTRL", key = "X", window = "activewindow" }))
+hl.bind(cmdMod .. " + Z", hl.dsp.send_shortcut({ mods = "CTRL", key = "Z", window = "activewindow" }))
+hl.bind(cmdMod .. " + R", hl.dsp.send_shortcut({ mods = "CTRL", key = "R", window = "activewindow" }))
+hl.bind(cmdMod .. " + SHIFT + R", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "R", window = "activewindow" }))
+hl.bind(cmdMod .. " + left", hl.dsp.send_shortcut({ mods = "", key = "Home", window = "activewindow" }))
+hl.bind(cmdMod .. " + right", hl.dsp.send_shortcut({ mods = "", key = "End", window = "activewindow" }))
 
 -- Reload Hyprland config (like i3's mod+shift+r)
 hl.bind(secondMod .. " + R", hl.dsp.exec_cmd("hyprctl reload"))
