@@ -388,10 +388,6 @@ hl.bind(secondMod .. " + h", function()
 	end
 end)
 
--- Move focused window between monitors.
-hl.bind(secondMod .. " + bracketleft", hl.dsp.exec_cmd("hyprctl dispatch movewindow mon:-1"))
-hl.bind(secondMod .. " + bracketright", hl.dsp.exec_cmd("hyprctl dispatch movewindow mon:+1"))
-
 -- Toggle window maximization
 hl.bind(secondMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }))
 -- toggle floating
