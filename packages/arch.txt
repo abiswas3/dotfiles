@@ -45,6 +45,17 @@ wpaperd
 rofi-wayland
 nwg-look
 
+# --- Hyprland runtime daemons & utilities ---
+mako                # notification daemon (autostarted by hyprland.lua)
+hyprlock            # lock screen (config: hypr/hyprlock.conf)
+hypridle            # idle daemon -> lock/dpms/suspend (config: hypr/hypridle.conf)
+hyprpolkitagent     # polkit agent for GUI privilege prompts (systemd --user)
+grim                # screenshot capture (bound to Print keys)
+slurp               # region selector, pairs with grim
+wl-clipboard        # wl-copy/wl-paste, used by screenshots + cliphist
+cliphist            # clipboard history (Alt+Shift+C via rofi)
+brightnessctl       # backlight control (XF86MonBrightness keys)
+
 # --- GTK / Qt theming ---
 qt6ct
 gtk3

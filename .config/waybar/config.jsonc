@@ -96,7 +96,7 @@
       "on-click-right": "playerctl next",
     },
     "custom/media-animation": {
-      "exec": "~/.config/waybar/custom_modules/media/media-animation.sh",
+      "exec": "~/.config/waybar/custom_modules/media/media-animations.sh",
       "tooltip": false,
     },
     "custom/media-time": {
