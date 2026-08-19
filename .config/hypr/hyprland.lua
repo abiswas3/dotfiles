@@ -67,9 +67,12 @@ local clipboardHistory = "cliphist list | rofi -dmenu | cliphist decode | wl-cop
 hl.on("hyprland.start", function()
 	hl.exec_cmd("waybar")
 	hl.exec_cmd("wpaperd -d")
+	hl.exec_cmd("mako") -- notification daemon
+	hl.exec_cmd("systemctl --user start hyprpolkitagent") -- GUI auth prompts
+	hl.exec_cmd("hypridle") -- idle -> lock/dpms
+	hl.exec_cmd("wl-paste --watch cliphist store") -- clipboard history (Alt+Shift+C)
 	-- hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 30")
 	-- hl.exec_cmd("playerctld daemon")
-	-- hl.exec_cmd("wl-paste --watch cliphist store")
 end)
 
 -------------------------------
@@ -280,9 +283,21 @@ hl.device({
 
 local mainMod = "ALT" -- swapped with Super: Alt is now the main modifier
 local secondMod = "ALT + SHIFT" -- Alt + SHIFT as the second modifier
+local cmdMod = "SUPER"
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
+
+-- macOS-style app shortcuts
+hl.bind(cmdMod .. " + C", hl.dsp.send_shortcut({ mods = "CTRL", key = "C", window = "activewindow" }))
+hl.bind(cmdMod .. " + SHIFT + C", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "C", window = "activewindow" }))
+hl.bind(cmdMod .. " + V", hl.dsp.send_shortcut({ mods = "CTRL", key = "V", window = "activewindow" }))
+hl.bind(cmdMod .. " + X", hl.dsp.send_shortcut({ mods = "CTRL", key = "X", window = "activewindow" }))
+hl.bind(cmdMod .. " + Z", hl.dsp.send_shortcut({ mods = "CTRL", key = "Z", window = "activewindow" }))
+hl.bind(cmdMod .. " + R", hl.dsp.send_shortcut({ mods = "CTRL", key = "R", window = "activewindow" }))
+hl.bind(cmdMod .. " + SHIFT + R", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "R", window = "activewindow" }))
+hl.bind(cmdMod .. " + left", hl.dsp.send_shortcut({ mods = "", key = "Home", window = "activewindow" }))
+hl.bind(cmdMod .. " + right", hl.dsp.send_shortcut({ mods = "", key = "End", window = "activewindow" }))
 
 -- Reload Hyprland config (like i3's mod+shift+r)
 hl.bind(secondMod .. " + R", hl.dsp.exec_cmd("hyprctl reload"))
@@ -305,7 +320,7 @@ hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(ai))
 hl.bind(mainMod .. " + v", hl.dsp.layout("togglesplit")) -- dwindle only
 
 -- Alt+Tab: rofi window switcher (clean self-contained theme)
-hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("/home/ab/.config/rofi/scripts/window-switcher.sh"))
+hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("~/.config/rofi/scripts/window-switcher.sh"))
 
 -- Move focus with mainMod + arrow keys
 -- hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
@@ -373,10 +388,6 @@ hl.bind(secondMod .. " + h", function()
 	end
 end)
 
--- Move focused window between monitors.
-hl.bind(secondMod .. " + bracketleft", hl.dsp.exec_cmd("hyprctl dispatch movewindow mon:-1"))
-hl.bind(secondMod .. " + bracketright", hl.dsp.exec_cmd("hyprctl dispatch movewindow mon:+1"))
-
 -- Toggle window maximization
 hl.bind(secondMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }))
 -- toggle floating
@@ -414,14 +425,20 @@ hl.define_submap("⏻", function()
 		hl.dispatch(hl.dsp.submap("reset"))
 	end)
 
-	-- shutdown
-	hl.bind("p", hl.dsp.exec_cmd("hyprshutdown --post-cmd 'systemctl poweroff'"))
+	-- lock
+	hl.bind("l", function()
+		hl.dispatch(hl.dsp.exec_cmd("loginctl lock-session"))
+		hl.dispatch(hl.dsp.submap("reset"))
+	end)
+
+	-- shutdown (hyprshutdown not installed; use systemctl directly, like waybar's power-menu.sh)
+	hl.bind("p", hl.dsp.exec_cmd("systemctl poweroff"))
 
 	-- reboot
-	hl.bind("r", hl.dsp.exec_cmd("hyprshutdown --post-cmd 'systemctl reboot'"))
+	hl.bind("r", hl.dsp.exec_cmd("systemctl reboot"))
 
 	-- logout
-	hl.bind("SHIFT + l", hl.dsp.exec_cmd("hyprshutdown --post-cmd 'loginctl terminate-user $USER'"))
+	hl.bind("SHIFT + l", hl.dsp.exec_cmd("loginctl terminate-user $USER"))
 
 	-- Use `reset` to go back to the global submap
 	hl.bind("escape", hl.dsp.submap("reset"))
@@ -501,6 +518,19 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
+-- Screenshots (grim + slurp), matching the old i3 Print-key scheme
+-- Print        -> select a region, copy to clipboard
+-- SHIFT+Print  -> whole screen, copy to clipboard
+-- CTRL+Print   -> select a region, save to ~/Pictures/Screenshots/
+hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp)" - | wl-copy'))
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd("grim - | wl-copy"))
+hl.bind(
+	"CTRL + Print",
+	hl.dsp.exec_cmd(
+		'mkdir -p ~/Pictures/Screenshots && grim -g "$(slurp)" ~/Pictures/Screenshots/"$(date +%Y-%m-%d_%H-%M-%S)".png'
+	)
+)
+
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
 --------------------------------
@@ -508,7 +538,7 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 -- Workspace rules
 hl.workspace_rule({
 	workspace = "2",
-	layout = "scrolling",
+	layout = "dwindle",
 })
 
 -- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
