@@ -27,7 +27,16 @@ return {
             'Underfull',
             'Overfull',
         }
+        -- Skip per-package kpsewhich lookups on startup (main source of slow .tex opens
+        -- with large preambles — was taking ~4.8s on this machine).
+        vim.g.vimtex_syntax_packages_default = 'nocheck'
 
+        -- tikz/pgf are the heaviest offenders (many sub-files each) — disable their
+        -- dedicated syntax loading specifically, since they contribute the most lookups.
+        vim.g.vimtex_syntax_packages = {
+            tikz = { load = false },
+            pgf = { load = false },
+        }
         vim.g.vimtex_fold_enabled = 0
         vim.g.vimtex_syntax_conceal_disable = 0
     end,

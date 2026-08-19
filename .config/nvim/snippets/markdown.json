@@ -139,34 +139,61 @@
     ],
     "description": "Meeting notes template"
   },
+
   "Theorem box": {
     "prefix": "box",
-    "body": ["{% theorem(type=\"box\") %}", "${1}", "{% end %}", "$0"],
+    "body": ["{% <theorem type=\"box\"> %}", "${1}", "{% </theorem> %}", "$0"],
     "description": "Zola boxed remark shortcode"
   },
   "Definition": {
     "prefix": "def",
-    "body": ["{% theorem(type=\"definition\") %}", "${1}", "{% end %}", "$0"],
+    "body": [
+      "{% <theorem type=\"definition\"> %}",
+      "${1}",
+      "{% </theorem> %}",
+      "$0"
+    ],
+
     "description": "Zola definition shortcode"
   },
   "Theorem": {
     "prefix": "thm",
-    "body": ["{% theorem(type=\"theorem\") %}", "${1}", "{% end %}", "$0"],
+    "body": [
+      "{% <theorem type=\"theorem\"> %}",
+      "${1}",
+      "{% </theorem %} %}",
+      "$0"
+    ],
     "description": "Zola theorem shortcode"
   },
   "Lemma": {
     "prefix": "lemma",
-    "body": ["{% theorem(type=\"lemma\") %}", "${1}", "{% end %}", "$0"],
+    "body": [
+      "{% <theorem type=\"lemma\"> %}",
+      "${1}",
+      "{% </theorem %} %}",
+      "$0"
+    ],
     "description": "Zola lemma shortcode"
   },
   "Remark": {
     "prefix": "remark",
-    "body": ["{% theorem(type=\"remark\") %}", "${1}", "{% end %}", "$0"],
+    "body": [
+      "{% <theorem type=\"remark\"> %}",
+      "${1}",
+      "{% </theorem %} %}",
+      "$0"
+    ],
     "description": "Zola remark shortcode"
   },
   "Corollary": {
     "prefix": "cor",
-    "body": ["{% theorem(type=\"corollary\") %}", "${1}", "{% end %}", "$0"],
+    "body": [
+      "{% <theorem type=\"corollary\"> %}",
+      "${1}",
+      "{% </theorem %} %}",
+      "$0"
+    ],
     "description": "Zola corollary shortcode"
   }
 }

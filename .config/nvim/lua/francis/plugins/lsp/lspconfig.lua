@@ -130,29 +130,6 @@ return {
                 },
             },
         })
-        vim.lsp.config('harper_ls', {
-            filetypes = { 'markdown' },
-            settings = {
-                ['harper-ls'] = {
-                    linters = {
-                        SpellCheck = true,
-                        SpelledNumbers = false,
-                        AnA = true,
-                        SentenceCapitalization = true,
-                        UnclosedQuotes = true,
-                        WrongQuotes = false,
-                        LongSentences = true,
-                        RepeatedWords = true,
-                        Spaces = true,
-                        Matcher = true,
-                        CorrectNumberSuffix = true,
-                    },
-                    diagnosticSeverity = 'hint',
-                    dialect = 'British',
-                },
-            },
-        })
-        vim.lsp.enable 'harper_ls'
         vim.lsp.config('lua_ls', {
             settings = {
                 Lua = {

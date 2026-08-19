@@ -29,14 +29,8 @@ return {
             ensure_installed = {
                 'lua_ls',
                 'html',
-                -- "tailwindcss",
-                -- "svelte",
                 -- rust_analyzer is managed by rustaceanvim, not mason
                 'tinymist',
-                'harper_ls',
-                -- "graphql",
-                -- "emmet_ls",
-                -- "prismals",
             },
             automatic_enable = {
                 exclude = { 'rust_analyzer' },
