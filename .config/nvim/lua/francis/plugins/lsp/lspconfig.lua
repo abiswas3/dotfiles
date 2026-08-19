@@ -30,10 +30,12 @@ return {
                     -- Avoid the multi-result picker: dedupe locations and jump
                     -- straight to the first definition. rust-analyzer often returns
                     -- a (declaration, definition) pair for the same symbol.
-                    vim.lsp.buf.definition({
+                    vim.lsp.buf.definition {
                         on_list = function(o)
                             local items = o.items or {}
-                            if #items == 0 then return end
+                            if #items == 0 then
+                                return
+                            end
                             local seen, deduped = {}, {}
                             for _, it in ipairs(items) do
                                 local k = (it.filename or '') .. ':' .. tostring(it.lnum) .. ':' .. tostring(it.col)
@@ -45,7 +47,7 @@ return {
                             vim.cmd.edit(deduped[1].filename)
                             vim.api.nvim_win_set_cursor(0, { deduped[1].lnum, math.max(deduped[1].col - 1, 0) })
                         end,
-                    })
+                    }
                 end, opts)
                 opts.desc = 'Show all LSP definitions (picker)'
                 keymap.set('n', '<leader>gd', '<cmd>Telescope lsp_definitions<CR>', opts) -- picker on demand
@@ -70,19 +72,19 @@ return {
 
                 opts.desc = 'Go to previous diagnostic'
                 keymap.set('n', '[d', function()
-                    vim.diagnostic.jump({ count = -1, float = true })
+                    vim.diagnostic.jump { count = -1, float = true }
                 end, opts)
 
                 opts.desc = 'Go to next diagnostic'
                 keymap.set('n', ']d', function()
-                    vim.diagnostic.jump({ count = 1, float = true })
+                    vim.diagnostic.jump { count = 1, float = true }
                 end, opts)
 
                 opts.desc = 'Show documentation for what is under cursor'
                 keymap.set('n', 'K', vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
                 opts.desc = 'Restart LSP'
-                keymap.set('n', '<leader>rs', ':LspRestart<CR>', opts) -- mapping to restart lsp if necessary
+                keymap.set('n', '<leader>rs', '<cmd>lsp restart<CR>', opts) -- restart LSP clients
             end,
         })
 
@@ -129,29 +131,40 @@ return {
             },
         })
         vim.lsp.config('harper_ls', {
-          filetypes = { 'markdown' },
-          settings = {
-            ["harper-ls"] = {
-              linters = {
-                SpellCheck = true,
-                SpelledNumbers = false,
-                AnA = true,
-                SentenceCapitalization = true,
-                UnclosedQuotes = true,
-                WrongQuotes = false,
-                LongSentences = true,
-                RepeatedWords = true,
-                Spaces = true,
-                Matcher = true,
-                CorrectNumberSuffix = true,
-              },
-              diagnosticSeverity = "hint",
-              dialect = "British",
+            filetypes = { 'markdown' },
+            settings = {
+                ['harper-ls'] = {
+                    linters = {
+                        SpellCheck = true,
+                        SpelledNumbers = false,
+                        AnA = true,
+                        SentenceCapitalization = true,
+                        UnclosedQuotes = true,
+                        WrongQuotes = false,
+                        LongSentences = true,
+                        RepeatedWords = true,
+                        Spaces = true,
+                        Matcher = true,
+                        CorrectNumberSuffix = true,
+                    },
+                    diagnosticSeverity = 'hint',
+                    dialect = 'British',
+                },
             },
-          },
         })
-        vim.lsp.enable('harper_ls')
-
+        vim.lsp.enable 'harper_ls'
+        vim.lsp.config('lua_ls', {
+            settings = {
+                Lua = {
+                    diagnostics = {
+                        globals = { 'vim' },
+                    },
+                    workspace = {
+                        checkThirdParty = false,
+                    },
+                },
+            },
+        })
         vim.lsp.config('tinymist', {
             on_attach = function(client, bufnr)
                 vim.keymap.set('n', '<leader>tm', function()

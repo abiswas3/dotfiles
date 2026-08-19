@@ -4,7 +4,7 @@
 local parsers = {
     'json', 'yaml', 'html', 'css',
     'markdown', 'markdown_inline',
-    'lua', 'query',
+    'lua', 'query', 'vim',
     'rust', 'bash',
     'javascript', 'typescript', 'tsx',
     'toml', 'latex', 'bibtex', 'typst',
@@ -17,6 +17,13 @@ return {
         lazy = false,
         build = ':TSUpdate',
         config = function()
+            -- Keep parsers outside the plugin checkout.  This prevents an old
+            -- parser from surviving plugin/runtime upgrades and being loaded
+            -- ahead of the parser revision required by nvim-treesitter.
+            local install_dir = vim.fn.stdpath('data') .. '/site'
+            vim.opt.rtp:prepend(install_dir)
+            require('nvim-treesitter.config').setup({ install_dir = install_dir })
+
             -- nvim-treesitter `main` branch ships highlight queries under
             -- runtime/queries/ rather than queries/. Without this, nvim only
             -- finds colorscheme-shipped queries (e.g. onedarkpro's after/)
