@@ -37,7 +37,7 @@ alias vi='nvim'
 alias zl="zellij"
 alias lg="lazygit"
 alias ls="eza --icons=always"
-alias syncer="ssh -i ~/.ssh/digocean root@64.23.233.221"
+alias syncer="ssh -i ~/.ssh/digitalocean root@64.23.233.221"
 
 # Top 5 processes by memory. ps flags differ between GNU (Linux) and BSD (macOS).
 function mem

@@ -1,4 +1,4 @@
--- Colorschemes.  <leader>cs uses Telescope's built-in colorscheme picker.
+-- Colorschemes.  <leader>cs uses Telescope's built-in colorscheme picker.color
 
 local function make_background_transparent()
     vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
@@ -8,17 +8,17 @@ end
 
 return {
     -- Default colorscheme.
--- Using Lazy
-{
-  "navarasu/onedark.nvim",
-  priority = 1000, -- make sure to load this before all the other start plugins
-  config = function()
-    require('onedark').setup {
-      style = 'darker'
-    }
-    require('onedark').load()
-  end
-},
+    -- Using Lazy
+    {
+        'navarasu/onedark.nvim',
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+            require('onedark').setup {
+                style = 'darker',
+            }
+            require('onedark').load()
+        end,
+    },
     {
         'ellisonleao/gruvbox.nvim',
         lazy = false,

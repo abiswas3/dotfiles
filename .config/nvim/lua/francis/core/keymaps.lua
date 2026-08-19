@@ -73,7 +73,8 @@ local function toggle_todo_right()
     end
 end
 
-keymap.set('n', '<leader>tt', toggle_todo_right, { desc = 'Toggle TODO/INPROGRESS/DONE at end' })
+-- currently disabled
+-- keymap.set('n', '<leader>tt', toggle_todo_right, { desc = 'Toggle TODO/INPROGRESS/DONE at end' })
 
 -- Mark a checklist item as DONE with a timestamp
 local function mark_task_done_with_timestamp()
@@ -95,7 +96,7 @@ local function mark_task_done_with_timestamp()
     end
 end
 
-keymap.set('n', '<leader>td', mark_task_done_with_timestamp, { desc = 'Mark task DONE with timestamp' })
+-- keymap.set('n', '<leader>td', mark_task_done_with_timestamp, { desc = 'Mark task DONE with timestamp' })
 
 -- Move all DONE tasks to the bottom of the buffer
 local function move_done_to_bottom()
@@ -125,101 +126,7 @@ local function move_done_to_bottom()
     vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, new_lines)
 end
 
-keymap.set('n', '<leader>db', move_done_to_bottom, { desc = 'Move DONE tasks to bottom' })
-
--- Pandoc: compile current markdown to HTML (publish to ~/GraphsAndPolynomials/publish)
-keymap.set('n', '<leader>cp', function()
-    local input_file = vim.fn.expand '%:p'
-    local output_dir = vim.env.HOME .. '/GraphsAndPolynomials/publish'
-    local output_file = output_dir .. '/' .. vim.fn.expand '%:t:r' .. '.html'
-
-    local cmd = string.format(
-        [[pandoc "%s/GraphsAndPolynomials/templates/shared-macros.tex" "%s" \
-        --to html5 \
-        --lua-filter="%s/GraphsAndPolynomials/custom_code_block.lua" \
-        --citeproc \
-        --mathjax \
-        --template "%s/GraphsAndPolynomials/templates/blog.html" \
-        --csl="%s/GraphsAndPolynomials/templates/harvard.csl" \
-        --metadata link-citations=true \
-        --bibliography="%s/GraphsAndPolynomials/refs.bib" \
-        --strip-comments \
-        --from markdown+smart \
-        --section-divs \
-        --toc \
-        --toc-depth=3 \
-        --metadata build_date="%s" \
-        --output "%s"]],
-        vim.env.HOME,
-        input_file,
-        vim.env.HOME,
-        vim.env.HOME,
-        vim.env.HOME,
-        vim.env.HOME,
-        os.date '%Y-%m-%d %H:%M:%S %z',
-        output_file
-    )
-
-    vim.fn.jobstart(cmd, {
-        on_exit = function(_, exit_code)
-            if exit_code == 0 then
-                vim.notify('Compiled: ' .. output_file, vim.log.levels.INFO)
-            else
-                vim.notify('Pandoc compilation failed', vim.log.levels.ERROR)
-            end
-        end,
-        on_stderr = function(_, data)
-            if data and #data > 0 then
-                vim.notify(table.concat(data, '\n'), vim.log.levels.ERROR)
-            end
-        end,
-    })
-end, { desc = 'Compile to HTML with Pandoc' })
-
--- Pandoc: compile and open in browser
-keymap.set('n', '<leader>cP', function()
-    local input_file = vim.fn.expand '%:p'
-    local output_dir = vim.fn.expand '%:p:h'
-    local output_file = output_dir .. '/' .. vim.fn.expand '%:t:r' .. '.html'
-
-    local cmd = string.format(
-        [[pandoc "%s/GraphsAndPolynomials/templates/shared-macros.tex" "%s" \
-        --to html5 \
-        --lua-filter="%s/GraphsAndPolynomials/custom_code_block.lua" \
-        --citeproc \
-        --mathjax \
-        --template "%s/GraphsAndPolynomials/templates/blog.html" \
-        --csl="%s/GraphsAndPolynomials/templates/harvard.csl" \
-        --metadata link-citations=true \
-        --bibliography="%s/GraphsAndPolynomials/refs.bib" \
-        --strip-comments \
-        --from markdown+smart \
-        --section-divs \
-        --toc \
-        --toc-depth=3 \
-        --metadata build_date="%s" \
-        --output "%s"]],
-        vim.env.HOME,
-        input_file,
-        vim.env.HOME,
-        vim.env.HOME,
-        vim.env.HOME,
-        vim.env.HOME,
-        os.date '%Y-%m-%d %H:%M:%S %z',
-        output_file
-    )
-
-    vim.fn.jobstart(cmd, {
-        on_exit = function(_, exit_code)
-            if exit_code == 0 then
-                vim.fn.jobstart('open ' .. vim.fn.shellescape(output_file))
-                vim.notify('Compiled and opened in browser', vim.log.levels.INFO)
-            else
-                vim.notify('Pandoc compilation failed', vim.log.levels.ERROR)
-            end
-        end,
-    })
-end, { desc = 'Compile and preview in browser' })
+-- keymap.set('n', '<leader>db', move_done_to_bottom, { desc = 'Move DONE tasks to bottom' })
 
 -- Show and copy full file path to clipboard
 keymap.set('n', '<leader>fp', function()
@@ -231,44 +138,18 @@ end, { desc = 'Show and copy full file path' })
 
 -- Show and copy full file path with line number to clipboard
 keymap.set('n', '<leader>lp', function()
-    local full_path = vim.fn.expand('%:p') .. ':' .. vim.fn.line '.'
+    local full_path = vim.fn.expand '%:p' .. ':' .. vim.fn.line '.'
     print(full_path)
     vim.fn.setreg('+', full_path)
     vim.notify('Copied: ' .. full_path, vim.log.levels.INFO)
 end, { desc = 'Show and copy full file path with line number' })
 
 -- Insert a markdown checklist item
-keymap.set('i', '<C-l>', function()
-    local line = vim.api.nvim_get_current_line()
-    local indent = line:match '^%s*' or ''
-    return indent .. '* [ ] '
-end, { expr = true, desc = 'Insert checklist item' })
-
-keymap.set('n', '<C-l>', function()
-    local line = vim.api.nvim_get_current_line()
-    local indent = line:match '^%s*' or ''
-    vim.api.nvim_put({ indent .. '* [ ] ' }, 'l', true, true)
-    vim.cmd 'startinsert!'
-end, { desc = 'Insert checklist item' })
-
--- Wrap visual selection in a Zola theorem box shortcode
-keymap.set('v', '<leader>tb', function()
-    local saved_reg = vim.fn.getreg '"'
-    vim.cmd 'normal! "xy'
-    local text = vim.fn.getreg 'x'
-
-    local wrapped = table.concat({
-        '{% theorem(type="box") %}',
-        '',
-        text,
-        '',
-        '{% end %}',
-    }, '\n')
-
-    vim.fn.setreg('x', wrapped)
-    vim.cmd 'normal! gv"xp'
-    vim.fn.setreg('"', saved_reg)
-end, { desc = 'Wrap selection in theorem box' })
+-- keymap.set('i', '<C-l>', function()
+--     local line = vim.api.nvim_get_current_line()
+--     local indent = line:match '^%s*' or ''
+--     return indent .. '* [ ] '
+-- end, { expr = true, desc = 'Insert checklist item' })
 
 -- Generate a Rust docstring via neogen
 keymap.set('n', '<leader>rd', function()
