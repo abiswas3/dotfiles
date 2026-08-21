@@ -1,7 +1,7 @@
 return {
     {
         'mrcjkb/rustaceanvim',
-        version = '^6',
+        version = '^9',
         ft = 'rust',
         config = function()
             local ok, mason_registry = pcall(require, 'mason-registry')
@@ -48,13 +48,8 @@ return {
                         return caps
                     end)(),
                     on_attach = function(client, bufnr)
-                        -- Hand syntax highlighting back to tree-sitter:
-                        -- rust-analyzer's semantic tokens overwrite TS highlights
-                        -- with @lsp.type.* / @lsp.mod.* groups that most colorschemes
-                        -- (onedarkpro included) don't style, which looks "washed out".
-                        client.server_capabilities.semanticTokensProvider = nil
-
-                        -- Default LSP mappings (user can extend)
+                        -- semantic tokens re-enabled: colorscheme now defines @lsp.type.* groups
+                        -- client.server_capabilities.semanticTokensProvider = nil
                         local function buf_set_keymap(...)
                             vim.api.nvim_buf_set_keymap(bufnr, ...)
                         end
@@ -62,6 +57,21 @@ return {
                         buf_set_keymap('n', 'K', '<Cmd>RustLsp hover actions<CR>', opts)
                         buf_set_keymap('n', '<leader>rr', '<Cmd>RustLsp runnables<CR>', opts)
                     end,
+                    -- on_attach = function(client, bufnr)
+                    --     -- Hand syntax highlighting back to tree-sitter:
+                    --     -- rust-analyzer's semantic tokens overwrite TS highlights
+                    --     -- with @lsp.type.* / @lsp.mod.* groups that most colorschemes
+                    --     -- (onedarkpro included) don't style, which looks "washed out".
+                    --     client.server_capabilities.semanticTokensProvider = nil
+                    --
+                    --     -- Default LSP mappings (user can extend)
+                    --     local function buf_set_keymap(...)
+                    --         vim.api.nvim_buf_set_keymap(bufnr, ...)
+                    --     end
+                    --     local opts = { noremap = true, silent = true }
+                    --     buf_set_keymap('n', 'K', '<Cmd>RustLsp hover actions<CR>', opts)
+                    --     buf_set_keymap('n', '<leader>rr', '<Cmd>RustLsp runnables<CR>', opts)
+                    -- end,
                     settings = {
                         ['rust-analyzer'] = {
                             assist = {

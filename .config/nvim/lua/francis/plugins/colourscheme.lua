@@ -1,107 +1,60 @@
--- Colorscheme: Install multiple themes, pick with <leader>cs via Telescope.
--- To add a new theme: add the plugin spec below AND an entry in the themes table.
-
--- All available themes and their setup. Each entry has:
---   colorscheme: the name passed to `vim.cmd.colorscheme()`
---   setup: optional function to call before applying (for plugin config)
-local themes = {
-    {
-        name = 'OneDark Pro',
-        colorscheme = 'onedark',
-        setup = function()
-            require('onedarkpro').setup { options = { transparency = true } }
-        end,
-    },
-    {
-        name = 'Gruvbox Dark Hard',
-        colorscheme = 'gruvbox',
-        setup = function()
-            require('gruvbox').setup { contrast = 'hard', transparent_mode = true }
-        end,
-    },
-    {
-        name = 'Catppuccin Mocha',
-        colorscheme = 'catppuccin-mocha',
-        setup = function()
-            require('catppuccin').setup { transparent_background = true }
-        end,
-    },
-}
-
--- Default theme on startup (must match a `colorscheme` value above)
-local default = 'onedark'
-
-local function apply_theme(colorscheme)
-    for _, t in ipairs(themes) do
-        if t.colorscheme == colorscheme and t.setup then
-            t.setup()
-        end
-    end
-    vim.cmd.colorscheme(colorscheme)
-    -- Force transparency regardless of theme
-    vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
-    vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
-    vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
-end
-
-local function pick_theme()
-    local pickers = require 'telescope.pickers'
-    local finders = require 'telescope.finders'
-    local conf = require('telescope.config').values
-    local actions = require 'telescope.actions'
-    local action_state = require 'telescope.actions.state'
-
-    pickers
-        .new({}, {
-            prompt_title = 'Pick a Colorscheme',
-            finder = finders.new_table {
-                results = themes,
-                entry_maker = function(entry)
-                    return {
-                        value = entry.colorscheme,
-                        display = entry.name .. '  (' .. entry.colorscheme .. ')',
-                        ordinal = entry.name,
-                    }
-                end,
-            },
-            sorter = conf.generic_sorter {},
-            attach_mappings = function(prompt_bufnr)
-                actions.select_default:replace(function()
-                    actions.close(prompt_bufnr)
-                    local selection = action_state.get_selected_entry()
-                    apply_theme(selection.value)
-                end)
-                return true
-            end,
-        })
-        :find()
-end
-
 return {
-    -- Theme plugins (all installed, only the default loads on startup)
+
+    -- Default colorscheme.
     {
-        'olimorris/onedarkpro.nvim',
-        lazy = false,
-        priority = 1000,
-    },
-    {
-        'ellisonleao/gruvbox.nvim',
-        lazy = false,
-        priority = 1000,
-    },
-    {
-        'catppuccin/nvim',
-        name = 'catppuccin',
-        lazy = false,
-        priority = 1000,
-    },
-    -- Dummy spec to run startup config + register the keymap
-    {
-        'nvim-lua/plenary.nvim', -- already installed, just a hook to run config
-        priority = 999,
+        'navarasu/onedark.nvim',
+        priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
-            apply_theme(default)
-            vim.keymap.set('n', '<leader>cs', pick_theme, { desc = 'Pick colorscheme' })
+            require('onedark').setup {
+                style = 'darker',
+                transparent = false, -- Show/hide background
+                colors = {
+                    bright_orange = '#d19a66',
+                    green = '#98c379',
+                    red = '#e06c75', -- One Dark's classic soft red/rose
+                    blue = '#61afef', -- One Dark's blue, for functions
+                    purple = '#c678dd', -- One Dark's purple, good for keywords/control flow
+                    white = '#8A8AFF',
+                    cyan = '#56b6c2', -- One Dark's cyan, subtle accents
+                    yellow = '#FFDB58', -- soft gold, good for structs/types
+                },
+
+                highlights = {
+                    ['@property.toml'] = { fg = '@blue' },
+                    ['@string.special.toml'] = { fg = '@green', bg = '@yellow' },
+
+                    ['@keyword'] = { fg = '$yellow' },
+                    -- typst
+                    ['@lsp.type.text.typst'] = { fg = '#FFFFF0' },
+                    ['@lsp.type.heading.typst'] = { fg = '$white' },
+                    ['@lsp.typemod.text.math.typst'] = { fg = '$green' },
+                    ['@lsp.typemod.function.math.typst'] = { fg = '$purple' },
+                    ['@lsp.type.function.typst'] = { fg = '$white' },
+                    ['@lsp.typemod.delim.math.typst'] = { fg = '$red' },
+                    ['@lsp.type.ref.typst'] = { fg = '$red' },
+                    ['@lsp.typemod.pol.math.typst'] = { fg = '$yellow' },
+
+                    -- markdown
+                    ['@@keyword.directive.markdown'] = { fg = '@blue' },
+                    ['@spell.markdown '] = { fg = '#FFFFF0' },
+                    ['@spell.latex '] = { fg = '#FFFFF0' },
+                    ['@markup.heading.2.markdown'] = { fg = '$yellow' },
+                    ['@markup.heading.3.markdown'] = { fg = '$red' },
+                    [' @markup.math.latex'] = { fg = '$white' },
+                    [' @function.latex'] = { fg = '$yellow' },
+                    -- rust
+                    ['@lsp'] = { fg = 'none' },
+                    ['@lsp.typemod.keyword.controlFlow.rust'] = { fg = '$purple', fmt = 'italic' },
+                    ['@lsp.type.property'] = { fg = '$bright_orange' },
+                    ['@lsp.type.function'] = { fg = '$blue', fmt = 'italic' },
+                    ['@lsp.type.method'] = { fg = '$green', fmt = 'bold' }, -- function declarations green
+                    ['@lsp.type.struct'] = { fg = '$blue' }, -- structs are blue
+                    ['@lsp.type.enum'] = { fg = '$white' }, -- enums are different shade of blue
+                    ['@lsp.type.enumMember.rust'] = { fg = '$cyan', fmt = 'bold' },
+                    ['@lsp.typemod.method.trait.rust'] = { fg = '$green', fmt = 'italic' },
+                },
+            }
+            require('onedark').load()
         end,
     },
 }
