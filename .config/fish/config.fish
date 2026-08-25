@@ -41,14 +41,14 @@ alias research-manager="cd ~/Projects/research-manager/"
 alias syncer="ssh -i ~/.ssh/digitalocean root@64.23.233.221"
 
 function macminiPrivate
-    env TERM=xterm-256color command ssh \
+    env TERM=xterm-256color ssh \
         -i ~/.ssh/macmini_ed25519 \
         primoz@192.168.0.13 $argv
 end
 
 
 function macminiPublic
-    env TERM=xterm-256color command ssh \
+    env TERM=xterm-256color ssh \
         -i ~/.ssh/macmini_ed25519 \
         -p 2223 \
         primoz@82.1.47.234 $argv
@@ -88,6 +88,37 @@ function grep-dir
         end
 end
 
+function rsyncFolder
+      if test (count $argv) -ne 2
+          echo "Usage: rsyncFolder LOCAL_SOURCE REMOTE_DIRECTORY"
+          return 2
+      end
+
+      set -l source "$argv[1]"
+      set -l destination "$argv[2]"
+      set -l remote_home /Users/primoz
+
+      # Replace an exact quoted "~" with the Mac home directory
+      if test "$destination" = '~'
+          set destination $remote_home
+
+      # Replace a quoted path beginning with "~/" with the Mac home directory
+      else if string match -q '~/*' -- "$destination"
+          set destination (string replace '~' "$remote_home" -- "$destination")
+
+      # Replace the exact locally expanded home directory with the Mac home directory
+      else if test "$destination" = "$HOME"
+          set destination $remote_home
+
+      # Replace a locally expanded home path with the equivalent Mac home path
+      else if string match -q "$HOME/*" -- "$destination"
+          set destination (string replace "$HOME" "$remote_home" -- "$destination")
+      end
+
+      command rsync -avh --progress \
+          --rsh="ssh -i $HOME/.ssh/macmini_ed25519 -p 2223" \
+          -- "$source" "primoz@82.1.47.234:$destination"
+  end
 
 # BEGIN opam configuration
 # This is useful if you're using opam as it adds:
