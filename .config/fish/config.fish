@@ -50,7 +50,7 @@ end
 function macminiPublic
     env TERM=xterm-256color command ssh \
         -i ~/.ssh/macmini_ed25519 \
-        -p 2222 \
+        -p 2223 \
         primoz@82.1.47.234 $argv
 end
 
