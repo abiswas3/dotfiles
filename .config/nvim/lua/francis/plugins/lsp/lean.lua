@@ -1,5 +1,7 @@
 -- Lean: Support for the Lean 4 theorem prover.
 -- Provides LSP integration, goal view, and tactic suggestions.
+-- Lean: Support for the Lean 4 theorem prover.
+-- Provides LSP integration, goal view, and tactic suggestions.
 return {
     'Julian/lean.nvim',
     event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
@@ -7,21 +9,7 @@ return {
         'nvim-lua/plenary.nvim',
         'hrsh7th/cmp-nvim-lsp',
     },
-    ---@type lean.Config
-    opts = {
-        mappings = true,
-        lsp = {
-            enable = true,
-            enhanced_handlers = {
-                diagnostics = true,
-                hover = true,
-            },
-        },
-        infoview = {
-            orientation = 'vertical',
-        },
-    },
-    config = function(_, opts)
+    config = function()
         local capabilities = require('cmp_nvim_lsp').default_capabilities()
         capabilities.general = capabilities.general or {}
         capabilities.general.positionEncodings = { 'utf-16' }
@@ -34,6 +22,19 @@ return {
             capabilities = capabilities,
         })
 
-        require('lean').setup(opts)
+        -- Set configuration via vim.g.lean_config instead of require('lean').setup()
+        vim.g.lean_config = {
+            mappings = true,
+            lsp = {
+                enable = true,
+                enhanced_handlers = {
+                    diagnostics = true,
+                    hover = true,
+                },
+            },
+            infoview = {
+                orientation = 'vertical',
+            },
+        }
     end,
 }

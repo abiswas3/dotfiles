@@ -33,6 +33,7 @@ return {
                     ['@lsp.typemod.delim.math.typst'] = { fg = '$red' },
                     ['@lsp.type.ref.typst'] = { fg = '$red' },
                     ['@lsp.typemod.pol.math.typst'] = { fg = '$yellow' },
+                    ['@punctuation.bracket.typst'] = { fg = '$bright_orange' },
 
                     -- markdown
                     ['@@keyword.directive.markdown'] = { fg = '@blue' },
