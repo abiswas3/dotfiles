@@ -88,37 +88,69 @@ function grep-dir
         end
 end
 
+
 function rsyncFolder
-      if test (count $argv) -ne 2
-          echo "Usage: rsyncFolder LOCAL_SOURCE REMOTE_DIRECTORY"
-          return 2
-      end
+    set -l usage \
+        "Usage:" \
+        "  rsyncFolder push LOCAL_SOURCE REMOTE_DIRECTORY" \
+        "  rsyncFolder pull REMOTE_SOURCE LOCAL_DIRECTORY" \
+        "" \
+        "Examples:" \
+        "  rsyncFolder push ./project/ '~/Documents/project/'" \
+        "  rsyncFolder pull '~/Documents/project/' ./project/"
 
-      set -l source "$argv[1]"
-      set -l destination "$argv[2]"
-      set -l remote_home /Users/primoz
+    if test (count $argv) -eq 1; and contains -- "$argv[1]" -h --help
+        printf '%s\n' $usage
+        return 0
+    end
 
-      # Replace an exact quoted "~" with the Mac home directory
-      if test "$destination" = '~'
-          set destination $remote_home
+    if test (count $argv) -ne 3
+        echo "Error: expected a direction and two paths." >&2
+        printf '%s\n' $usage >&2
+        return 2
+    end
 
-      # Replace a quoted path beginning with "~/" with the Mac home directory
-      else if string match -q '~/*' -- "$destination"
-          set destination (string replace '~' "$remote_home" -- "$destination")
+    set -l direction "$argv[1]"
+    set -l source "$argv[2]"
+    set -l destination "$argv[3]"
+    set -l remote_home /Users/primoz
+    set -l remote_path
 
-      # Replace the exact locally expanded home directory with the Mac home directory
-      else if test "$destination" = "$HOME"
-          set destination $remote_home
+    if not contains -- "$direction" push pull
+        echo "Error: direction must be 'push' or 'pull'." >&2
+        printf '%s\n' $usage >&2
+        return 2
+    end
 
-      # Replace a locally expanded home path with the equivalent Mac home path
-      else if string match -q "$HOME/*" -- "$destination"
-          set destination (string replace "$HOME" "$remote_home" -- "$destination")
-      end
+    if test "$direction" = push
+        set remote_path "$destination"
+    else
+        set remote_path "$source"
+    end
 
-      command rsync -avh --progress \
-          --rsh="ssh -i $HOME/.ssh/macmini_ed25519 -p 2223" \
-          -- "$source" "primoz@82.1.47.234:$destination"
-  end
+    if test "$remote_path" = '~'
+        set remote_path $remote_home
+    else if string match -q '~/*' -- "$remote_path"
+        set remote_path (string replace '~' "$remote_home" -- "$remote_path")
+    else if test "$remote_path" = "$HOME"
+        set remote_path $remote_home
+    else if string match -q "$HOME/*" -- "$remote_path"
+        set remote_path (string replace "$HOME" "$remote_home" -- "$remote_path")
+    end
+
+    set -l remote "primoz@82.1.47.234:$remote_path"
+    set -l ssh_command "ssh -i $HOME/.ssh/macmini_ed25519 -p 2223"
+
+    if test "$direction" = push
+        command rsync -avh --progress \
+            --rsh="$ssh_command" \
+            -- "$source" "$remote"
+    else
+        command rsync -avh --progress \
+            --rsh="$ssh_command" \
+            -- "$remote" "$destination"
+    end
+end
 
 # BEGIN opam configuration
 # This is useful if you're using opam as it adds:
