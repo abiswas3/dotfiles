@@ -53,15 +53,21 @@ opt.statusline = '%F%m%r%h%w%=%l,%c %p%%'
 -- per filetype. Fires on both FileType and BufWinEnter to catch cases where
 -- the buffer is reused in a window that already had spell enabled.
 vim.opt.spell = false
-
-vim.api.nvim_create_autocmd({"FileType", "BufWinEnter"}, {
-  callback = function()
-    local ft = vim.bo.filetype
-    if ft == "markdown" then
-      vim.wo.spell = true
-      vim.bo.spelllang = "en_gb"
-    else
-      vim.wo.spell = false
-    end
-  end,
+vim.api.nvim_create_autocmd({ 'FileType', 'BufWinEnter' }, {
+    callback = function()
+        local ft = vim.bo.filetype
+        local spell_filetypes = {
+            markdown = true,
+            typst = true,
+            tex = true,
+            plaintex = true,
+            text = true,
+        }
+        if spell_filetypes[ft] then
+            vim.wo.spell = true
+            vim.opt_local.spelllang = 'en_gb'
+        else
+            vim.wo.spell = false
+        end
+    end,
 })

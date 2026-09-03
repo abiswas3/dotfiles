@@ -13,7 +13,8 @@ return {
         end,
         config = function()
             require('typst-preview').setup {
-                invert_colors = 'false',
+                invert_colors = 'true',
+                debug = true,
             }
 
             -- Typst preview keymaps (buffer-local to typst files)

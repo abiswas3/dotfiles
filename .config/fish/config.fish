@@ -37,7 +37,22 @@ alias vi='nvim'
 alias zl="zellij"
 alias lg="lazygit"
 alias ls="eza --icons=always"
-alias syncer="ssh -i ~/.ssh/digocean root@64.23.233.221"
+alias research-manager="cd ~/Projects/research-manager/"
+alias syncer="ssh -i ~/.ssh/digitalocean root@64.23.233.221"
+
+function macminiPrivate
+    env TERM=xterm-256color ssh \
+        -i ~/.ssh/macmini_ed25519 \
+        primoz@192.168.0.13 $argv
+end
+
+
+function macminiPublic
+    env TERM=xterm-256color ssh \
+        -i ~/.ssh/macmini_ed25519 \
+        -p 2223 \
+        primoz@82.1.47.234 $argv
+end
 
 # Top 5 processes by memory. ps flags differ between GNU (Linux) and BSD (macOS).
 function mem
@@ -73,6 +88,69 @@ function grep-dir
         end
 end
 
+
+function rsyncFolder
+    set -l usage \
+        "Usage:" \
+        "  rsyncFolder push LOCAL_SOURCE REMOTE_DIRECTORY" \
+        "  rsyncFolder pull REMOTE_SOURCE LOCAL_DIRECTORY" \
+        "" \
+        "Examples:" \
+        "  rsyncFolder push ./project/ '~/Documents/project/'" \
+        "  rsyncFolder pull '~/Documents/project/' ./project/"
+
+    if test (count $argv) -eq 1; and contains -- "$argv[1]" -h --help
+        printf '%s\n' $usage
+        return 0
+    end
+
+    if test (count $argv) -ne 3
+        echo "Error: expected a direction and two paths." >&2
+        printf '%s\n' $usage >&2
+        return 2
+    end
+
+    set -l direction "$argv[1]"
+    set -l source "$argv[2]"
+    set -l destination "$argv[3]"
+    set -l remote_home /Users/primoz
+    set -l remote_path
+
+    if not contains -- "$direction" push pull
+        echo "Error: direction must be 'push' or 'pull'." >&2
+        printf '%s\n' $usage >&2
+        return 2
+    end
+
+    if test "$direction" = push
+        set remote_path "$destination"
+    else
+        set remote_path "$source"
+    end
+
+    if test "$remote_path" = '~'
+        set remote_path $remote_home
+    else if string match -q '~/*' -- "$remote_path"
+        set remote_path (string replace '~' "$remote_home" -- "$remote_path")
+    else if test "$remote_path" = "$HOME"
+        set remote_path $remote_home
+    else if string match -q "$HOME/*" -- "$remote_path"
+        set remote_path (string replace "$HOME" "$remote_home" -- "$remote_path")
+    end
+
+    set -l remote "primoz@82.1.47.234:$remote_path"
+    set -l ssh_command "ssh -i $HOME/.ssh/macmini_ed25519 -p 2223"
+
+    if test "$direction" = push
+        command rsync -avh --progress \
+            --rsh="$ssh_command" \
+            -- "$source" "$remote"
+    else
+        command rsync -avh --progress \
+            --rsh="$ssh_command" \
+            -- "$remote" "$destination"
+    end
+end
 
 # BEGIN opam configuration
 # This is useful if you're using opam as it adds:

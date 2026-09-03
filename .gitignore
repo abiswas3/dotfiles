@@ -19,3 +19,4 @@ install
 *.bak
 *.bakk
 /.config/autostart/morgen.desktop
+/.config/nvim/nvim.log
