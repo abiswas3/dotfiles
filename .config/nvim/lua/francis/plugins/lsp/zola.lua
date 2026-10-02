@@ -1,5 +1,5 @@
 return {
-  dir = "/Users/francis/Projects/zola-nvim-client",
+  dir = "~/Projects/zola-nvim-client",
   lazy = false,
   config = function()
     require("zola_nvim_client").setup({
