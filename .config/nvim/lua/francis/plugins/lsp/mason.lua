@@ -25,16 +25,14 @@ return {
         }
 
         mason_lspconfig.setup {
-            -- list of servers for mason to install
+            -- Keep Mason limited to the explicitly supported non-Rust servers.
+            -- Rust Analyzer is installed through Rustup and managed by Rustaceanvim.
             ensure_installed = {
                 'lua_ls',
                 'html',
-                -- rust_analyzer is managed by rustaceanvim, not mason
                 'tinymist',
             },
-            automatic_enable = {
-                exclude = { 'rust_analyzer' },
-            },
+            automatic_enable = { 'lua_ls', 'html', 'tinymist' },
         }
 
         mason_tool_installer.setup {

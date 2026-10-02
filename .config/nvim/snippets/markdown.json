@@ -14,9 +14,9 @@
       "",
       "[extra]",
       "last_updated = ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
-      "authors = [\"AB\"]",
+      "authors = [\"Ari\"]",
       "math = ${7|true,false|}",
-      "toc = \"button\"",
+      "toc = \"side\"",
       "+++",
       "",
       "$0"
