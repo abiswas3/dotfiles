@@ -318,6 +318,8 @@ hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(ai))
 
 -- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + v", hl.dsp.layout("togglesplit")) -- dwindle only
+hl.bind(secondMod .. " + v", hl.dsp.layout("swapsplit")) -- swap the two halves of the current split
+hl.bind(secondMod .. " + Return", hl.dsp.layout("movetoroot active unstable")) -- promote focused window in the Dwindle tree
 
 -- Alt+Tab: rofi window switcher (clean self-contained theme)
 hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("~/.config/rofi/scripts/window-switcher.sh"))
