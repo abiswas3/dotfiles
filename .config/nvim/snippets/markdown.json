@@ -74,20 +74,20 @@
   "Time block": {
     "prefix": "tb",
     "body": [
-      "{% time_block(start=\"${1:HH:MM}\", end=\"${2:HH:MM}\", project=\"${3:Area: Project}\", title=\"${4:Title}\") %}",
+      "{% <time_block start=\"${1:HH:MM}\" end=\"${2:HH:MM}\" project=\"${3:Area: Project}\" title=\"${4:Title}\"> %}",
       "${5}",
-      "{% end %}",
+      "{% </time_block> %}",
       "",
       "$0"
     ],
-    "description": "Zola time_block shortcode"
+    "description": "Zola time_block component"
   },
   "Training time block": {
     "prefix": "train",
     "body": [
-      "{% time_block(start=\"${1:HH:MM}\", end=\"${2:HH:MM}\", project=\"Training:\", title=\"${3:Run}\") %}",
+      "{% <time_block start=\"${1:HH:MM}\" end=\"${2:HH:MM}\" project=\"Training:\" title=\"${3:Run}\"> %}",
       "${4}",
-      "{% end %}",
+      "{% </time_block> %}",
       "",
       "$0"
     ],
@@ -96,9 +96,9 @@
   "Sleep time block": {
     "prefix": "sleep",
     "body": [
-      "{% time_block(start=\"${1:HH:MM}\", end=\"${2:HH:MM}\", project=\"Sleep:\", title=\"${3:Zzzz}\") %}",
+      "{% <time_block start=\"${1:HH:MM}\" end=\"${2:HH:MM}\" project=\"Sleep:\" title=\"${3:Zzzz}\"> %}",
       "${4}",
-      "{% end %}",
+      "{% </time_block> %}",
       "",
       "$0"
     ],
@@ -107,9 +107,9 @@
   "Recreation time block": {
     "prefix": "rec",
     "body": [
-      "{% time_block(start=\"${1:HH:MM}\", end=\"${2:HH:MM}\", project=\"Recreation:\", title=\"${3:Freddie}\") %}",
+      "{% <time_block start=\"${1:HH:MM}\" end=\"${2:HH:MM}\" project=\"Recreation:\" title=\"${3:Freddie}\"> %}",
       "${4}",
-      "{% end %}",
+      "{% </time_block> %}",
       "",
       "$0"
     ],
@@ -143,7 +143,7 @@
   "Theorem box": {
     "prefix": "box",
     "body": ["{% <theorem type=\"box\"> %}", "${1}", "{% </theorem> %}", "$0"],
-    "description": "Zola boxed remark shortcode"
+    "description": "Zola boxed remark component"
   },
   "Definition": {
     "prefix": "def",
@@ -154,7 +154,7 @@
       "$0"
     ],
 
-    "description": "Zola definition shortcode"
+    "description": "Zola definition component"
   },
   "Theorem": {
     "prefix": "thm",
@@ -164,7 +164,7 @@
       "{% </theorem> %}",
       "$0"
     ],
-    "description": "Zola theorem shortcode"
+    "description": "Zola theorem component"
   },
   "Lemma": {
     "prefix": "lemma",
@@ -174,7 +174,7 @@
       "{% </theorem> %}",
       "$0"
     ],
-    "description": "Zola lemma shortcode"
+    "description": "Zola lemma component"
   },
   "Remark": {
     "prefix": "remark",
@@ -184,7 +184,7 @@
       "{% </theorem> %}",
       "$0"
     ],
-    "description": "Zola remark shortcode"
+    "description": "Zola remark component"
   },
   "Corollary": {
     "prefix": "cor",
@@ -194,6 +194,6 @@
       "{% </theorem> %}",
       "$0"
     ],
-    "description": "Zola corollary shortcode"
+    "description": "Zola corollary component"
   }
 }
