@@ -31,8 +31,9 @@ return {
                 'lua_ls',
                 'html',
                 'tinymist',
+                'texlab',
             },
-            automatic_enable = { 'lua_ls', 'html', 'tinymist' },
+            automatic_enable = { 'lua_ls', 'html', 'tinymist', 'texlab' },
         }
 
         mason_tool_installer.setup {
