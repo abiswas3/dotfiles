@@ -1,6 +1,7 @@
 -- Telescope: Fuzzy finder for files, grep, LSP symbols, and more.
 -- <leader>ff find files, <leader>fs live grep, <leader>fc grep word under cursor,
--- <leader>ft find TODOs, <leader>fk keymaps, <leader>mt insert markdown template.
+-- <leader>ft find TODOs, <leader>fk keymaps, <leader>mt insert markdown template,
+-- <leader>fb search library.bib and copy entries into the project's .bib (see francis/bibpicker.lua).
 return {
     'nvim-telescope/telescope.nvim',
     dependencies = {
@@ -83,5 +84,8 @@ return {
         keymap.set('n', '<leader>fk', '<cmd>Telescope keymaps<cr>', { desc = 'Show Telescope keymaps' })
         keymap.set('n', '<leader>mt', insert_template, { desc = 'Insert markdown template' })
         keymap.set('n', '<leader>fm', 'gg/^---$<CR>j', { desc = 'Jump to frontmatter' })
+        keymap.set('n', '<leader>fb', function()
+            require('francis.bibpicker').open()
+        end, { desc = 'Find reference in library.bib' })
     end,
 }
