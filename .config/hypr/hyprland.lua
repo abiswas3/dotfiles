@@ -67,7 +67,6 @@ local clipboardHistory = "cliphist list | rofi -dmenu | cliphist decode | wl-cop
 hl.on("hyprland.start", function()
   hl.exec_cmd("waybar")
   hl.exec_cmd("wpaperd -d")
-  hl.exec_cmd("mako")                                   -- notification daemon
   hl.exec_cmd("systemctl --user start hyprpolkitagent") -- GUI auth prompts
   hl.exec_cmd("hypridle")                               -- idle -> lock/dpms
   hl.exec_cmd("wl-paste --watch cliphist store")        -- clipboard history (Alt+Shift+C)
@@ -295,7 +294,8 @@ hl.bind(cmdMod .. " + V", hl.dsp.send_shortcut({ mods = "CTRL", key = "V", windo
 hl.bind(cmdMod .. " + X", hl.dsp.send_shortcut({ mods = "CTRL", key = "X", window = "activewindow" }))
 hl.bind(cmdMod .. " + Z", hl.dsp.send_shortcut({ mods = "CTRL", key = "Z", window = "activewindow" }))
 -- Ctrl is now the main modifier for terminal navigation and window management.
--- Remap the application Ctrl+L shortcut to Super+L so it remains accessible.
+-- Remap the application Ctrl+L shortcut to Alt+L (Option+L) and Super+L.
+hl.bind("ALT + L", hl.dsp.send_shortcut({ mods = "CTRL", key = "L", window = "activewindow" }))
 hl.bind(cmdMod .. " + L", hl.dsp.send_shortcut({ mods = "CTRL", key = "L", window = "activewindow" }))
 hl.bind(cmdMod .. " + R", hl.dsp.send_shortcut({ mods = "CTRL", key = "R", window = "activewindow" }))
 hl.bind(cmdMod .. " + SHIFT + R", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "R", window = "activewindow" }))
