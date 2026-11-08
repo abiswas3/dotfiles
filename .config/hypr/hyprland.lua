@@ -294,6 +294,9 @@ hl.bind(cmdMod .. " + SHIFT + C", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", 
 hl.bind(cmdMod .. " + V", hl.dsp.send_shortcut({ mods = "CTRL", key = "V", window = "activewindow" }))
 hl.bind(cmdMod .. " + X", hl.dsp.send_shortcut({ mods = "CTRL", key = "X", window = "activewindow" }))
 hl.bind(cmdMod .. " + Z", hl.dsp.send_shortcut({ mods = "CTRL", key = "Z", window = "activewindow" }))
+-- Ctrl is now the main modifier for terminal navigation and window management.
+-- Remap the application Ctrl+L shortcut to Super+L so it remains accessible.
+hl.bind(cmdMod .. " + L", hl.dsp.send_shortcut({ mods = "CTRL", key = "L", window = "activewindow" }))
 hl.bind(cmdMod .. " + R", hl.dsp.send_shortcut({ mods = "CTRL", key = "R", window = "activewindow" }))
 hl.bind(cmdMod .. " + SHIFT + R", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "R", window = "activewindow" }))
 hl.bind(cmdMod .. " + left", hl.dsp.send_shortcut({ mods = "", key = "Home", window = "activewindow" }))
@@ -324,15 +327,13 @@ hl.bind(secondMod .. " + Return", hl.dsp.layout("movetoroot active unstable")) -
 -- Alt+Tab: rofi window switcher (clean self-contained theme)
 hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("~/.config/rofi/scripts/window-switcher.sh"))
 
--- Move focus with mainMod + arrow keys
--- hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
--- hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
+-- Move focus with Ctrl + h/j/k/l
 
 local function workspaceIsScrolling()
   return hl.get_active_workspace().tiled_layout == "scrolling"
 end
 
-hl.bind(mainMod .. " + l", function()
+hl.bind("CTRL + l", function()
   if workspaceIsScrolling() then
     hl.dispatch(hl.dsp.layout("focus r"))
   else
@@ -340,7 +341,7 @@ hl.bind(mainMod .. " + l", function()
   end
 end)
 
-hl.bind(mainMod .. " + h", function()
+hl.bind("CTRL + h", function()
   if workspaceIsScrolling() then
     hl.dispatch(hl.dsp.layout("focus l"))
   else
@@ -352,7 +353,7 @@ local function workspaceIsMonocle()
   return hl.get_active_workspace().tiled_layout == "monocle"
 end
 
-hl.bind(mainMod .. " + j", function()
+hl.bind("CTRL + j", function()
   if workspaceIsMonocle() then
     hl.dispatch(hl.dsp.layout("cyclenext"))
   else
@@ -360,7 +361,7 @@ hl.bind(mainMod .. " + j", function()
   end
 end)
 
-hl.bind(mainMod .. " + k", function()
+hl.bind("CTRL + k", function()
   if workspaceIsMonocle() then
     hl.dispatch(hl.dsp.layout("cycleprev"))
   else
@@ -368,13 +369,11 @@ hl.bind(mainMod .. " + k", function()
   end
 end)
 
--- Move window  with secondMod + arrow keys
--- hl.bind(secondMod .. " + h", hl.dsp.window.move({ direction = "left" }))
--- hl.bind(secondMod .. " + l", hl.dsp.window.move({ direction = "right" }))
-hl.bind(secondMod .. " + k", hl.dsp.window.move({ direction = "up" }))
-hl.bind(secondMod .. " + j", hl.dsp.window.move({ direction = "down" }))
+-- Move windows with Ctrl + Shift + h/j/k/l
+hl.bind("CTRL + SHIFT + k", hl.dsp.window.move({ direction = "up" }))
+hl.bind("CTRL + SHIFT + j", hl.dsp.window.move({ direction = "down" }))
 
-hl.bind(secondMod .. " + l", function()
+hl.bind("CTRL + SHIFT + l", function()
   if workspaceIsScrolling() then
     hl.dispatch(hl.dsp.layout("swapcol r"))
   else
@@ -382,7 +381,7 @@ hl.bind(secondMod .. " + l", function()
   end
 end)
 
-hl.bind(secondMod .. " + h", function()
+hl.bind("CTRL + SHIFT + h", function()
   if workspaceIsScrolling() then
     hl.dispatch(hl.dsp.layout("swapcol l"))
   else
@@ -395,12 +394,12 @@ hl.bind(secondMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }))
 -- toggle floating
 hl.bind(secondMod .. " + T", hl.dsp.window.float({ action = "toggle" }))
 
--- Switch workspaces with mainMod + [0-9]
--- Move active window to a workspace with mainMod + SHIFT + [0-9]
+-- Switch workspaces with Ctrl + [0-9]
+-- Move active window to a workspace with Ctrl + Shift + [0-9]
 for i = 1, 10 do
   local key = i % 10 -- 10 maps to key 0
-  hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-  hl.bind(secondMod .. " + " .. key, hl.dsp.window.move({ workspace = i }))
+  hl.bind("CTRL + " .. key, hl.dsp.focus({ workspace = i }))
+  hl.bind("CTRL + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 -- Example special workspace (scratchpad)
